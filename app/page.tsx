@@ -219,7 +219,17 @@ export default function HomePage() {
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <a href="#top" className="group flex items-center gap-3" aria-label="Back to top">
             <span className="grid size-10 place-items-center rounded-full bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-sm transition-transform group-hover:-rotate-3">
-              {siteConfig.logo.mark}
+              {siteConfig.logo.image ? (
+                <Image
+                  src={siteConfig.logo.image}
+                  alt={`${siteConfig.agent.name} logo`}
+                  width={40}
+                  height={40}
+                  className="size-full rounded-full object-contain"
+                />
+              ) : (
+                siteConfig.logo.mark
+              )}
             </span>
             <span>
               <span className="block font-heading text-[15px] font-bold tracking-tight">
@@ -895,7 +905,17 @@ export default function HomePage() {
             <div>
               <a href="#top" className="flex items-center gap-3">
                 <span className="grid size-11 place-items-center rounded-full bg-[#d9974c] font-heading text-sm font-bold text-[#17382b]">
-                  {siteConfig.logo.mark}
+                  {siteConfig.logo.image ? (
+                    <Image
+                      src={siteConfig.logo.image}
+                      alt={`${siteConfig.agent.name} logo`}
+                      width={44}
+                      height={44}
+                      className="size-full rounded-full object-contain"
+                    />
+                  ) : (
+                    siteConfig.logo.mark
+                  )}
                 </span>
                 <span>
                   <span className="block font-heading text-base font-bold">
