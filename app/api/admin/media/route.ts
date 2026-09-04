@@ -1,15 +1,18 @@
-import { env } from 'cloudflare:workers';
 import { NextResponse } from 'next/server';
 
-import { getChatGPTUser } from '@/app/chatgpt-auth';
 import { isAdmin } from '@/db/content';
+import { createClient } from '@/lib/supabase/server';
 
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
 const MAX_SIZE = 10 * 1024 * 1024;
 
 export async function POST(request: Request) {
-  const user = await getChatGPTUser();
-  if (!user || !(await isAdmin(user.userId))) {
+  const supabase = await createClient();
+  if (!supabase) {
+    return NextResponse.json({ error: 'Supabase is not configured.' }, { status: 503 });
+  }
+  const { data } = await supabase.auth.getUser();
+  if (!data.user || !(await isAdmin(supabase, data.user.id))) {
     return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
   }
 
@@ -26,11 +29,18 @@ export async function POST(request: Request) {
   }
 
   const extension = file.name.split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
-  const key = `site-image-${Date.now()}-${crypto.randomUUID()}.${extension}`;
-  await env.FILES.put(key, await file.arrayBuffer(), {
-    httpMetadata: { contentType: file.type },
-    customMetadata: { uploadedBy: user.userId },
+  const key = `${data.user.id}/site-image-${Date.now()}-${crypto.randomUUID()}.${extension}`;
+  const upload = await supabase.storage.from('property-images').upload(key, file, {
+    contentType: file.type,
+    cacheControl: '31536000',
+    upsert: false,
   });
+  if (upload.error) {
+    return NextResponse.json({ error: upload.error.message }, { status: 400 });
+  }
+  const { data: publicUrl } = supabase.storage
+    .from('property-images')
+    .getPublicUrl(upload.data.path);
 
-  return NextResponse.json({ url: `/api/media/${encodeURIComponent(key)}` });
+  return NextResponse.json({ url: publicUrl.publicUrl });
 }

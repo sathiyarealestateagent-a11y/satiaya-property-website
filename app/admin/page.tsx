@@ -1,45 +1,63 @@
-import { ShieldAlert } from 'lucide-react';
+import { DatabaseZap, ShieldAlert } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import type { ReactNode } from 'react';
 
-import { requireChatGPTUser } from '@/app/chatgpt-auth';
-import { ensureAdmin, getSiteContent } from '@/db/content';
+import { getSiteContent, isAdmin } from '@/db/content';
+import { createClient } from '@/lib/supabase/server';
 
 import AdminDashboard from './admin-dashboard';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPage() {
-  const user = await requireChatGPTUser('/admin');
-  let authorized = false;
-  try {
-    authorized = await ensureAdmin(user.userId, user.email);
-  } catch {
+  const supabase = await createClient();
+  if (!supabase) {
     return (
-      <main className="grid min-h-screen place-items-center bg-[#f4f1e9] p-6">
-        <div className="max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
-          <ShieldAlert className="mx-auto size-10 text-[#b97738]" />
-          <h1 className="mt-4 font-heading text-2xl font-bold">Dashboard storage is starting</h1>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            The editing database is not ready in this preview yet. Refresh after the
-            dashboard deployment finishes.
-          </p>
-        </div>
-      </main>
+      <AdminMessage
+        icon={<DatabaseZap className="mx-auto size-10 text-[#b97738]" />}
+        title="Dashboard connection required"
+        description="Add the Supabase environment variables to finish connecting this dashboard."
+      />
     );
   }
 
-  if (!authorized) {
+  const { data } = await supabase.auth.getUser();
+  if (!data.user) redirect('/admin/login');
+
+  if (!(await isAdmin(supabase, data.user.id))) {
     return (
-      <main className="grid min-h-screen place-items-center bg-[#f4f1e9] p-6">
-        <div className="max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
-          <ShieldAlert className="mx-auto size-10 text-destructive" />
-          <h1 className="mt-4 font-heading text-2xl font-bold">Owner access required</h1>
-          <p className="mt-3 text-sm leading-6 text-muted-foreground">
-            This dashboard is already connected to another administrator account.
-          </p>
-        </div>
-      </main>
+      <AdminMessage
+        icon={<ShieldAlert className="mx-auto size-10 text-destructive" />}
+        title="Owner access required"
+        description="This account is signed in, but it is not on the website administrator list."
+      />
     );
   }
 
-  return <AdminDashboard initialContent={await getSiteContent()} userEmail={user.email} />;
+  return (
+    <AdminDashboard
+      initialContent={await getSiteContent()}
+      userEmail={data.user.email ?? 'Administrator'}
+    />
+  );
+}
+
+function AdminMessage({
+  icon,
+  title,
+  description,
+}: {
+  icon: ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <main className="grid min-h-screen place-items-center bg-[#f4f1e9] p-6">
+      <div className="max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
+        {icon}
+        <h1 className="mt-4 font-heading text-2xl font-bold">{title}</h1>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">{description}</p>
+      </div>
+    </main>
+  );
 }

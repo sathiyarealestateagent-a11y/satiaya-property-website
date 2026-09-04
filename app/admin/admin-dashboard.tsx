@@ -9,6 +9,7 @@ import {
   FileText,
   ImageUp,
   LoaderCircle,
+  LogOut,
   Plus,
   Save,
   Settings2,
@@ -265,6 +266,11 @@ export default function AdminDashboard({
               {saving ? <LoaderCircle className="animate-spin" /> : <Save />}
               {saving ? 'Saving…' : 'Save & publish'}
             </Button>
+            <form action="/admin/logout" method="post">
+              <Button type="submit" variant="ghost" className="h-10 rounded-full px-3" aria-label="Sign out">
+                <LogOut />
+              </Button>
+            </form>
           </div>
         </div>
       </header>

@@ -101,5 +101,8 @@ export const siteContentSchema = z.object({
   properties: z.array(propertySchema).max(100),
 });
 
+export const siteSettingsSchema = siteContentSchema.omit({ properties: true });
+
 export type SiteContent = z.infer<typeof siteContentSchema>;
 export type EditableProperty = z.infer<typeof propertySchema>;
+export type SiteSettings = z.infer<typeof siteSettingsSchema>;
