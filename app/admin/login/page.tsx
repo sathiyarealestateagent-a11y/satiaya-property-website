@@ -3,11 +3,16 @@
 import { Building2, LoaderCircle, LockKeyhole } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { type SubmitEventHandler, useState } from 'react';
+import { type SubmitEventHandler, useState, useSyncExternalStore } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { createClient } from '@/lib/supabase/client';
+
+const subscribeToLocation = () => () => {};
+const isPasswordUpdated = () =>
+  new URLSearchParams(window.location.search).get('password') === 'updated';
+const isPasswordUpdatedOnServer = () => false;
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -15,6 +20,11 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const passwordUpdated = useSyncExternalStore(
+    subscribeToLocation,
+    isPasswordUpdated,
+    isPasswordUpdatedOnServer,
+  );
 
   const signIn: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -51,7 +61,13 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        <form onSubmit={signIn} className="mt-7 grid gap-4">
+        {passwordUpdated && (
+          <p className="mt-7 rounded-xl bg-[#eef5f1] px-4 py-3 text-center text-sm font-semibold text-[#284b3e]">
+            Your password was updated. Sign in with the new password.
+          </p>
+        )}
+
+        <form onSubmit={signIn} className={`${passwordUpdated ? 'mt-4' : 'mt-7'} grid gap-4`}>
           <label htmlFor="admin-email" className="grid gap-2 text-sm font-semibold text-[#34483f]">
             Email address
             <Input
@@ -65,7 +81,15 @@ export default function AdminLoginPage() {
             />
           </label>
           <label htmlFor="admin-password" className="grid gap-2 text-sm font-semibold text-[#34483f]">
-            Password
+            <span className="flex items-center justify-between gap-3">
+              <span>Password</span>
+              <Link
+                href="/admin/forgot-password"
+                className="text-xs font-bold text-[#b97738] hover:text-[#19382d]"
+              >
+                Forgot password?
+              </Link>
+            </span>
             <Input
               type="password"
               id="admin-password"
