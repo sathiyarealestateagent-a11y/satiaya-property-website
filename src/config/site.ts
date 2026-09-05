@@ -28,12 +28,12 @@ export const siteConfig = {
   },
   contact: {
     // Replace these Phase 1 placeholders with the agent's final details.
-    phone: '+60 12-345 6789',
+    phone: '+60 12-256 0706',
     email: 'hello@satiayaselvan.my',
     serviceArea: 'Kuala Lumpur & Selangor, Malaysia',
   },
   whatsapp: {
-    number: '60123456789', // Digits only, including Malaysia country code.
+    number: '60122560706', // Digits only, including Malaysia country code.
     defaultMessage:
       'Hi Satiaya, I found your website and would like to enquire about a property.',
   },
