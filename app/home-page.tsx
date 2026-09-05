@@ -23,6 +23,7 @@ import {
   X,
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { SyntheticEvent } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -928,9 +929,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
             <p>
               © {new Date().getFullYear()} {siteConfig.agent.name}. {siteConfig.footer.copyright}
             </p>
-            <p>
-              {siteConfig.agent.title} · {siteConfig.agent.agency}
-            </p>
+            <div className="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end">
+              <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-white">Terms of Use</Link>
+              <span>{siteConfig.agent.title} · {siteConfig.agent.agency}</span>
+            </div>
           </div>
         </div>
       </footer>
