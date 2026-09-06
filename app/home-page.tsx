@@ -263,7 +263,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
   return (
     <main className="overflow-hidden bg-background text-foreground">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-[#fbfaf6]/90 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <a
             href="#top"
@@ -338,7 +338,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
         {mobileMenuOpen && (
           <nav
-            className="border-t border-border bg-[#fbfaf6] px-5 py-5 lg:hidden"
+            className="border-t border-border bg-white px-5 py-5 lg:hidden"
             aria-label="Mobile navigation"
           >
             <div className="mx-auto flex max-w-7xl flex-col gap-1">
