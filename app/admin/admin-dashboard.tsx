@@ -1022,6 +1022,71 @@ export default function AdminDashboard({
                   update(['contactSection', 'description'], value)
                 }
               />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  label="Name field label"
+                  value={draft.contactSection.nameLabel}
+                  onChange={(value) =>
+                    update(['contactSection', 'nameLabel'], value)
+                  }
+                />
+                <Field
+                  label="Name placeholder"
+                  value={draft.contactSection.namePlaceholder}
+                  onChange={(value) =>
+                    update(['contactSection', 'namePlaceholder'], value)
+                  }
+                />
+                <Field
+                  label="Phone field label"
+                  value={draft.contactSection.phoneLabel}
+                  onChange={(value) =>
+                    update(['contactSection', 'phoneLabel'], value)
+                  }
+                />
+                <Field
+                  label="Phone placeholder"
+                  value={draft.contactSection.phonePlaceholder}
+                  onChange={(value) =>
+                    update(['contactSection', 'phonePlaceholder'], value)
+                  }
+                />
+                <Field
+                  label="Email field label"
+                  value={draft.contactSection.emailLabel}
+                  onChange={(value) =>
+                    update(['contactSection', 'emailLabel'], value)
+                  }
+                />
+                <Field
+                  label="Email placeholder"
+                  value={draft.contactSection.emailPlaceholder}
+                  onChange={(value) =>
+                    update(['contactSection', 'emailPlaceholder'], value)
+                  }
+                />
+                <Field
+                  label="Interest field label"
+                  value={draft.contactSection.interestLabel}
+                  onChange={(value) =>
+                    update(['contactSection', 'interestLabel'], value)
+                  }
+                />
+                <Field
+                  label="Message field label"
+                  value={draft.contactSection.messageLabel}
+                  onChange={(value) =>
+                    update(['contactSection', 'messageLabel'], value)
+                  }
+                />
+              </div>
+              <Field
+                label="Message placeholder"
+                value={draft.contactSection.messagePlaceholder}
+                onChange={(value) =>
+                  update(['contactSection', 'messagePlaceholder'], value)
+                }
+              />
               <LongField
                 label="Success message"
                 value={draft.contactSection.successDescription}

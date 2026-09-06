@@ -97,6 +97,17 @@ export const siteContentSchema = z.object({
     successDescription: text,
     successCta: shortText,
     submitLabel: shortText,
+    nameLabel: shortText.default('Full name'),
+    namePlaceholder: shortText.default('Your name'),
+    phoneLabel: shortText.default('Phone number'),
+    phonePlaceholder: shortText.default('+60'),
+    emailLabel: shortText.default('Email address'),
+    emailPlaceholder: shortText.default('you@example.com'),
+    interestLabel: shortText.default("I'm interested in"),
+    messageLabel: shortText.default('How can I help?'),
+    messagePlaceholder: shortText.default(
+      'Share a little about what you need...',
+    ),
     interestOptions: z.array(shortText).max(12),
   }),
   footer: z.object({

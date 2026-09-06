@@ -919,23 +919,23 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <form onSubmit={submitContact}>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label htmlFor="contact-name" className="form-label">
-                    Full name
+                    {siteConfig.contactSection.nameLabel}
                     <Input
                       id="contact-name"
                       required
                       name="name"
-                      placeholder="Your name"
+                      placeholder={siteConfig.contactSection.namePlaceholder}
                       className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
                     />
                   </label>
                   <label htmlFor="contact-phone" className="form-label">
-                    Phone number
+                    {siteConfig.contactSection.phoneLabel}
                     <Input
                       id="contact-phone"
                       required
                       name="phone"
                       type="tel"
-                      placeholder="+60"
+                      placeholder={siteConfig.contactSection.phonePlaceholder}
                       className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
                     />
                   </label>
@@ -943,13 +943,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     htmlFor="contact-email"
                     className="form-label sm:col-span-2"
                   >
-                    Email address
+                    {siteConfig.contactSection.emailLabel}
                     <Input
                       id="contact-email"
                       required
                       name="email"
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder={siteConfig.contactSection.emailPlaceholder}
                       className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
                     />
                   </label>
@@ -957,7 +957,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     htmlFor="contact-interest"
                     className="form-label sm:col-span-2"
                   >
-                    I&apos;m interested in
+                    {siteConfig.contactSection.interestLabel}
                     <select
                       id="contact-interest"
                       name="interest"
@@ -974,13 +974,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     htmlFor="contact-message"
                     className="form-label sm:col-span-2"
                   >
-                    How can I help?
+                    {siteConfig.contactSection.messageLabel}
                     <textarea
                       id="contact-message"
                       required
                       name="message"
                       rows={4}
-                      placeholder="Share a little about what you need..."
+                      placeholder={siteConfig.contactSection.messagePlaceholder}
                       className="mt-2 w-full resize-none rounded-xl border border-border bg-[#f8f9f7] px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                     />
                   </label>
