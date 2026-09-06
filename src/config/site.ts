@@ -158,6 +158,6 @@ export const siteConfig = {
   social: {
     instagram: '#',
     facebook: '#',
-    linkedin: '#',
+    tiktok: '',
   },
 } as const;

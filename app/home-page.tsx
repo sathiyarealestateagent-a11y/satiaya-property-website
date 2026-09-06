@@ -33,6 +33,51 @@ import type { EditableProperty, SiteContent } from '@/src/content/schema';
 
 const serviceIcons = [Home, KeyRound, HousePlus, Compass];
 
+function InstagramIcon({ className = 'size-4' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4.25" />
+      <circle cx="17.4" cy="6.7" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ className = 'size-4' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M13.6 21v-8h2.85l.43-3.18H13.6V7.8c0-.92.26-1.55 1.64-1.55H17V3.41a23.5 23.5 0 0 0-2.56-.13c-2.54 0-4.28 1.55-4.28 4.4v2.14H7.3V13h2.86v8h3.44Z" />
+    </svg>
+  );
+}
+
+function TikTokIcon({ className = 'size-4' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M16.6 3c.28 1.74 1.25 3.17 2.9 4.03v3.01a8.03 8.03 0 0 1-2.9-.68v5.51A6.13 6.13 0 1 1 11.3 8.8v3.05a3.12 3.12 0 1 0 2.3 3.02V3h3Z" />
+    </svg>
+  );
+}
+
 function formatPrice(property: EditableProperty) {
   return property.type === 'rent'
     ? `RM ${property.price.toLocaleString('en-MY')} / month`
@@ -58,22 +103,37 @@ type WebMcpContext = {
 export default function HomePage({ content }: { content: SiteContent }) {
   const siteConfig = content;
   const properties = content.properties;
-  const navItems = content.navigation.map((item) => [item.label, item.href] as const);
+  const navItems = content.navigation.map(
+    (item) => [item.label, item.href] as const,
+  );
   const services = content.servicesSection.items.map((service, index) => ({
     ...service,
     icon: serviceIcons[index % serviceIcons.length],
   }));
+  const socialLinks = [
+    {
+      label: 'Instagram',
+      href: siteConfig.social.instagram,
+      icon: InstagramIcon,
+    },
+    { label: 'Facebook', href: siteConfig.social.facebook, icon: FacebookIcon },
+    { label: 'TikTok', href: siteConfig.social.tiktok, icon: TikTokIcon },
+  ].filter((item) => item.href && item.href !== '#');
   const locationOptions = useMemo(
     () => [
       'All locations',
-      ...Array.from(new Set(properties.map((property) => property.location.split(',')[0]))),
+      ...Array.from(
+        new Set(properties.map((property) => property.location.split(',')[0])),
+      ),
     ],
     [properties],
   );
   const propertyTypeOptions = useMemo(
     () => [
       'All types',
-      ...Array.from(new Set(properties.map((property) => property.propertyType))),
+      ...Array.from(
+        new Set(properties.map((property) => property.propertyType)),
+      ),
     ],
     [properties],
   );
@@ -99,9 +159,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
   }, [listingType, location, properties, propertyType, searchApplied]);
 
   useEffect(() => {
-    const context = (
-      document as Document & { modelContext?: WebMcpContext }
-    ).modelContext;
+    const context = (document as Document & { modelContext?: WebMcpContext })
+      .modelContext;
     if (!context?.registerTool) return;
 
     const lifecycle = new AbortController();
@@ -130,7 +189,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
             throw new Error('A filter object is required.');
           }
           const candidate = input as Record<string, unknown>;
-          if (candidate.listingType !== 'sale' && candidate.listingType !== 'rent') {
+          if (
+            candidate.listingType !== 'sale' &&
+            candidate.listingType !== 'rent'
+          ) {
             throw new Error('listingType must be sale or rent.');
           }
           const nextLocation =
@@ -152,7 +214,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
           setLocation(nextLocation);
           setPropertyType(nextPropertyType);
           setSearchApplied(true);
-          document.querySelector('#properties')?.scrollIntoView({ behavior: 'smooth' });
+          document
+            .querySelector('#properties')
+            ?.scrollIntoView({ behavior: 'smooth' });
 
           const resultCount = properties.filter(
             (property) =>
@@ -189,7 +253,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
     <main className="overflow-hidden bg-background text-foreground">
       <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-[#fbfaf6]/90 backdrop-blur-xl">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
-          <a href="#top" className="group flex items-center gap-3" aria-label="Back to top">
+          <a
+            href="#top"
+            className="group flex items-center gap-3"
+            aria-label="Back to top"
+          >
             <span className="grid size-10 place-items-center rounded-full bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-sm transition-transform group-hover:-rotate-3">
               {siteConfig.logo.image ? (
                 <Image
@@ -213,12 +281,19 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </span>
           </a>
 
-          <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
+          <nav
+            className="hidden items-center gap-8 lg:flex"
+            aria-label="Main navigation"
+          >
             {navItems.map(([label, href]) => (
               <a
                 key={href}
                 href={href}
-                className="text-sm font-medium text-[#37443e] transition-colors hover:text-primary"
+                className={`rounded-full text-sm font-semibold transition-all ${
+                  href === '#owners'
+                    ? 'bg-[#173c2d] px-3.5 py-2 text-[#00ff88] shadow-[0_6px_18px_rgba(23,60,45,.14)] hover:bg-[#204f3b]'
+                    : 'text-[#37443e] hover:text-primary'
+                }`}
               >
                 {label}
               </a>
@@ -264,7 +339,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={href}
                   href={href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 font-medium hover:bg-[#eef2ec]"
+                  className={`rounded-xl px-4 py-3 font-semibold ${
+                    href === '#owners'
+                      ? 'bg-[#173c2d] text-[#00ff88]'
+                      : 'hover:bg-[#eef2ec]'
+                  }`}
                 >
                   {label}
                 </a>
@@ -274,7 +353,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
         )}
       </header>
 
-      <section id="top" className="relative min-h-[780px] pt-20 lg:min-h-[760px]">
+      <section
+        id="top"
+        className="relative min-h-[780px] pt-20 lg:min-h-[760px]"
+      >
         <div className="absolute inset-0">
           <Image
             src={siteConfig.hero.image}
@@ -332,7 +414,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 </p>
               </div>
               <span className="hidden items-center gap-1.5 rounded-full bg-[#eef4ef] px-3 py-1.5 text-xs font-semibold text-primary sm:flex">
-                <ShieldCheck className="size-3.5" /> {siteConfig.search.verifiedLabel}
+                <ShieldCheck className="size-3.5" />{' '}
+                {siteConfig.search.verifiedLabel}
               </span>
             </div>
             <div className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
@@ -362,7 +445,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   onChange={(event) => setLocation(event.target.value)}
                   className="h-12 w-full appearance-none rounded-xl border border-border bg-[#f9faf8] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                 >
-                  {locationOptions.map((option) => <option key={option}>{option}</option>)}
+                  {locationOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
                 </select>
                 <ChevronDown className="pointer-events-none absolute bottom-4 right-4 size-4 text-muted-foreground" />
               </label>
@@ -375,7 +460,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   onChange={(event) => setPropertyType(event.target.value)}
                   className="h-12 w-full appearance-none rounded-xl border border-border bg-[#f9faf8] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                 >
-                  {propertyTypeOptions.map((option) => <option key={option}>{option}</option>)}
+                  {propertyTypeOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
                 </select>
                 <ChevronDown className="pointer-events-none absolute bottom-4 right-4 size-4 text-muted-foreground" />
               </label>
@@ -405,7 +492,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end">
             <div>
               <p className="section-kicker">{siteConfig.featured.kicker}</p>
-              <h2 className="section-title mt-3">{siteConfig.featured.title}</h2>
+              <h2 className="section-title mt-3">
+                {siteConfig.featured.title}
+              </h2>
               <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
                 {siteConfig.featured.description}
               </p>
@@ -477,13 +566,15 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     </p>
                     <div className="mt-5 flex items-center gap-5 border-y border-border/70 py-4 text-xs font-semibold text-[#53615a]">
                       <span className="flex items-center gap-1.5">
-                        <BedDouble className="size-4" /> {property.bedrooms} beds
+                        <BedDouble className="size-4" /> {property.bedrooms}{' '}
+                        beds
                       </span>
                       <span className="flex items-center gap-1.5">
                         <Bath className="size-4" /> {property.bathrooms} baths
                       </span>
                       <span className="flex items-center gap-1.5">
-                        <Building2 className="size-4" /> {property.size.toLocaleString()} sq ft
+                        <Building2 className="size-4" />{' '}
+                        {property.size.toLocaleString()} sq ft
                       </span>
                     </div>
                     <div className="mt-5 flex items-center justify-between gap-3">
@@ -509,7 +600,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
           ) : (
             <div className="mt-10 rounded-[24px] border border-dashed border-primary/25 bg-white px-6 py-14 text-center">
               <Search className="mx-auto size-9 text-primary/45" />
-              <h3 className="mt-4 font-heading text-xl font-bold">{siteConfig.featured.emptyTitle}</h3>
+              <h3 className="mt-4 font-heading text-xl font-bold">
+                {siteConfig.featured.emptyTitle}
+              </h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 {siteConfig.featured.emptyDescription}
               </p>
@@ -562,7 +655,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
 
           <div>
-            <p className="section-kicker !text-[#e5af69]">{siteConfig.ownerSection.kicker}</p>
+            <p className="section-kicker !text-[#e5af69]">
+              {siteConfig.ownerSection.kicker}
+            </p>
             <h2 className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-tight tracking-[-0.035em] text-balance sm:text-5xl">
               {siteConfig.ownerSection.title}
             </h2>
@@ -582,9 +677,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <div className="mt-9 flex flex-wrap gap-4">
               <a
-                href={whatsappLink(
-                  siteConfig.ownerSection.primaryMessage,
-                )}
+                href={whatsappLink(siteConfig.ownerSection.primaryMessage)}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -610,8 +703,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="section-kicker">{siteConfig.servicesSection.kicker}</p>
-            <h2 className="section-title mt-3">{siteConfig.servicesSection.title}</h2>
+            <p className="section-kicker">
+              {siteConfig.servicesSection.kicker}
+            </p>
+            <h2 className="section-title mt-3">
+              {siteConfig.servicesSection.title}
+            </h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground">
               {siteConfig.servicesSection.description}
             </p>
@@ -715,7 +812,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
       >
         <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(40,65,53,.1)] lg:grid-cols-[.8fr_1.2fr]">
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
-            <p className="section-kicker !text-[#e5af69]">{siteConfig.contactSection.kicker}</p>
+            <p className="section-kicker !text-[#e5af69]">
+              {siteConfig.contactSection.kicker}
+            </p>
             <h2 className="mt-4 font-heading text-4xl font-semibold leading-tight tracking-[-0.035em]">
               {siteConfig.contactSection.title}
             </h2>
@@ -757,9 +856,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
           <div className="p-8 sm:p-12 lg:p-14">
             {formSent ? (
-              <output
-                className="flex h-full min-h-80 flex-col items-center justify-center text-center"
-              >
+              <output className="flex h-full min-h-80 flex-col items-center justify-center text-center">
                 <span className="grid size-16 place-items-center rounded-full bg-[#e4f2e8] text-primary">
                   <CheckCircle2 className="size-8" />
                 </span>
@@ -804,7 +901,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
                     />
                   </label>
-                  <label htmlFor="contact-email" className="form-label sm:col-span-2">
+                  <label
+                    htmlFor="contact-email"
+                    className="form-label sm:col-span-2"
+                  >
                     Email address
                     <Input
                       id="contact-email"
@@ -815,19 +915,27 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
                     />
                   </label>
-                  <label htmlFor="contact-interest" className="form-label sm:col-span-2">
+                  <label
+                    htmlFor="contact-interest"
+                    className="form-label sm:col-span-2"
+                  >
                     I&apos;m interested in
                     <select
                       id="contact-interest"
                       name="interest"
                       className="mt-2 h-12 w-full rounded-xl border border-border bg-[#f8f9f7] px-4 text-sm outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                     >
-                      {siteConfig.contactSection.interestOptions.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
+                      {siteConfig.contactSection.interestOptions.map(
+                        (option) => (
+                          <option key={option}>{option}</option>
+                        ),
+                      )}
                     </select>
                   </label>
-                  <label htmlFor="contact-message" className="form-label sm:col-span-2">
+                  <label
+                    htmlFor="contact-message"
+                    className="form-label sm:col-span-2"
+                  >
                     How can I help?
                     <textarea
                       id="contact-message"
@@ -839,7 +947,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     />
                   </label>
                 </div>
-                <Button type="submit" className="mt-6 h-12 w-full rounded-xl sm:w-auto sm:px-8">
+                <Button
+                  type="submit"
+                  className="mt-6 h-12 w-full rounded-xl sm:w-auto sm:px-8"
+                >
                   {siteConfig.contactSection.submitLabel} <ArrowRight />
                 </Button>
               </form>
@@ -879,18 +990,17 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 {siteConfig.footer.tagline}
               </p>
               <div className="mt-6 flex gap-2">
-                {[
-                  ['IG', siteConfig.social.instagram, 'Instagram'],
-                  ['f', siteConfig.social.facebook, 'Facebook'],
-                  ['in', siteConfig.social.linkedin, 'LinkedIn'],
-                ].map(([mark, href, label]) => (
+                {socialLinks.map(({ icon: Icon, href, label }) => (
                   <a
                     key={label}
                     href={href}
-                    aria-label={label}
-                    className="grid size-9 place-items-center rounded-full border border-white/15 text-[11px] font-bold text-white/70 hover:border-[#d9974c] hover:text-[#d9974c]"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Follow ${siteConfig.agent.firstName} on ${label}`}
+                    title={label}
+                    className="grid size-10 place-items-center rounded-full border border-white/15 bg-white/[.04] text-white/75 transition-all hover:-translate-y-0.5 hover:border-[#d9974c] hover:bg-[#d9974c] hover:text-[#17382b]"
                   >
-                    {mark}
+                    <Icon className="size-[17px]" />
                   </a>
                 ))}
               </div>
@@ -918,7 +1028,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 >
                   {siteConfig.contact.phone}
                 </a>
-                <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-white">
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  className="hover:text-white"
+                >
                   {siteConfig.contact.email}
                 </a>
                 <p>{siteConfig.contact.serviceArea}</p>
@@ -927,12 +1040,19 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
           <div className="flex flex-col gap-3 pt-7 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
             <p>
-              © {new Date().getFullYear()} {siteConfig.agent.name}. {siteConfig.footer.copyright}
+              © {new Date().getFullYear()} {siteConfig.agent.name}.{' '}
+              {siteConfig.footer.copyright}
             </p>
             <div className="flex flex-wrap gap-x-4 gap-y-2 sm:justify-end">
-              <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-white">Terms of Use</Link>
-              <span>{siteConfig.agent.title} · {siteConfig.agent.agency}</span>
+              <Link href="/privacy" className="hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-white">
+                Terms of Use
+              </Link>
+              <span>
+                {siteConfig.agent.title} · {siteConfig.agent.agency}
+              </span>
             </div>
           </div>
         </div>
@@ -946,7 +1066,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
         aria-label="Chat with Satiaya on WhatsApp"
       >
         <MessageCircle className="size-5 fill-white/15" />
-        <span className="hidden sm:inline">{siteConfig.footer.whatsappLabel}</span>
+        <span className="hidden sm:inline">
+          {siteConfig.footer.whatsappLabel}
+        </span>
       </a>
     </main>
   );

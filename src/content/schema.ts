@@ -30,7 +30,11 @@ export const siteContentSchema = z.object({
     profilePhoto: urlText,
     languages: z.array(shortText).max(10),
   }),
-  contact: z.object({ phone: shortText, email: shortText, serviceArea: shortText }),
+  contact: z.object({
+    phone: shortText,
+    email: shortText,
+    serviceArea: shortText,
+  }),
   whatsapp: z.object({ number: shortText, defaultMessage: text }),
   header: z.object({ cta: shortText }),
   hero: z.object({
@@ -43,7 +47,11 @@ export const siteContentSchema = z.object({
     secondaryCta: shortText,
     secondaryMessage: text,
   }),
-  search: z.object({ title: shortText, description: text, verifiedLabel: shortText }),
+  search: z.object({
+    title: shortText,
+    description: text,
+    verifiedLabel: shortText,
+  }),
   featured: z.object({
     kicker: shortText,
     title: shortText,
@@ -97,7 +105,18 @@ export const siteContentSchema = z.object({
     copyright: shortText,
     whatsappLabel: shortText,
   }),
-  social: z.object({ instagram: urlText, facebook: urlText, linkedin: urlText }),
+  social: z.preprocess(
+    (value) => {
+      if (!value || typeof value !== 'object') return value;
+      const social = value as Record<string, unknown>;
+      return {
+        instagram: social.instagram,
+        facebook: social.facebook,
+        tiktok: social.tiktok ?? '',
+      };
+    },
+    z.object({ instagram: urlText, facebook: urlText, tiktok: urlText }),
+  ),
   properties: z.array(propertySchema).max(100),
 });
 
