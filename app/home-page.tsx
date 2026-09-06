@@ -303,7 +303,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 href={href}
                 className={`inline-flex items-center gap-2 rounded-full text-sm font-semibold transition-all ${
                   href === '#owners'
-                    ? 'bg-[#173c2d] px-3.5 py-2 text-[#00ff88] shadow-[0_6px_18px_rgba(23,60,45,.14)] hover:bg-[#204f3b]'
+                    ? 'bg-transparent px-3.5 py-2 text-[#37443e] hover:text-primary'
                     : 'text-[#37443e] hover:text-primary'
                 }`}
               >
@@ -354,7 +354,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`rounded-xl px-4 py-3 font-semibold ${
                     href === '#owners'
-                      ? 'bg-[#173c2d] text-[#00ff88]'
+                      ? 'bg-transparent text-[#37443e] hover:bg-[#eef2ec] hover:text-primary'
                       : 'hover:bg-[#eef2ec]'
                   }`}
                 >
