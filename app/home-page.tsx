@@ -130,7 +130,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
     },
     { label: 'Facebook', href: siteConfig.social.facebook, icon: FacebookIcon },
     { label: 'TikTok', href: siteConfig.social.tiktok, icon: TikTokIcon },
-  ].filter((item) => item.href && item.href !== '#');
+  ].filter(
+    (item) => item.label === 'TikTok' || (item.href && item.href !== '#'),
+  );
   const locationOptions = useMemo(
     () => [
       'All locations',
@@ -1026,19 +1028,34 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 {siteConfig.footer.tagline}
               </p>
               <div className="mt-6 flex gap-2">
-                {socialLinks.map(({ icon: Icon, href, label }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Follow ${siteConfig.agent.firstName} on ${label}`}
-                    title={label}
-                    className="grid size-10 place-items-center rounded-full border border-white/15 bg-white/[.04] text-white/75 transition-all hover:-translate-y-0.5 hover:border-[#d9974c] hover:bg-[#d9974c] hover:text-[#17382b]"
-                  >
-                    <Icon className="size-[17px]" />
-                  </a>
-                ))}
+                {socialLinks.map(({ icon: Icon, href, label }) => {
+                  const isConfigured = Boolean(href && href !== '#');
+                  const iconClass =
+                    'grid size-10 place-items-center rounded-full border border-white/15 bg-white/[.04] text-white/75 transition-all';
+
+                  return isConfigured ? (
+                    <a
+                      key={label}
+                      href={href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Follow ${siteConfig.agent.firstName} on ${label}`}
+                      title={label}
+                      className={`${iconClass} hover:-translate-y-0.5 hover:border-[#d9974c] hover:bg-[#d9974c] hover:text-[#17382b]`}
+                    >
+                      <Icon className="size-[17px]" />
+                    </a>
+                  ) : (
+                    <span
+                      key={label}
+                      aria-label={`${label} profile link not set`}
+                      title={`${label} — add your profile link in the dashboard`}
+                      className={`${iconClass} cursor-default opacity-70`}
+                    >
+                      <Icon className="size-[17px]" />
+                    </span>
+                  );
+                })}
               </div>
             </div>
             <div>
