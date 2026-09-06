@@ -73,7 +73,7 @@ function Field({
   return (
     <label
       htmlFor={id}
-      className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#526159]"
+      className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#5B6574]"
     >
       {label}
       <Input
@@ -82,7 +82,7 @@ function Field({
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 rounded-xl border-[#dfe4df] bg-[#fbfcfa] px-3.5 text-sm font-medium normal-case tracking-normal shadow-none transition focus-visible:border-[#2e6b50] focus-visible:ring-[#2e6b50]/12"
+        className="h-12 rounded-xl border-[#E1E6ED] bg-[#FFFFFF] px-3.5 text-sm font-medium normal-case tracking-normal shadow-none transition focus-visible:border-[#174A8B] focus-visible:ring-[#174A8B]/12"
       />
     </label>
   );
@@ -103,7 +103,7 @@ function LongField({
   return (
     <label
       htmlFor={id}
-      className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#526159]"
+      className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#5B6574]"
     >
       {label}
       <Textarea
@@ -111,7 +111,7 @@ function LongField({
         value={value}
         rows={rows}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-xl border-[#dfe4df] bg-[#fbfcfa] px-3.5 py-3 text-sm font-medium normal-case leading-6 tracking-normal shadow-none transition focus-visible:border-[#2e6b50] focus-visible:ring-[#2e6b50]/12"
+        className="rounded-xl border-[#E1E6ED] bg-[#FFFFFF] px-3.5 py-3 text-sm font-medium normal-case leading-6 tracking-normal shadow-none transition focus-visible:border-[#174A8B] focus-visible:ring-[#174A8B]/12"
       />
     </label>
   );
@@ -160,11 +160,11 @@ function ImageField({
 
   return (
     <div className="grid gap-3">
-      <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#526159]">
+      <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#5B6574]">
         {label}
       </span>
-      <div className="grid gap-4 rounded-2xl border border-dashed border-[#c9d4cc] bg-[#f7faf7] p-4 sm:grid-cols-[132px_1fr] sm:items-center">
-        <div className="relative h-28 overflow-hidden rounded-xl bg-[#e8ece7] ring-1 ring-black/5">
+      <div className="grid gap-4 rounded-2xl border border-dashed border-[#C7D2E0] bg-[#F7F8FA] p-4 sm:grid-cols-[132px_1fr] sm:items-center">
+        <div className="relative h-28 overflow-hidden rounded-xl bg-[#EDF2F7] ring-1 ring-black/5">
           {value && kind === 'video' ? (
             <video
               src={value}
@@ -191,7 +191,7 @@ function ImageField({
             value={value}
             onChange={(event) => onChange(event.target.value)}
             placeholder={`Paste a ${kind} URL`}
-            className="h-11 rounded-xl border-[#dfe4df] bg-white"
+            className="h-11 rounded-xl border-[#E1E6ED] bg-white"
           />
           <div>
             <input
@@ -211,7 +211,7 @@ function ImageField({
             />
             <label
               htmlFor={id}
-              className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-[#173c2d] px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#21523d]"
+              className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-[#0B2D5C] px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#174A8B]"
             >
               {uploading ? (
                 <LoaderCircle className="size-4 animate-spin" />
@@ -245,9 +245,9 @@ function SectionCard({
   children: ReactNode;
 }) {
   return (
-    <Card className="overflow-hidden rounded-[24px] border border-[#e5e8e4] bg-white shadow-[0_14px_40px_rgba(27,55,43,.055)]">
-      <CardHeader className="border-b border-[#edf0ed] bg-[linear-gradient(135deg,#ffffff_0%,#fbfcfa_100%)] px-6 pb-5 pt-6 sm:px-7">
-        <CardTitle className="font-heading text-xl font-bold tracking-[-0.02em] text-[#17382b]">
+    <Card className="overflow-hidden rounded-[24px] border border-[#E1E6ED] bg-white shadow-[0_14px_40px_rgba(11,45,92,.055)]">
+      <CardHeader className="border-b border-[#E1E6ED] bg-[linear-gradient(135deg,#ffffff_0%,#FFFFFF_100%)] px-6 pb-5 pt-6 sm:px-7">
+        <CardTitle className="font-heading text-xl font-bold tracking-[-0.02em] text-[#0B2D5C]">
           {title}
         </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
@@ -369,27 +369,27 @@ export default function AdminDashboard({
   ];
 
   return (
-    <main className="min-h-screen bg-[#f4f5f1] text-foreground">
-      <header className="sticky top-0 z-40 border-b border-[#dde3de] bg-[#fbfcfa]/92 backdrop-blur-xl">
+    <main className="min-h-screen bg-[#F7F8FA] text-foreground">
+      <header className="sticky top-0 z-40 border-b border-[#E1E6ED] bg-[#FFFFFF]/92 backdrop-blur-xl">
         <div className="mx-auto flex min-h-20 max-w-[1520px] flex-wrap items-center justify-between gap-4 px-5 py-3 sm:px-8">
           <div className="flex items-center gap-4">
             <Link
               href="/"
-              className="grid size-11 place-items-center rounded-xl border border-[#dce3dd] bg-white text-primary shadow-sm transition hover:-translate-x-0.5 hover:border-primary/30"
+              className="grid size-11 place-items-center rounded-xl border border-[#E1E6ED] bg-white text-primary shadow-sm transition hover:-translate-x-0.5 hover:border-primary/30"
               aria-label="Back to website"
             >
               <ArrowLeft className="size-4" />
             </Link>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-heading text-lg font-bold tracking-[-0.02em] text-[#17382b]">
+                <h1 className="font-heading text-lg font-bold tracking-[-0.02em] text-[#0B2D5C]">
                   Content studio
                 </h1>
-                <Badge className="rounded-full bg-[#e9f1ea] text-[#285a44] shadow-none">
+                <Badge className="rounded-full bg-[#EDF2F7] text-[#174A8B] shadow-none">
                   Owner
                 </Badge>
                 {dirty && (
-                  <Badge className="rounded-full bg-[#fff1d9] text-[#8b571f] shadow-none">
+                  <Badge className="rounded-full bg-[#F7F0D1] text-[#0B2D5C] shadow-none">
                     Unsaved
                   </Badge>
                 )}
@@ -403,7 +403,7 @@ export default function AdminDashboard({
             <Link href="/" target="_blank" rel="noreferrer">
               <Button
                 variant="outline"
-                className="h-10 rounded-xl border-[#dce3dd] bg-white px-4 shadow-sm"
+                className="h-10 rounded-xl border-[#E1E6ED] bg-white px-4 shadow-sm"
               >
                 Preview site <ExternalLink />
               </Button>
@@ -411,7 +411,7 @@ export default function AdminDashboard({
             <Button
               onClick={() => void save()}
               disabled={saving || !dirty}
-              className="h-10 rounded-xl bg-[#173c2d] px-5 shadow-[0_8px_20px_rgba(23,60,45,.18)] hover:bg-[#21523d] disabled:opacity-50"
+              className="h-10 rounded-xl bg-[#D4AF37] px-5 text-[#0B2D5C] shadow-[0_8px_20px_rgba(11,45,92,.18)] hover:bg-[#E8C96A] disabled:opacity-50"
             >
               {saving ? <LoaderCircle className="animate-spin" /> : <Save />}
               {saving ? 'Saving…' : 'Save & publish'}
@@ -433,7 +433,7 @@ export default function AdminDashboard({
       <div className="mx-auto max-w-[1520px] px-5 py-7 sm:px-8 sm:py-9">
         {status !== 'idle' && (
           <output
-            className={`mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${status === 'saved' ? 'bg-[#e3f2e7] text-[#1d6744]' : 'bg-red-50 text-destructive'}`}
+            className={`mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${status === 'saved' ? 'bg-[#E8F0FA] text-[#174A8B]' : 'bg-red-50 text-destructive'}`}
           >
             {status === 'saved' && <Check className="size-4" />}
             {message}
@@ -444,13 +444,13 @@ export default function AdminDashboard({
           {dashboardStats.map(({ label, value, icon: Icon }) => (
             <div
               key={label}
-              className="flex items-center gap-3 rounded-2xl border border-[#e2e7e2] bg-white p-4 shadow-[0_8px_24px_rgba(27,55,43,.04)] sm:p-5"
+              className="flex items-center gap-3 rounded-2xl border border-[#E1E6ED] bg-white p-4 shadow-[0_8px_24px_rgba(11,45,92,.04)] sm:p-5"
             >
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#eaf1eb] text-[#285a44]">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#EDF2F7] text-[#174A8B]">
                 <Icon className="size-[18px]" />
               </span>
               <div>
-                <p className="font-heading text-xl font-bold leading-none text-[#17382b]">
+                <p className="font-heading text-xl font-bold leading-none text-[#0B2D5C]">
                   {value}
                 </p>
                 <p className="mt-1 text-xs font-medium text-muted-foreground">
@@ -465,9 +465,9 @@ export default function AdminDashboard({
           defaultValue="identity"
           className="gap-7 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start"
         >
-          <TabsList className="sticky top-28 hidden h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#14382b] p-3 text-white shadow-[0_18px_45px_rgba(20,56,43,.16)] lg:flex">
+          <TabsList className="sticky top-28 hidden h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#0B2D5C] p-3 text-white shadow-[0_18px_45px_rgba(11,45,92,.16)] lg:flex">
             <div className="mb-2 rounded-2xl border border-white/10 bg-white/[.06] p-4 text-left">
-              <span className="grid size-9 place-items-center rounded-xl bg-[#00ff88] text-[#103427]">
+              <span className="grid size-9 place-items-center rounded-xl bg-[#D4AF37] text-[#0B2D5C]">
                 <Globe2 className="size-[18px]" />
               </span>
               <p className="mt-3 font-heading text-sm font-bold">
@@ -479,51 +479,51 @@ export default function AdminDashboard({
             </div>
             <TabsTrigger
               value="identity"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00ff88] data-[state=active]:text-[#103427] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#0B2D5C] data-[state=active]:shadow-none"
             >
               <CircleUserRound /> Brand & contact
             </TabsTrigger>
             <TabsTrigger
               value="homepage"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00ff88] data-[state=active]:text-[#103427] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#0B2D5C] data-[state=active]:shadow-none"
             >
               <FileText /> Homepage content
             </TabsTrigger>
             <TabsTrigger
               value="services"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00ff88] data-[state=active]:text-[#103427] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#0B2D5C] data-[state=active]:shadow-none"
             >
               <Settings2 /> Services
             </TabsTrigger>
             <TabsTrigger
               value="properties"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00ff88] data-[state=active]:text-[#103427] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#0B2D5C] data-[state=active]:shadow-none"
             >
               <Building2 /> Properties
             </TabsTrigger>
           </TabsList>
-          <TabsList className="mb-5 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#dfe4df] bg-white p-1.5 lg:hidden">
+          <TabsList className="mb-5 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#E1E6ED] bg-white p-1.5 lg:hidden">
             <TabsTrigger
               value="identity"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173c2d] data-[state=active]:text-[#00ff88]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#0B2D5C] data-[state=active]:text-[#D4AF37]"
             >
               <CircleUserRound /> Brand
             </TabsTrigger>
             <TabsTrigger
               value="homepage"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173c2d] data-[state=active]:text-[#00ff88]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#0B2D5C] data-[state=active]:text-[#D4AF37]"
             >
               <FileText /> Homepage
             </TabsTrigger>
             <TabsTrigger
               value="services"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173c2d] data-[state=active]:text-[#00ff88]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#0B2D5C] data-[state=active]:text-[#D4AF37]"
             >
               <Settings2 /> Services
             </TabsTrigger>
             <TabsTrigger
               value="properties"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173c2d] data-[state=active]:text-[#00ff88]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#0B2D5C] data-[state=active]:text-[#D4AF37]"
             >
               <Building2 /> Properties
             </TabsTrigger>
@@ -600,7 +600,7 @@ export default function AdminDashboard({
                 {draft.navigation.map((item, index) => (
                   <div
                     key={index}
-                    className="grid gap-3 rounded-2xl border border-[#e2e7e2] bg-[#fbfcfa] p-4"
+                    className="grid gap-3 rounded-2xl border border-[#E1E6ED] bg-[#FFFFFF] p-4"
                   >
                     <Field
                       label={`Menu label ${index + 1}`}
@@ -816,9 +816,7 @@ export default function AdminDashboard({
               <LongField
                 label="More properties WhatsApp message"
                 value={draft.featured.moreMessage}
-                onChange={(value) =>
-                  update(['featured', 'moreMessage'], value)
-                }
+                onChange={(value) => update(['featured', 'moreMessage'], value)}
               />
             </SectionCard>
 
@@ -1128,9 +1126,7 @@ export default function AdminDashboard({
                 <Field
                   label="Copyright text"
                   value={draft.footer.copyright}
-                  onChange={(value) =>
-                    update(['footer', 'copyright'], value)
-                  }
+                  onChange={(value) => update(['footer', 'copyright'], value)}
                 />
                 <Field
                   label="Floating WhatsApp label"
@@ -1224,7 +1220,7 @@ export default function AdminDashboard({
           <TabsContent value="properties" className="grid gap-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="font-heading text-2xl font-bold text-[#19382d]">
+                <h2 className="font-heading text-2xl font-bold text-[#0B2D5C]">
                   Property listings
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -1270,7 +1266,7 @@ export default function AdminDashboard({
                       update(['properties', index, 'propertyType'], value)
                     }
                   />
-                  <label className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#58645e]">
+                  <label className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#5B6574]">
                     Listing type
                     <select
                       value={property.type}
@@ -1280,7 +1276,7 @@ export default function AdminDashboard({
                           event.target.value,
                         )
                       }
-                      className="h-11 rounded-xl border border-border bg-[#f8f9f7] px-3 text-sm font-normal normal-case tracking-normal"
+                      className="h-11 rounded-xl border border-border bg-[#F7F8FA] px-3 text-sm font-normal normal-case tracking-normal"
                     >
                       <option value="sale">For Sale</option>
                       <option value="rent">For Rent</option>
@@ -1318,7 +1314,7 @@ export default function AdminDashboard({
                       update(['properties', index, 'bathrooms'], Number(value))
                     }
                   />
-                  <label className="flex items-center gap-3 self-end rounded-xl border border-border bg-[#f8f9f7] px-4 py-3 text-sm font-semibold">
+                  <label className="flex items-center gap-3 self-end rounded-xl border border-border bg-[#F7F8FA] px-4 py-3 text-sm font-semibold">
                     <input
                       type="checkbox"
                       checked={Boolean(property.featured)}
@@ -1328,7 +1324,7 @@ export default function AdminDashboard({
                           event.target.checked,
                         )
                       }
-                      className="size-4 accent-[#255843]"
+                      className="size-4 accent-[#174A8B]"
                     />{' '}
                     Featured property
                   </label>

@@ -272,7 +272,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             className="group flex items-center gap-3"
             aria-label="Back to top"
           >
-            <span className="grid size-11 place-items-center rounded-2xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_8px_20px_rgba(23,60,45,.16)] transition-transform group-hover:-rotate-3">
+            <span className="grid size-11 place-items-center rounded-2xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_8px_20px_rgba(11,45,92,.16)] transition-transform group-hover:-rotate-3">
               {siteConfig.logo.image ? (
                 <Image
                   src={siteConfig.logo.image}
@@ -303,7 +303,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className="text-sm font-semibold text-[#37443e] transition-colors hover:text-primary"
+                className="text-sm font-semibold text-primary transition-colors hover:text-[#B08D20]"
               >
                 {label}
               </a>
@@ -314,14 +314,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
             <a href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}>
               <Button
                 variant="ghost"
-                className="h-11 rounded-full px-4 text-[#37443e] hover:bg-[#eef2ec]"
+                className="h-11 rounded-full px-4 text-primary hover:bg-[#EDF2F7]"
               >
                 <Phone className="size-4" />
                 {siteConfig.contact.phone}
               </Button>
             </a>
             <a href={whatsappLink()} target="_blank" rel="noreferrer">
-              <Button className="h-11 rounded-full bg-primary px-5 shadow-[0_8px_20px_rgba(37,88,67,.18)] hover:bg-[#194c37]">
+              <Button className="h-11 rounded-full bg-[#D4AF37] px-5 text-[#0B2D5C] shadow-[0_8px_20px_rgba(11,45,92,.18)] hover:bg-[#E8C96A]">
                 {siteConfig.header.cta}
                 <ArrowRight />
               </Button>
@@ -349,7 +349,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={href}
                   href={href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 font-semibold text-[#37443e] hover:bg-[#eef2ec] hover:text-primary"
+                  className="rounded-xl px-4 py-3 font-semibold text-primary hover:bg-[#EDF2F7] hover:text-[#B08D20]"
                 >
                   {label}
                 </a>
@@ -363,7 +363,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         className="relative min-h-[780px] pt-20 lg:min-h-[760px]"
       >
-        <div className="absolute inset-0 overflow-hidden bg-[#10281f]">
+        <div className="absolute inset-0 overflow-hidden bg-[#0B2D5C]">
           <Image
             src={siteConfig.hero.image}
             alt={siteConfig.hero.imageAlt}
@@ -387,32 +387,32 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <source src={siteConfig.hero.video} />
             </video>
           )}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,31,23,.94)_0%,rgba(13,39,29,.79)_43%,rgba(13,39,29,.22)_73%,rgba(8,22,17,.18)_100%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,transparent_0%,rgba(8,24,18,.08)_42%,rgba(8,24,18,.54)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#10281f]/80 to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,45,92,.94)_0%,rgba(11,45,92,.79)_43%,rgba(23,74,139,.22)_73%,rgba(11,45,92,.18)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,transparent_0%,rgba(11,45,92,.08)_42%,rgba(11,45,92,.54)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0B2D5C]/80 to-transparent" />
         </div>
 
         <div className="relative mx-auto flex min-h-[700px] max-w-7xl items-center px-5 pb-44 pt-16 sm:px-8 lg:px-10 lg:pb-36">
           <div className="relative max-w-[50rem] text-white">
             <div className="mb-8 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.19em] text-white/85">
-              <span className="grid size-8 place-items-center rounded-full border border-[#e6b86c]/55 bg-[#d99a4e]/12 backdrop-blur-md">
-                <Sparkles className="size-3.5 text-[#f1c77f]" />
+              <span className="grid size-8 place-items-center rounded-full border border-[#E8C96A]/55 bg-[#D4AF37]/12 backdrop-blur-md">
+                <Sparkles className="size-3.5 text-[#E8C96A]" />
               </span>
               {siteConfig.hero.eyebrow}
-              <span className="h-px w-10 bg-[#e6b86c]/70" />
+              <span className="h-px w-10 bg-[#E8C96A]/70" />
             </div>
             <h1 className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]">
               {siteConfig.hero.title}
             </h1>
             <div className="mt-8 flex max-w-2xl items-stretch gap-4 sm:gap-5">
-              <span className="w-px shrink-0 bg-gradient-to-b from-[#efbd70] to-[#efbd70]/20" />
+              <span className="w-px shrink-0 bg-gradient-to-b from-[#E8C96A] to-[#E8C96A]/20" />
               <p className="max-w-xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">
                 {siteConfig.hero.description}
               </p>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="#properties">
-                <Button className="h-14 rounded-2xl bg-[#dfa354] px-7 text-[#17382b] shadow-[0_16px_38px_rgba(0,0,0,.24)] transition-all hover:-translate-y-0.5 hover:bg-[#efbc73]">
+                <Button className="h-14 rounded-2xl bg-[#D4AF37] px-7 text-[#0B2D5C] shadow-[0_16px_38px_rgba(0,0,0,.24)] transition-all hover:-translate-y-0.5 hover:bg-[#E8C96A]">
                   {siteConfig.hero.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -429,29 +429,29 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <div className="mt-10 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 border-t border-white/18 pt-5 text-[13px] font-semibold text-white/72">
               <span className="grid size-8 place-items-center rounded-full bg-white/[.09] ring-1 ring-white/15 backdrop-blur-sm">
-                <ShieldCheck className="size-4 text-[#efbd70]" />
+                <ShieldCheck className="size-4 text-[#E8C96A]" />
               </span>
               <span>
                 {siteConfig.agent.registrationNumber || 'Registered negotiator'}
               </span>
-              <span className="size-1 rounded-full bg-[#efbd70]/75" />
+              <span className="size-1 rounded-full bg-[#E8C96A]/75" />
               <span>{siteConfig.agent.agency}</span>
             </div>
           </div>
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-10 translate-y-[42%] px-5 sm:px-8">
-          <div className="mx-auto max-w-6xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_80px_rgba(24,45,36,.2)] sm:p-6">
+          <div className="mx-auto max-w-6xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_80px_rgba(11,45,92,.20)] sm:p-6">
             <div className="mb-4 flex items-center justify-between px-1">
               <div>
-                <p className="font-heading text-lg font-bold text-[#18372b]">
+                <p className="font-heading text-lg font-bold text-[#0B2D5C]">
                   {siteConfig.search.title}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {siteConfig.search.description}
                 </p>
               </div>
-              <span className="hidden items-center gap-1.5 rounded-full bg-[#eef4ef] px-3 py-1.5 text-xs font-semibold text-primary sm:flex">
+              <span className="hidden items-center gap-1.5 rounded-full bg-[#EDF2F7] px-3 py-1.5 text-xs font-semibold text-primary sm:flex">
                 <ShieldCheck className="size-3.5" />{' '}
                 {siteConfig.search.verifiedLabel}
               </span>
@@ -467,7 +467,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     setListingType(event.target.value as 'sale' | 'rent');
                     setSearchApplied(false);
                   }}
-                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#f9faf8] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#F7F8FA] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                 >
                   <option value="sale">Buy a property</option>
                   <option value="rent">Rent a property</option>
@@ -481,7 +481,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <select
                   value={location}
                   onChange={(event) => setLocation(event.target.value)}
-                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#f9faf8] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#F7F8FA] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                 >
                   {locationOptions.map((option) => (
                     <option key={option}>{option}</option>
@@ -496,7 +496,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <select
                   value={propertyType}
                   onChange={(event) => setPropertyType(event.target.value)}
-                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#f9faf8] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#F7F8FA] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                 >
                   {propertyTypeOptions.map((option) => (
                     <option key={option}>{option}</option>
@@ -524,7 +524,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="properties"
-        className="scroll-mt-20 bg-[#fbfaf6] px-5 pb-24 pt-48 sm:px-8 lg:px-10 lg:pt-44"
+        className="scroll-mt-20 bg-[#F7F8FA] px-5 pb-24 pt-48 sm:px-8 lg:px-10 lg:pt-44"
       >
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end">
@@ -569,9 +569,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
               {visibleProperties.map((property) => (
                 <article
                   key={property.id}
-                  className="group overflow-hidden rounded-[24px] border border-[#e5e3dc] bg-white shadow-[0_10px_35px_rgba(37,52,45,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(37,52,45,.12)]"
+                  className="group overflow-hidden rounded-[24px] border border-[#E1E6ED] bg-white shadow-[0_10px_35px_rgba(11,45,92,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(11,45,92,.12)]"
                 >
-                  <div className="relative h-64 overflow-hidden bg-[#e8ece7]">
+                  <div className="relative h-64 overflow-hidden bg-[#EDF2F7]">
                     <Image
                       src={property.image}
                       alt={property.title}
@@ -584,7 +584,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                         For {property.type === 'sale' ? 'Sale' : 'Rent'}
                       </span>
                       {property.featured && (
-                        <span className="rounded-full bg-[#d9974c] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#17382b]">
+                        <span className="rounded-full bg-[#D4AF37] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#0B2D5C]">
                           Featured
                         </span>
                       )}
@@ -593,16 +593,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   </div>
                   <div className="p-6">
                     <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                      <MapPin className="size-3.5 text-[#bf7b39]" />
+                      <MapPin className="size-3.5 text-[#D4AF37]" />
                       {property.location}
                     </div>
-                    <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-[#19382d]">
+                    <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-[#0B2D5C]">
                       {property.title}
                     </h3>
                     <p className="mt-1 text-sm text-muted-foreground">
                       {property.propertyType}
                     </p>
-                    <div className="mt-5 flex items-center gap-5 border-y border-border/70 py-4 text-xs font-semibold text-[#53615a]">
+                    <div className="mt-5 flex items-center gap-5 border-y border-border/70 py-4 text-xs font-semibold text-[#5B6574]">
                       <span className="flex items-center gap-1.5">
                         <BedDouble className="size-4" /> {property.bedrooms}{' '}
                         beds
@@ -625,7 +625,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                         )}
                         target="_blank"
                         rel="noreferrer"
-                        className="grid size-10 shrink-0 place-items-center rounded-full bg-[#edf3ef] text-primary transition-colors hover:bg-primary hover:text-white"
+                        className="grid size-10 shrink-0 place-items-center rounded-full bg-[#EDF2F7] text-primary transition-colors hover:bg-primary hover:text-white"
                         aria-label={`Enquire about ${property.title}`}
                       >
                         <ArrowRight className="size-4" />
@@ -667,7 +667,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="owners"
-        className="scroll-mt-20 bg-[#173c2d] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24"
+        className="scroll-mt-20 bg-[#0B2D5C] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24"
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
           <div className="relative mx-auto w-full max-w-xl">
@@ -680,8 +680,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="h-[460px] w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-7 -right-2 max-w-[230px] rounded-2xl bg-[#f3e5cf] p-5 text-[#18372b] shadow-2xl sm:right-6">
-              <div className="flex items-center gap-1 text-[#bf7b39]">
+            <div className="absolute -bottom-7 -right-2 max-w-[230px] rounded-2xl bg-[#F7F0D1] p-5 text-[#0B2D5C] shadow-2xl sm:right-6">
+              <div className="flex items-center gap-1 text-[#D4AF37]">
                 {[0, 1, 2, 3, 4].map((star) => (
                   <Star key={star} className="size-4 fill-current" />
                 ))}
@@ -693,7 +693,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
 
           <div>
-            <p className="section-kicker !text-[#e5af69]">
+            <p className="section-kicker !text-[#E8C96A]">
               {siteConfig.ownerSection.kicker}
             </p>
             <h2 className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-tight tracking-[-0.035em] text-balance sm:text-5xl">
@@ -708,7 +708,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={item}
                   className="flex items-center gap-3 text-sm font-semibold text-white/90"
                 >
-                  <CheckCircle2 className="size-5 shrink-0 text-[#e5af69]" />
+                  <CheckCircle2 className="size-5 shrink-0 text-[#E8C96A]" />
                   {item}
                 </div>
               ))}
@@ -719,7 +719,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Button className="h-12 rounded-full bg-[#d9974c] px-6 text-[#17382b] hover:bg-[#edb26d]">
+                <Button className="h-12 rounded-full bg-[#D4AF37] px-6 text-[#0B2D5C] hover:bg-[#E8C96A]">
                   {siteConfig.ownerSection.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -737,7 +737,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="services"
-        className="scroll-mt-20 bg-[#f1eee6] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
+        className="scroll-mt-20 bg-[#F7F8FA] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
@@ -755,17 +755,17 @@ export default function HomePage({ content }: { content: SiteContent }) {
             {services.map((service, index) => (
               <article
                 key={service.title}
-                className="group rounded-[24px] border border-white bg-[#fbfaf6] p-7 transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="group rounded-[24px] border border-white bg-[#F7F8FA] p-7 transition-all hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="flex items-start justify-between">
-                  <span className="grid size-12 place-items-center rounded-2xl bg-[#e4ebe5] text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                  <span className="grid size-12 place-items-center rounded-2xl bg-[#EDF2F7] text-primary transition-colors group-hover:bg-primary group-hover:text-white">
                     <service.icon className="size-5" />
                   </span>
-                  <span className="font-heading text-xs font-bold text-[#b7b3a8]">
+                  <span className="font-heading text-xs font-bold text-[#5B6574]">
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="mt-7 font-heading text-xl font-bold text-[#19382d]">
+                <h3 className="mt-7 font-heading text-xl font-bold text-[#0B2D5C]">
                   {service.title}
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -779,12 +779,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="about"
-        className="scroll-mt-20 bg-[#fbfaf6] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
+        className="scroll-mt-20 bg-[#F7F8FA] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div className="relative mx-auto max-w-md lg:mx-0">
-            <div className="absolute -inset-5 translate-x-3 translate-y-3 rounded-[34px] border border-[#cfaa78]/40" />
-            <div className="relative overflow-hidden rounded-[30px] bg-[#dfe7df]">
+            <div className="absolute -inset-5 translate-x-3 translate-y-3 rounded-[34px] border border-[#D4AF37]/40" />
+            <div className="relative overflow-hidden rounded-[30px] bg-[#EDF2F7]">
               <Image
                 src={siteConfig.agent.profilePhoto}
                 alt={siteConfig.agent.name}
@@ -793,7 +793,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="aspect-[4/5] w-full object-cover object-top"
               />
               <div className="absolute inset-x-5 bottom-5 rounded-2xl bg-white/92 p-4 backdrop-blur-md">
-                <p className="font-heading text-lg font-bold text-[#19382d]">
+                <p className="font-heading text-lg font-bold text-[#0B2D5C]">
                   {siteConfig.agent.name}
                 </p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
@@ -846,11 +846,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="contact"
-        className="scroll-mt-20 bg-[#e8efe9] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
+        className="scroll-mt-20 bg-[#EDF2F7] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
       >
-        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(40,65,53,.1)] lg:grid-cols-[.8fr_1.2fr]">
+        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(11,45,92,.10)] lg:grid-cols-[.8fr_1.2fr]">
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
-            <p className="section-kicker !text-[#e5af69]">
+            <p className="section-kicker !text-[#E8C96A]">
               {siteConfig.contactSection.kicker}
             </p>
             <h2 className="mt-4 font-heading text-4xl font-semibold leading-tight tracking-[-0.035em]">
@@ -884,7 +884,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 rel="noreferrer"
                 className="flex items-center gap-4 text-sm font-semibold"
               >
-                <span className="grid size-10 place-items-center rounded-full bg-[#30b86a]">
+                <span className="grid size-10 place-items-center rounded-full bg-[#174A8B]">
                   <WhatsAppIcon className="size-4" />
                 </span>
                 {siteConfig.contactSection.whatsappLabel}
@@ -895,7 +895,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="p-8 sm:p-12 lg:p-14">
             {formSent ? (
               <output className="flex h-full min-h-80 flex-col items-center justify-center text-center">
-                <span className="grid size-16 place-items-center rounded-full bg-[#e4f2e8] text-primary">
+                <span className="grid size-16 place-items-center rounded-full bg-[#EDF2F7] text-primary">
                   <CheckCircle2 className="size-8" />
                 </span>
                 <h3 className="mt-5 font-heading text-2xl font-bold">
@@ -925,7 +925,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       required
                       name="name"
                       placeholder={siteConfig.contactSection.namePlaceholder}
-                      className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
+                      className="mt-2 h-12 rounded-xl bg-[#F7F8FA] px-4"
                     />
                   </label>
                   <label htmlFor="contact-phone" className="form-label">
@@ -936,7 +936,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       name="phone"
                       type="tel"
                       placeholder={siteConfig.contactSection.phonePlaceholder}
-                      className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
+                      className="mt-2 h-12 rounded-xl bg-[#F7F8FA] px-4"
                     />
                   </label>
                   <label
@@ -950,7 +950,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       name="email"
                       type="email"
                       placeholder={siteConfig.contactSection.emailPlaceholder}
-                      className="mt-2 h-12 rounded-xl bg-[#f8f9f7] px-4"
+                      className="mt-2 h-12 rounded-xl bg-[#F7F8FA] px-4"
                     />
                   </label>
                   <label
@@ -961,7 +961,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     <select
                       id="contact-interest"
                       name="interest"
-                      className="mt-2 h-12 w-full rounded-xl border border-border bg-[#f8f9f7] px-4 text-sm outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                      className="mt-2 h-12 w-full rounded-xl border border-border bg-[#F7F8FA] px-4 text-sm outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                     >
                       {siteConfig.contactSection.interestOptions.map(
                         (option) => (
@@ -981,7 +981,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       name="message"
                       rows={4}
                       placeholder={siteConfig.contactSection.messagePlaceholder}
-                      className="mt-2 w-full resize-none rounded-xl border border-border bg-[#f8f9f7] px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                      className="mt-2 w-full resize-none rounded-xl border border-border bg-[#F7F8FA] px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
                     />
                   </label>
                 </div>
@@ -997,12 +997,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
       </section>
 
-      <footer className="bg-[#102c21] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10">
+      <footer className="bg-[#0B2D5C] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.5fr_1fr_1fr]">
             <div>
               <a href="#top" className="flex items-center gap-3">
-                <span className="grid size-11 place-items-center rounded-full bg-[#d9974c] font-heading text-sm font-bold text-[#17382b]">
+                <span className="grid size-11 place-items-center rounded-full bg-[#D4AF37] font-heading text-sm font-bold text-[#0B2D5C]">
                   {siteConfig.logo.image ? (
                     <Image
                       src={siteConfig.logo.image}
@@ -1041,7 +1041,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       rel="noreferrer"
                       aria-label={`Follow ${siteConfig.agent.firstName} on ${label}`}
                       title={label}
-                      className={`${iconClass} hover:-translate-y-0.5 hover:border-[#d9974c] hover:bg-[#d9974c] hover:text-[#17382b]`}
+                      className={`${iconClass} hover:-translate-y-0.5 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0B2D5C]`}
                     >
                       <Icon className="size-[17px]" />
                     </a>
@@ -1059,7 +1059,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </div>
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#d9974c]">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#D4AF37]">
                 {siteConfig.footer.exploreTitle}
               </p>
               <div className="mt-5 grid gap-3 text-sm text-white/60">
@@ -1071,7 +1071,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </div>
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#d9974c]">
+              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#D4AF37]">
                 {siteConfig.footer.contactTitle}
               </p>
               <div className="mt-5 grid gap-3 text-sm text-white/60">
@@ -1115,7 +1115,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         href={whatsappLink()}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-full bg-[#27b766] px-4 text-sm font-bold text-white shadow-[0_12px_35px_rgba(25,112,62,.35)] transition-transform hover:-translate-y-1 sm:bottom-7 sm:right-7"
+        className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-full bg-[#174A8B] px-4 text-sm font-bold text-white shadow-[0_12px_35px_rgba(11,45,92,.32)] transition-transform hover:-translate-y-1 sm:bottom-7 sm:right-7"
         aria-label="Chat with Satiaya on WhatsApp"
       >
         <WhatsAppIcon className="size-5" />

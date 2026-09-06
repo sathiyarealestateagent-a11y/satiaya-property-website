@@ -25,6 +25,12 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-secondary: var(--brand-blue-secondary);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-light: var(--brand-gold-light);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-text: var(--brand-text);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -34,46 +40,55 @@
 }
 
 :root {
-  --background: oklch(0.985 0.008 94);
-  --foreground: oklch(0.28 0.026 156);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.28 0.026 156);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.026 156);
-  --primary: oklch(0.38 0.073 157);
-  --primary-foreground: oklch(0.99 0.005 100);
-  --secondary: oklch(0.94 0.02 95);
-  --secondary-foreground: oklch(0.32 0.04 155);
-  --muted: oklch(0.95 0.008 100);
-  --muted-foreground: oklch(0.51 0.02 155);
-  --accent: oklch(0.79 0.105 70);
-  --accent-foreground: oklch(0.25 0.04 155);
-  --destructive: oklch(0.58 0.21 27);
-  --border: oklch(0.89 0.01 100);
-  --input: oklch(0.89 0.01 100);
-  --ring: oklch(0.48 0.07 157);
+  --brand-blue: #0b2d5c;
+  --brand-blue-secondary: #174a8b;
+  --brand-gold: #d4af37;
+  --brand-gold-light: #e8c96a;
+  --brand-surface: #f7f8fa;
+  --brand-text: #1f2937;
+  --background: #f7f8fa;
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  --primary: #0b2d5c;
+  --primary-foreground: #ffffff;
+  --secondary: #174a8b;
+  --secondary-foreground: #ffffff;
+  --muted: #edf2f7;
+  --muted-foreground: #5b6574;
+  --accent: #d4af37;
+  --accent-foreground: #0b2d5c;
+  --destructive: #c0392b;
+  --border: #e1e6ed;
+  --input: #e1e6ed;
+  --ring: #174a8b;
   --radius: 0.75rem;
+  scrollbar-color: #9aabc1 #f7f8fa;
+  scrollbar-width: thin;
 }
 
 .dark {
-  --background: oklch(0.2 0.03 157);
-  --foreground: oklch(0.96 0.01 95);
-  --card: oklch(0.24 0.035 157);
-  --card-foreground: oklch(0.96 0.01 95);
-  --popover: oklch(0.24 0.035 157);
-  --popover-foreground: oklch(0.96 0.01 95);
-  --primary: oklch(0.74 0.08 155);
-  --primary-foreground: oklch(0.18 0.03 157);
-  --secondary: oklch(0.3 0.035 157);
-  --secondary-foreground: oklch(0.96 0.01 95);
-  --muted: oklch(0.3 0.025 157);
-  --muted-foreground: oklch(0.72 0.02 155);
-  --accent: oklch(0.73 0.11 70);
-  --accent-foreground: oklch(0.18 0.03 157);
-  --destructive: oklch(0.65 0.2 25);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.68 0.07 155);
+  --background: #081f40;
+  --foreground: #f7f8fa;
+  --card: #0b2d5c;
+  --card-foreground: #ffffff;
+  --popover: #0b2d5c;
+  --popover-foreground: #ffffff;
+  --primary: #e8c96a;
+  --primary-foreground: #0b2d5c;
+  --secondary: #174a8b;
+  --secondary-foreground: #ffffff;
+  --muted: #153a6d;
+  --muted-foreground: #c7d2e0;
+  --accent: #d4af37;
+  --accent-foreground: #0b2d5c;
+  --destructive: #e66a5d;
+  --border: rgb(255 255 255 / 14%);
+  --input: rgb(255 255 255 / 18%);
+  --ring: #e8c96a;
+  scrollbar-color: #526f95 #081f40;
 }
 
 @layer base {
@@ -92,6 +107,25 @@
     text-rendering: optimizeLegibility;
   }
 
+  *::-webkit-scrollbar {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border: 2px solid var(--background);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--secondary) 50%, white);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+  }
+
   button,
   a,
   select {
@@ -106,15 +140,15 @@
   }
 
   .section-kicker {
-    @apply text-xs font-bold uppercase tracking-[0.16em] text-[#9b5d25];
+    @apply text-xs font-bold uppercase tracking-[0.16em] text-secondary;
   }
 
   .section-title {
-    @apply font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-[#19382d] sm:text-5xl;
+    @apply font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-brand-blue sm:text-5xl;
   }
 
   .form-label {
-    @apply text-[13px] font-bold tracking-[0.01em] text-[#43534b];
+    @apply text-[13px] font-bold tracking-[0.01em] text-brand-text;
   }
 }
 
@@ -135,6 +169,6 @@
 }
 
 ::selection {
-  background: #d9974c;
-  color: #17382b;
+  background: #e8c96a;
+  color: #0b2d5c;
 }
