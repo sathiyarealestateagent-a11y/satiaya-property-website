@@ -73,7 +73,7 @@ function Field({
   return (
     <label
       htmlFor={id}
-      className="grid gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#526159]"
+      className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#526159]"
     >
       {label}
       <Input
@@ -103,7 +103,7 @@ function LongField({
   return (
     <label
       htmlFor={id}
-      className="grid gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#526159]"
+      className="grid gap-2 text-xs font-bold uppercase tracking-[0.08em] text-[#526159]"
     >
       {label}
       <Textarea
@@ -158,7 +158,7 @@ function ImageField({
 
   return (
     <div className="grid gap-3">
-      <span className="text-[11px] font-bold uppercase tracking-[0.1em] text-[#526159]">
+      <span className="text-xs font-bold uppercase tracking-[0.08em] text-[#526159]">
         {label}
       </span>
       <div className="grid gap-4 rounded-2xl border border-dashed border-[#c9d4cc] bg-[#f7faf7] p-4 sm:grid-cols-[132px_1fr] sm:items-center">

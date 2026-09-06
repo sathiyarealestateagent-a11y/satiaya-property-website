@@ -14,7 +14,6 @@ import {
   Mail,
   MapPin,
   Menu,
-  MessageCircle,
   Phone,
   Search,
   ShieldCheck,
@@ -74,6 +73,19 @@ function TikTokIcon({ className = 'size-4' }: { className?: string }) {
       fill="currentColor"
     >
       <path d="M16.6 3c.28 1.74 1.25 3.17 2.9 4.03v3.01a8.03 8.03 0 0 1-2.9-.68v5.51A6.13 6.13 0 1 1 11.3 8.8v3.05a3.12 3.12 0 1 0 2.3 3.02V3h3Z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon({ className = 'size-4' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M12.04 2a9.8 9.8 0 0 0-8.47 14.72L2 22l5.43-1.52A9.97 9.97 0 1 0 12.04 2Zm0 17.97a8 8 0 0 1-4.08-1.12l-.29-.17-3.22.9.86-3.14-.19-.31a7.99 7.99 0 1 1 6.92 3.84Zm4.39-5.98c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18a7.2 7.2 0 0 1-1.33-1.65c-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.47-.39-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.39 1.37.5.58.18 1.1.16 1.51.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z" />
     </svg>
   );
 }
@@ -258,14 +270,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
             className="group flex items-center gap-3"
             aria-label="Back to top"
           >
-            <span className="grid size-10 place-items-center rounded-full bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-sm transition-transform group-hover:-rotate-3">
+            <span className="grid size-11 place-items-center rounded-2xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_8px_20px_rgba(23,60,45,.16)] transition-transform group-hover:-rotate-3">
               {siteConfig.logo.image ? (
                 <Image
                   src={siteConfig.logo.image}
                   alt={`${siteConfig.agent.name} logo`}
-                  width={40}
-                  height={40}
-                  className="size-full rounded-full object-contain"
+                  width={44}
+                  height={44}
+                  className="size-full rounded-2xl object-contain"
                 />
               ) : (
                 siteConfig.logo.mark
@@ -275,7 +287,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <span className="block font-heading text-[15px] font-bold tracking-tight">
                 {siteConfig.agent.name}
               </span>
-              <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                 {siteConfig.agent.agency}
               </span>
             </span>
@@ -289,12 +301,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className={`rounded-full text-sm font-semibold transition-all ${
+                className={`inline-flex items-center gap-2 rounded-full text-sm font-semibold transition-all ${
                   href === '#owners'
                     ? 'bg-[#173c2d] px-3.5 py-2 text-[#00ff88] shadow-[0_6px_18px_rgba(23,60,45,.14)] hover:bg-[#204f3b]'
                     : 'text-[#37443e] hover:text-primary'
                 }`}
               >
+                {href === '#owners' && <HousePlus className="size-4" />}
                 {label}
               </a>
             ))}
@@ -345,7 +358,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       : 'hover:bg-[#eef2ec]'
                   }`}
                 >
-                  {label}
+                  <span className="flex items-center gap-2">
+                    {href === '#owners' && <HousePlus className="size-4" />}
+                    {label}
+                  </span>
                 </a>
               ))}
             </div>
@@ -395,9 +411,17 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 rel="noreferrer"
                 className="inline-flex h-13 items-center gap-2 rounded-full border border-white/35 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/18"
               >
-                <MessageCircle className="size-4" />
+                <WhatsAppIcon className="size-4" />
                 {siteConfig.hero.secondaryCta}
               </a>
+            </div>
+            <div className="mt-8 flex w-fit flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border border-white/15 bg-black/15 px-4 py-3 text-[13px] font-semibold text-white/75 backdrop-blur-sm">
+              <ShieldCheck className="size-[18px] text-[#e9bd70]" />
+              <span>
+                {siteConfig.agent.registrationNumber || 'Registered negotiator'}
+              </span>
+              <span className="text-white/30">•</span>
+              <span>{siteConfig.agent.agency}</span>
             </div>
           </div>
         </div>
@@ -420,7 +444,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <div className="grid gap-3 md:grid-cols-[1fr_1fr_1fr_auto]">
               <label className="relative">
-                <span className="mb-2 block text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground">
                   I&apos;m looking to
                 </span>
                 <select
@@ -437,7 +461,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <ChevronDown className="pointer-events-none absolute bottom-4 right-4 size-4 text-muted-foreground" />
               </label>
               <label className="relative">
-                <span className="mb-2 block text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground">
                   Location
                 </span>
                 <select
@@ -452,7 +476,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <ChevronDown className="pointer-events-none absolute bottom-4 right-4 size-4 text-muted-foreground" />
               </label>
               <label className="relative">
-                <span className="mb-2 block text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-muted-foreground">
                   Property type
                 </span>
                 <select
@@ -542,11 +566,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute left-4 top-4 flex gap-2">
-                      <span className="rounded-full bg-white/92 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-primary backdrop-blur-sm">
+                      <span className="rounded-full bg-white/92 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary backdrop-blur-sm">
                         For {property.type === 'sale' ? 'Sale' : 'Rent'}
                       </span>
                       {property.featured && (
-                        <span className="rounded-full bg-[#d9974c] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#17382b]">
+                        <span className="rounded-full bg-[#d9974c] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#17382b]">
                           Featured
                         </span>
                       )}
@@ -847,7 +871,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="flex items-center gap-4 text-sm font-semibold"
               >
                 <span className="grid size-10 place-items-center rounded-full bg-[#30b86a]">
-                  <MessageCircle className="size-4" />
+                  <WhatsAppIcon className="size-4" />
                 </span>
                 {siteConfig.contactSection.whatsappLabel}
               </a>
@@ -873,7 +897,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   className="mt-6"
                 >
                   <Button className="h-11 rounded-full px-5">
-                    <MessageCircle /> {siteConfig.contactSection.successCta}
+                    <WhatsAppIcon /> {siteConfig.contactSection.successCta}
                   </Button>
                 </a>
               </output>
@@ -981,7 +1005,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   <span className="block font-heading text-base font-bold">
                     {siteConfig.agent.name}
                   </span>
-                  <span className="block text-[10px] uppercase tracking-[0.16em] text-white/50">
+                  <span className="block text-xs uppercase tracking-[0.12em] text-white/50">
                     {siteConfig.agent.agency}
                   </span>
                 </span>
@@ -1065,7 +1089,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-full bg-[#27b766] px-4 text-sm font-bold text-white shadow-[0_12px_35px_rgba(25,112,62,.35)] transition-transform hover:-translate-y-1 sm:bottom-7 sm:right-7"
         aria-label="Chat with Satiaya on WhatsApp"
       >
-        <MessageCircle className="size-5 fill-white/15" />
+        <WhatsAppIcon className="size-5" />
         <span className="hidden sm:inline">
           {siteConfig.footer.whatsappLabel}
         </span>

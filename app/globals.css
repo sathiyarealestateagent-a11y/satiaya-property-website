@@ -83,10 +83,13 @@
 
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
     @apply bg-background text-foreground;
+    text-rendering: optimizeLegibility;
   }
 
   button,
@@ -98,7 +101,7 @@
 
 @layer components {
   .section-kicker {
-    @apply text-[11px] font-bold uppercase tracking-[0.18em] text-[#a96c31];
+    @apply text-xs font-bold uppercase tracking-[0.16em] text-[#9b5d25];
   }
 
   .section-title {
@@ -106,7 +109,7 @@
   }
 
   .form-label {
-    @apply text-xs font-bold uppercase tracking-[0.08em] text-[#53615a];
+    @apply text-[13px] font-bold tracking-[0.01em] text-[#43534b];
   }
 }
 
