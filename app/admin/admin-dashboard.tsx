@@ -121,10 +121,12 @@ function ImageField({
   label,
   value,
   onChange,
+  kind = 'image',
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  kind?: 'image' | 'video';
 }) {
   const id = useId();
   const [uploading, setUploading] = useState(false);
@@ -163,7 +165,16 @@ function ImageField({
       </span>
       <div className="grid gap-4 rounded-2xl border border-dashed border-[#c9d4cc] bg-[#f7faf7] p-4 sm:grid-cols-[132px_1fr] sm:items-center">
         <div className="relative h-28 overflow-hidden rounded-xl bg-[#e8ece7] ring-1 ring-black/5">
-          {value ? (
+          {value && kind === 'video' ? (
+            <video
+              src={value}
+              muted
+              loop
+              autoPlay
+              playsInline
+              className="size-full object-cover"
+            />
+          ) : value ? (
             <Image
               src={value}
               alt="Current upload"
@@ -179,14 +190,18 @@ function ImageField({
           <Input
             value={value}
             onChange={(event) => onChange(event.target.value)}
-            placeholder="Paste an image URL"
+            placeholder={`Paste a ${kind} URL`}
             className="h-11 rounded-xl border-[#dfe4df] bg-white"
           />
           <div>
             <input
               id={id}
               type="file"
-              accept="image/jpeg,image/png,image/webp,image/gif"
+              accept={
+                kind === 'video'
+                  ? 'video/mp4,video/webm'
+                  : 'image/jpeg,image/png,image/webp,image/gif'
+              }
               className="sr-only"
               onChange={(event) => {
                 const file = event.target.files?.[0];
@@ -203,10 +218,12 @@ function ImageField({
               ) : (
                 <ImageUp className="size-4" />
               )}
-              {uploading ? 'Uploading…' : 'Upload image'}
+              {uploading ? 'Uploading…' : `Upload ${kind}`}
             </label>
             <span className="ml-3 text-xs text-muted-foreground">
-              JPG, PNG, WebP or GIF · 10 MB max
+              {kind === 'video'
+                ? 'MP4 or WebM · 20 MB max'
+                : 'JPG, PNG, WebP or GIF · 20 MB max'}
             </span>
           </div>
           {error && (
@@ -644,6 +661,12 @@ export default function AdminDashboard({
                 label="Hero image"
                 value={draft.hero.image}
                 onChange={(value) => update(['hero', 'image'], value)}
+              />
+              <ImageField
+                label="Hero background video"
+                value={draft.hero.video}
+                onChange={(value) => update(['hero', 'video'], value)}
+                kind="video"
               />
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field

@@ -41,6 +41,7 @@ export const siteContentSchema = z.object({
     eyebrow: shortText,
     title: shortText,
     description: text,
+    video: urlText.default('/hero-property.mp4'),
     image: urlText,
     imageAlt: shortText,
     primaryCta: shortText,

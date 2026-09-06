@@ -361,7 +361,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         className="relative min-h-[780px] pt-20 lg:min-h-[760px]"
       >
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 overflow-hidden bg-[#10281f]">
           <Image
             src={siteConfig.hero.image}
             alt={siteConfig.hero.imageAlt}
@@ -370,25 +370,47 @@ export default function HomePage({ content }: { content: SiteContent }) {
             sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(22,42,33,.9)_0%,rgba(22,42,33,.72)_42%,rgba(22,42,33,.12)_76%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(15,31,24,.45)_0%,transparent_38%)]" />
+          {siteConfig.hero.video && (
+            <video
+              key={siteConfig.hero.video}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={siteConfig.hero.image}
+              aria-hidden="true"
+              className="hero-video absolute inset-0 size-full object-cover object-center motion-reduce:hidden"
+            >
+              <source src={siteConfig.hero.video} />
+            </video>
+          )}
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,31,23,.94)_0%,rgba(13,39,29,.79)_43%,rgba(13,39,29,.22)_73%,rgba(8,22,17,.18)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,transparent_0%,rgba(8,24,18,.08)_42%,rgba(8,24,18,.54)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#10281f]/80 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[700px] max-w-7xl items-center px-5 pb-44 pt-20 sm:px-8 lg:px-10 lg:pb-36">
-          <div className="max-w-3xl text-white">
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] backdrop-blur-sm">
-              <Sparkles className="size-3.5 text-[#e9bd70]" />
+        <div className="relative mx-auto flex min-h-[700px] max-w-7xl items-center px-5 pb-44 pt-16 sm:px-8 lg:px-10 lg:pb-36">
+          <div className="relative max-w-[50rem] text-white">
+            <div className="mb-8 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.19em] text-white/85">
+              <span className="grid size-8 place-items-center rounded-full border border-[#e6b86c]/55 bg-[#d99a4e]/12 backdrop-blur-md">
+                <Sparkles className="size-3.5 text-[#f1c77f]" />
+              </span>
               {siteConfig.hero.eyebrow}
+              <span className="h-px w-10 bg-[#e6b86c]/70" />
             </div>
-            <h1 className="max-w-2xl font-heading text-5xl font-semibold leading-[1.02] tracking-[-0.045em] text-balance sm:text-6xl lg:text-[76px]">
+            <h1 className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]">
               {siteConfig.hero.title}
             </h1>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-white/78 sm:text-xl">
-              {siteConfig.hero.description}
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex max-w-2xl items-stretch gap-4 sm:gap-5">
+              <span className="w-px shrink-0 bg-gradient-to-b from-[#efbd70] to-[#efbd70]/20" />
+              <p className="max-w-xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">
+                {siteConfig.hero.description}
+              </p>
+            </div>
+            <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="#properties">
-                <Button className="h-13 rounded-full bg-[#d9974c] px-6 text-[#18372b] shadow-xl hover:bg-[#efb267]">
+                <Button className="h-14 rounded-2xl bg-[#dfa354] px-7 text-[#17382b] shadow-[0_16px_38px_rgba(0,0,0,.24)] transition-all hover:-translate-y-0.5 hover:bg-[#efbc73]">
                   {siteConfig.hero.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -397,18 +419,20 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 href={whatsappLink(siteConfig.hero.secondaryMessage)}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-13 items-center gap-2 rounded-full border border-white/35 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/18"
+                className="inline-flex h-14 items-center gap-2.5 rounded-2xl border border-white/25 bg-white/[.08] px-7 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/[.15]"
               >
                 <WhatsAppIcon className="size-4" />
                 {siteConfig.hero.secondaryCta}
               </a>
             </div>
-            <div className="mt-8 flex w-fit flex-wrap items-center gap-x-3 gap-y-1 rounded-2xl border border-white/15 bg-black/15 px-4 py-3 text-[13px] font-semibold text-white/75 backdrop-blur-sm">
-              <ShieldCheck className="size-[18px] text-[#e9bd70]" />
+            <div className="mt-10 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 border-t border-white/18 pt-5 text-[13px] font-semibold text-white/72">
+              <span className="grid size-8 place-items-center rounded-full bg-white/[.09] ring-1 ring-white/15 backdrop-blur-sm">
+                <ShieldCheck className="size-4 text-[#efbd70]" />
+              </span>
               <span>
                 {siteConfig.agent.registrationNumber || 'Registered negotiator'}
               </span>
-              <span className="text-white/30">•</span>
+              <span className="size-1 rounded-full bg-[#efbd70]/75" />
               <span>{siteConfig.agent.agency}</span>
             </div>
           </div>

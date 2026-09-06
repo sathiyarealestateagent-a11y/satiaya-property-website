@@ -100,6 +100,11 @@
 }
 
 @layer components {
+  .hero-video {
+    animation: hero-cinematic-drift 18s ease-in-out infinite alternate;
+    transform-origin: center center;
+  }
+
   .section-kicker {
     @apply text-xs font-bold uppercase tracking-[0.16em] text-[#9b5d25];
   }
@@ -110,6 +115,22 @@
 
   .form-label {
     @apply text-[13px] font-bold tracking-[0.01em] text-[#43534b];
+  }
+}
+
+@keyframes hero-cinematic-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.08) translate3d(-1.2%, -0.6%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video {
+    animation: none;
   }
 }
 

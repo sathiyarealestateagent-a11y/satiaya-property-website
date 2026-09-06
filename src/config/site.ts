@@ -42,6 +42,7 @@ export const siteConfig = {
     title: 'Move forward with the right property.',
     description:
       'Personal guidance for buying, selling and renting homes across Klang Valley — with clarity at every step.',
+    video: '/hero-property.mp4',
     image:
       'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=88',
     imageAlt: 'Modern Malaysian residence with tropical landscaping',
