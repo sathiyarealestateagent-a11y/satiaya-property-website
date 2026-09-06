@@ -322,6 +322,33 @@ export default function AdminDashboard({
     update(['properties'], [...draft.properties, property]);
   }
 
+  function addNavigationItem() {
+    update(
+      ['navigation'],
+      [...draft.navigation, { label: 'New link', href: '#top' }].slice(0, 10),
+    );
+  }
+
+  function addService() {
+    update(
+      ['servicesSection', 'items'],
+      [
+        ...draft.servicesSection.items,
+        { title: 'New service', description: 'Describe this service.' },
+      ].slice(0, 12),
+    );
+  }
+
+  function addAboutStat() {
+    update(
+      ['about', 'stats'],
+      [...draft.about.stats, { value: 'New', label: 'New highlight' }].slice(
+        0,
+        6,
+      ),
+    );
+  }
+
   const dashboardStats = [
     { label: 'All listings', value: draft.properties.length, icon: Building2 },
     {
@@ -571,16 +598,52 @@ export default function AdminDashboard({
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {draft.navigation.map((item, index) => (
-                  <Field
-                    key={item.href}
-                    label={`Menu label ${index + 1}`}
-                    value={item.label}
-                    onChange={(value) =>
-                      update(['navigation', index, 'label'], value)
-                    }
-                  />
+                  <div
+                    key={index}
+                    className="grid gap-3 rounded-2xl border border-[#e2e7e2] bg-[#fbfcfa] p-4"
+                  >
+                    <Field
+                      label={`Menu label ${index + 1}`}
+                      value={item.label}
+                      onChange={(value) =>
+                        update(['navigation', index, 'label'], value)
+                      }
+                    />
+                    <Field
+                      label="Link destination"
+                      value={item.href}
+                      onChange={(value) =>
+                        update(['navigation', index, 'href'], value)
+                      }
+                      placeholder="#properties"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="justify-self-start text-destructive hover:text-destructive"
+                      onClick={() =>
+                        update(
+                          ['navigation'],
+                          draft.navigation.filter(
+                            (_, itemIndex) => itemIndex !== index,
+                          ),
+                        )
+                      }
+                    >
+                      <Trash2 /> Remove menu link
+                    </Button>
+                  </div>
                 ))}
               </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-fit rounded-xl"
+                disabled={draft.navigation.length >= 10}
+                onClick={addNavigationItem}
+              >
+                <Plus /> Add menu link
+              </Button>
               <Field
                 label="Header button"
                 value={draft.header.cta}
@@ -743,6 +806,20 @@ export default function AdminDashboard({
                   onChange={(value) => update(['featured', 'moreLabel'], value)}
                 />
               </div>
+              <LongField
+                label="No results description"
+                value={draft.featured.emptyDescription}
+                onChange={(value) =>
+                  update(['featured', 'emptyDescription'], value)
+                }
+              />
+              <LongField
+                label="More properties WhatsApp message"
+                value={draft.featured.moreMessage}
+                onChange={(value) =>
+                  update(['featured', 'moreMessage'], value)
+                }
+              />
             </SectionCard>
 
             <SectionCard title="Owner sell / rent section">
@@ -752,6 +829,13 @@ export default function AdminDashboard({
                 onChange={(value) => update(['ownerSection', 'image'], value)}
               />
               <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  label="Image description"
+                  value={draft.ownerSection.imageAlt}
+                  onChange={(value) =>
+                    update(['ownerSection', 'imageAlt'], value)
+                  }
+                />
                 <Field
                   label="Kicker"
                   value={draft.ownerSection.kicker}
@@ -794,6 +878,13 @@ export default function AdminDashboard({
                   )
                 }
                 rows={5}
+              />
+              <LongField
+                label="Button WhatsApp message"
+                value={draft.ownerSection.primaryMessage}
+                onChange={(value) =>
+                  update(['ownerSection', 'primaryMessage'], value)
+                }
               />
             </SectionCard>
 
@@ -850,9 +941,33 @@ export default function AdminDashboard({
                         update(['about', 'stats', index, 'label'], value)
                       }
                     />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      className="justify-self-start text-destructive hover:text-destructive"
+                      onClick={() =>
+                        update(
+                          ['about', 'stats'],
+                          draft.about.stats.filter(
+                            (_, itemIndex) => itemIndex !== index,
+                          ),
+                        )
+                      }
+                    >
+                      <Trash2 /> Remove highlight
+                    </Button>
                   </div>
                 ))}
               </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-fit rounded-xl"
+                disabled={draft.about.stats.length >= 6}
+                onClick={addAboutStat}
+              >
+                <Plus /> Add highlight
+              </Button>
             </SectionCard>
 
             <SectionCard title="Contact form & footer">
@@ -883,6 +998,20 @@ export default function AdminDashboard({
                   value={draft.contactSection.successTitle}
                   onChange={(value) =>
                     update(['contactSection', 'successTitle'], value)
+                  }
+                />
+                <Field
+                  label="WhatsApp contact label"
+                  value={draft.contactSection.whatsappLabel}
+                  onChange={(value) =>
+                    update(['contactSection', 'whatsappLabel'], value)
+                  }
+                />
+                <Field
+                  label="Success WhatsApp button"
+                  value={draft.contactSection.successCta}
+                  onChange={(value) =>
+                    update(['contactSection', 'successCta'], value)
                   }
                 />
               </div>
@@ -916,6 +1045,36 @@ export default function AdminDashboard({
                 value={draft.footer.tagline}
                 onChange={(value) => update(['footer', 'tagline'], value)}
               />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  label="Footer explore heading"
+                  value={draft.footer.exploreTitle}
+                  onChange={(value) =>
+                    update(['footer', 'exploreTitle'], value)
+                  }
+                />
+                <Field
+                  label="Footer contact heading"
+                  value={draft.footer.contactTitle}
+                  onChange={(value) =>
+                    update(['footer', 'contactTitle'], value)
+                  }
+                />
+                <Field
+                  label="Copyright text"
+                  value={draft.footer.copyright}
+                  onChange={(value) =>
+                    update(['footer', 'copyright'], value)
+                  }
+                />
+                <Field
+                  label="Floating WhatsApp label"
+                  value={draft.footer.whatsappLabel}
+                  onChange={(value) =>
+                    update(['footer', 'whatsappLabel'], value)
+                  }
+                />
+              </div>
             </SectionCard>
           </TabsContent>
 
@@ -945,6 +1104,16 @@ export default function AdminDashboard({
                 }
               />
             </SectionCard>
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                onClick={addService}
+                disabled={draft.servicesSection.items.length >= 12}
+                className="rounded-full"
+              >
+                <Plus /> Add service
+              </Button>
+            </div>
             {draft.servicesSection.items.map((service, index) => (
               <SectionCard
                 key={`${service.title}-${index}`}
@@ -967,6 +1136,22 @@ export default function AdminDashboard({
                     )
                   }
                 />
+                <div className="flex justify-end">
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() =>
+                      update(
+                        ['servicesSection', 'items'],
+                        draft.servicesSection.items.filter(
+                          (_, itemIndex) => itemIndex !== index,
+                        ),
+                      )
+                    }
+                  >
+                    <Trash2 /> Remove service
+                  </Button>
+                </div>
               </SectionCard>
             ))}
           </TabsContent>
