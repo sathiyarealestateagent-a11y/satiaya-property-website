@@ -301,13 +301,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className={`inline-flex items-center gap-2 rounded-full text-sm font-semibold transition-all ${
-                  href === '#owners'
-                    ? 'bg-transparent px-3.5 py-2 text-[#37443e] hover:text-primary'
-                    : 'text-[#37443e] hover:text-primary'
-                }`}
+                className="text-sm font-semibold text-[#37443e] transition-colors hover:text-primary"
               >
-                {href === '#owners' && <HousePlus className="size-4" />}
                 {label}
               </a>
             ))}
@@ -352,16 +347,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={href}
                   href={href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`rounded-xl px-4 py-3 font-semibold ${
-                    href === '#owners'
-                      ? 'bg-transparent text-[#37443e] hover:bg-[#eef2ec] hover:text-primary'
-                      : 'hover:bg-[#eef2ec]'
-                  }`}
+                  className="rounded-xl px-4 py-3 font-semibold text-[#37443e] hover:bg-[#eef2ec] hover:text-primary"
                 >
-                  <span className="flex items-center gap-2">
-                    {href === '#owners' && <HousePlus className="size-4" />}
-                    {label}
-                  </span>
+                  {label}
                 </a>
               ))}
             </div>
