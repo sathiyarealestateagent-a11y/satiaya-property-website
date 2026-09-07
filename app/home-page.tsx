@@ -330,13 +330,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
       className="overflow-hidden bg-background text-foreground"
     >
       <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <a
             href="#top"
             className="group flex items-center gap-3"
             aria-label="Back to top"
           >
-            <span className="grid size-11 place-items-center rounded-2xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_8px_20px_rgba(23,63,74,.16)] transition-transform group-hover:-rotate-3">
+            <span className="grid size-10 place-items-center rounded-xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_4px_12px_rgba(23,63,74,.14)]">
               {siteConfig.logo.image ? (
                 <Image
                   src={siteConfig.logo.image}
@@ -373,7 +373,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className="text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-[#2DB8B5]"
+                className="text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-[#16807F]"
               >
                 {label}
               </a>
@@ -429,10 +429,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         )}
       </header>
 
-      <section
-        id="top"
-        className="relative min-h-[780px] pt-20 lg:min-h-[760px]"
-      >
+      <section id="top" className="relative min-h-[720px] pt-[72px]">
         <div className="absolute inset-0 overflow-hidden bg-[#173F4A]">
           <Image
             src={siteConfig.hero.image}
@@ -457,14 +454,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <source src={siteConfig.hero.video} />
             </video>
           )}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(23,63,74,.94)_0%,rgba(23,63,74,.79)_43%,rgba(45,184,181,.20)_73%,rgba(23,63,74,.18)_100%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,transparent_0%,rgba(23,63,74,.08)_42%,rgba(23,63,74,.54)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#173F4A]/80 to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(23,63,74,.92)_0%,rgba(23,63,74,.74)_46%,rgba(23,63,74,.18)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#173F4A]/65 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[700px] max-w-7xl items-center px-5 pb-44 pt-16 sm:px-8 lg:px-10 lg:pb-36">
+        <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-40 pt-12 sm:px-8 lg:px-10 lg:pb-32">
           <div className="relative max-w-[50rem] text-white">
-            <div className="mb-8 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.19em] text-white/85">
+            <div className="mb-6 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
               <span className="grid size-8 place-items-center rounded-full border border-[#77D9D4]/55 bg-[#2DB8B5]/12 backdrop-blur-md">
                 <Sparkles className="size-3.5 text-[#77D9D4]" />
               </span>
@@ -475,11 +471,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <h1
               data-editor-path="hero.title"
-              className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[1.03] tracking-[-0.024em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]"
+              className="max-w-[46rem] font-heading text-[clamp(2.75rem,5.4vw,4.75rem)] font-bold leading-[1.06] tracking-[-0.035em] text-balance"
             >
               {siteConfig.hero.title}
             </h1>
-            <div className="mt-8 flex max-w-2xl items-stretch gap-4 sm:gap-5">
+            <div className="mt-6 flex max-w-2xl items-stretch gap-4 sm:gap-5">
               <span className="w-px shrink-0 bg-gradient-to-b from-[#77D9D4] to-[#77D9D4]/20" />
               <p
                 data-editor-path="hero.description"
@@ -488,11 +484,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 {siteConfig.hero.description}
               </p>
             </div>
-            <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="#properties">
                 <Button
                   data-editor-path="hero.primaryCta"
-                  className="h-14 rounded-2xl bg-[#16807F] px-7 text-white hover:bg-[#173F4A]"
+                  className="h-13 rounded-xl bg-[#16807F] px-7 text-white hover:bg-[#173F4A]"
                 >
                   {siteConfig.hero.primaryCta}
                   <ArrowRight />
@@ -503,7 +499,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 target="_blank"
                 rel="noreferrer"
                 data-editor-path="hero.secondaryCta"
-                className="premium-action inline-flex h-14 items-center gap-2.5 rounded-2xl border border-white/25 bg-white/[.08] px-7 text-sm font-semibold text-white backdrop-blur-md hover:border-[#77D9D4]/70 hover:bg-white/[.15]"
+                className="premium-action inline-flex h-13 items-center gap-2.5 rounded-xl border border-white/30 bg-white/[.08] px-7 text-sm font-semibold text-white hover:border-[#77D9D4]/70 hover:bg-white/[.14]"
               >
                 <WhatsAppIcon className="size-4" />
                 {siteConfig.hero.secondaryCta}
@@ -523,7 +519,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-10 translate-y-[42%] px-5 sm:px-8">
-          <div className="mx-auto max-w-6xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_80px_rgba(23,63,74,.20)] sm:p-6">
+          <div className="mx-auto max-w-6xl rounded-[20px] border border-[#D9E6E7] bg-white p-4 shadow-[0_16px_45px_rgba(23,63,74,.16)] sm:p-5">
             <div className="mb-4 flex items-center justify-between px-1">
               <div>
                 <p
@@ -615,7 +611,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="properties"
-        className="scroll-mt-20 bg-[#F5F8F9] px-5 pb-24 pt-48 sm:px-8 lg:px-10 lg:pt-44"
+        className="scroll-mt-20 bg-white px-5 pb-24 pt-44 sm:px-8 lg:px-10 lg:pt-40"
       >
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end">
@@ -668,7 +664,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               {visibleProperties.map((property) => (
                 <article
                   key={property.id}
-                  className="group overflow-hidden rounded-[24px] border border-[#D9E6E7] bg-white shadow-[0_10px_35px_rgba(23,63,74,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(23,63,74,.12)]"
+                  className="group overflow-hidden rounded-[18px] border border-[#D9E6E7] bg-white shadow-[0_4px_16px_rgba(23,63,74,.055)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_10px_26px_rgba(23,63,74,.10)]"
                 >
                   <div
                     data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.image`}
@@ -750,7 +746,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               ))}
             </div>
           ) : (
-            <div className="mt-10 rounded-[24px] border border-dashed border-primary/25 bg-white px-6 py-14 text-center">
+            <div className="mt-10 rounded-[18px] border border-dashed border-primary/25 bg-white px-6 py-14 text-center">
               <Search className="mx-auto size-9 text-primary/45" />
               <h3
                 data-editor-path="featured.emptyTitle"
@@ -794,7 +790,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="relative mx-auto w-full max-w-xl">
             <div
               data-editor-path="ownerSection.image"
-              className="overflow-hidden rounded-[30px] border border-white/10"
+              className="overflow-hidden rounded-[20px] border border-white/10"
             >
               <Image
                 src={siteConfig.ownerSection.image}
@@ -828,7 +824,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </p>
             <h2
               data-editor-path="ownerSection.title"
-              className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em] text-balance sm:text-5xl"
+              className="mt-4 max-w-xl font-heading text-4xl font-bold leading-[1.12] tracking-[-0.028em] text-balance sm:text-5xl"
             >
               {siteConfig.ownerSection.title}
             </h2>
@@ -904,7 +900,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             {services.map((service, index) => (
               <article
                 key={service.title}
-                className="group rounded-[24px] border border-white bg-[#F5F8F9] p-7 transition-all hover:-translate-y-1 hover:shadow-xl"
+                className="group rounded-[18px] border border-[#D9E6E7] bg-white p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_8px_22px_rgba(23,63,74,.08)]"
               >
                 <div className="flex items-start justify-between">
                   <span className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary transition-colors group-hover:bg-primary group-hover:text-white">
@@ -934,14 +930,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="about"
-        className="scroll-mt-20 bg-[#F5F8F9] px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
+        className="scroll-mt-20 bg-white px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div className="relative mx-auto max-w-md lg:mx-0">
-            <div className="absolute -inset-5 translate-x-3 translate-y-3 rounded-[34px] border border-[#2DB8B5]/40" />
+            <div className="absolute -inset-3 translate-x-2 translate-y-2 rounded-[22px] border border-[#2DB8B5]/35" />
             <div
               data-editor-path="agent.profilePhoto"
-              className="relative overflow-hidden rounded-[30px] bg-[#EAF2F3]"
+              className="relative overflow-hidden rounded-[20px] bg-[#EAF2F3]"
             >
               <Image
                 src={siteConfig.agent.profilePhoto}
@@ -1029,7 +1025,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="contact"
         className="scroll-mt-20 bg-[#EAF2F3] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
       >
-        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(23,63,74,.10)] lg:grid-cols-[.8fr_1.2fr]">
+        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[20px] border border-[#D9E6E7] bg-white shadow-[0_10px_32px_rgba(23,63,74,.08)] lg:grid-cols-[.8fr_1.2fr]">
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
             <p
               data-editor-path="contactSection.kicker"
@@ -1039,7 +1035,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </p>
             <h2
               data-editor-path="contactSection.title"
-              className="mt-4 font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em]"
+              className="mt-4 font-heading text-4xl font-bold leading-[1.12] tracking-[-0.028em]"
             >
               {siteConfig.contactSection.title}
             </h2>

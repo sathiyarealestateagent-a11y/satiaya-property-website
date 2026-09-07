@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Open_Sans } from 'next/font/google';
+import { Inter, Lexend } from 'next/font/google';
 
 import { siteConfig } from '@/src/config/site';
 
@@ -10,8 +10,8 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
-const openSans = Open_Sans({
-  variable: '--font-open-sans',
+const lexend = Lexend({
+  variable: '--font-lexend',
   subsets: ['latin'],
 });
 
@@ -49,7 +49,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth" data-theme="corporate">
-      <body className={`${inter.variable} ${openSans.variable} antialiased`}>
+      <body className={`${inter.variable} ${lexend.variable} antialiased`}>
         {children}
       </body>
     </html>

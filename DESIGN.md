@@ -1,7 +1,7 @@
 ---
 version: alpha
-name: 'Satiaya Property Teal Signature'
-description: 'A premium Malaysian property advisory experience built around confident turquoise, deep teal and quiet white surfaces.'
+name: 'Satiaya Property Search-Led Teal'
+description: 'A clean Malaysian property advisory experience built around standout typography, confident turquoise and quiet white surfaces.'
 colors:
   primary: '#173F4A'
   secondary: '#16807F'
@@ -18,7 +18,7 @@ typography:
   sans:
     fontFamily: 'Inter, system-ui, sans-serif'
   heading:
-    fontFamily: 'Open Sans, Inter, system-ui, sans-serif'
+    fontFamily: 'Lexend, Inter, system-ui, sans-serif'
   mono:
     fontFamily: 'ui-monospace, monospace'
 rounded:
@@ -75,7 +75,7 @@ components:
 
 ### Creative North Star
 
-The visual reference is PropertyHunter Malaysia's approachable turquoise-and-white property language. Satiaya's interpretation adds deeper teal contrast, restrained elevation and polished motion so the identity feels personal and premium rather than copied. The existing imagery, content and layout remain Satiaya's own.
+The visual reference combines PropertyGuru Malaysia's search-first clarity and restrained information hierarchy with Satiaya's established turquoise identity. Satiaya's interpretation uses standout Lexend headlines, flatter white surfaces and calm teal actions so the site feels direct, personal and trustworthy rather than copied. The existing imagery, content and editorial structure remain Satiaya's own.
 
 ### Product context and register
 
@@ -84,8 +84,8 @@ The visual reference is PropertyHunter Malaysia's approachable turquoise-and-whi
 - **Locale(s) and language policy:** English (`en-MY`) is the current interface language. Property prices retain Malaysian Ringgit formatting. Additional locales require reviewed translations rather than mixed-language controls.
 - **Usage scene:** Mobile-first property discovery with desktop comparison and an authenticated desktop/mobile content editor.
 - **Register:** Hybrid. The public routes are premium brand-led marketing; `/admin` is a quiet, task-led editing surface.
-- **Memorable signature:** Property imagery is framed by a deep-teal cinematic veil, with turquoise actions carrying a brief moving highlight on hover.
-- **Restraint:** Forms, cards, listings and dashboard controls remain white or mist grey; turquoise identifies primary actions while deep teal carries headings and trust-heavy surfaces.
+- **Memorable signature:** Bold, highly legible Lexend headlines create a confident editorial voice over property imagery, while turquoise identifies the single next action.
+- **Restraint:** Forms, cards, listings and dashboard controls remain white or mist grey; turquoise identifies primary actions while deep teal carries headings and trust-heavy surfaces. Elevation is quiet and decorative motion is minimal.
 - **Anti-references:** Avoid unrelated campaign colours, rainbow palettes, large decorative gradients, neon effects and low-contrast turquoise body copy.
 - **Token ownership/runtime mapping:** `app/globals.css` is the canonical runtime source. The higher-specificity `html[data-theme='corporate']` selector guarantees that every route and future component inherits the corporate tokens even when library defaults are present. This document mirrors those accepted semantic roles. Tailwind utilities consume the CSS variables; raw colours are permitted only for exact brand accents, image overlays and third-party marks. Drift is checked by repository colour search and production browser review.
 
@@ -95,7 +95,7 @@ Deep teal `#173F4A` owns headings, dark sections, navigation emphasis and the fo
 
 ## Typography
 
-Open Sans is the heading face and Inter is the interface/body face, reflecting the practical, highly legible typography loaded by the PropertyHunter reference while giving each role a deliberate owner. Display headings use gently compact tracking (approximately `-0.024em` at hero scale and `-0.018em` for section titles) with medium-to-bold weights and open line height. Body copy uses `0.006em` tracking and a `1.62` baseline line height; navigation and controls use `0.012em` tracking for clarity. Regular controls and body copy should remain at least 14–16px, with 12–13px reserved for metadata and uppercase kickers. Numeric property values remain tabular where a component needs alignment.
+Lexend is the heading face and Inter is the interface/body face. Lexend gives the property experience a distinctive, readable voice while Inter keeps forms and detailed information neutral. Display headings use bold weight, approximately `-0.028em` tracking and an open `1.08–1.12` line height. Body copy uses normal tracking and a `1.58` baseline line height; navigation and controls use `0.012em` tracking for clarity. Regular controls and body copy remain at least 14–16px, with 12–13px reserved for metadata and compact uppercase kickers. Numeric property values remain tabular where a component needs alignment.
 
 ## Layout
 
@@ -103,7 +103,7 @@ The public experience keeps its existing narrative section order and max width o
 
 ## Elevation & Depth
 
-Hierarchy comes from white cards on mist-grey fields, fine blue-grey borders and low-opacity deep-teal shadows. The hero uses layered deep-teal and turquoise image overlays with subtle glass treatment. Turquoise remains concentrated in compact actions and status accents. Dashboard forms avoid decorative elevation inside cards.
+Hierarchy comes from white cards on alternating white and mist-grey sections, fine blue-grey borders and very low-opacity deep-teal shadows. The hero uses a clean deep-teal image veil without decorative glass effects. Turquoise remains concentrated in compact actions and status accents. Dashboard forms avoid decorative elevation inside cards.
 
 ## Shapes
 
@@ -117,7 +117,7 @@ Default surfaces are white with blue-grey borders. Hover uses pale aqua-grey or 
 
 ### Buttons and actions
 
-Primary calls to action use turquoise with white text and a deeper-teal hover. Buttons use 16px geometry, a controlled 2px hover lift, soft teal elevation and one quick diagonal highlight sweep. Motion runs on a 220ms premium easing curve, settles on press and is removed under `prefers-reduced-motion`. Secondary actions use supporting or deep teal with white text. Outline and ghost actions use deep-teal text on light surfaces with an aqua-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
+Primary calls to action use turquoise with white text and a deeper-teal hover. Buttons use 12px geometry, a controlled 1px hover lift and compact teal elevation without decorative shine. Motion runs on a quick 180ms easing curve, settles on press and is removed under `prefers-reduced-motion`. Secondary actions use supporting or deep teal with white text. Outline and ghost actions use deep-teal text on light surfaces with an aqua-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
 
 ### Navigation and data display
 
