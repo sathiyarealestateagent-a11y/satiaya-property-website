@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
-import { DM_Sans, Manrope } from 'next/font/google';
+import { Inter, Open_Sans } from 'next/font/google';
 
 import { siteConfig } from '@/src/config/site';
 
 import './globals.css';
 
-const dmSans = DM_Sans({
-  variable: '--font-dm-sans',
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
 });
 
-const manrope = Manrope({
-  variable: '--font-manrope',
+const openSans = Open_Sans({
+  variable: '--font-open-sans',
   subsets: ['latin'],
 });
 
@@ -49,7 +49,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth" data-theme="corporate">
-      <body className={`${dmSans.variable} ${manrope.variable} antialiased`}>
+      <body className={`${inter.variable} ${openSans.variable} antialiased`}>
         {children}
       </body>
     </html>

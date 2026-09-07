@@ -16,9 +16,9 @@ colors:
   destructive: '#C0392B'
 typography:
   sans:
-    fontFamily: 'DM Sans, system-ui, sans-serif'
+    fontFamily: 'Inter, system-ui, sans-serif'
   heading:
-    fontFamily: 'Manrope, DM Sans, system-ui, sans-serif'
+    fontFamily: 'Open Sans, Inter, system-ui, sans-serif'
   mono:
     fontFamily: 'ui-monospace, monospace'
 rounded:
@@ -95,7 +95,7 @@ Deep teal `#173F4A` owns headings, dark sections, navigation emphasis and the fo
 
 ## Typography
 
-Manrope is the heading face and DM Sans is the interface/body face. Headings use compact tracking and medium-to-bold weights; body copy uses comfortable line height and sentence case. Regular controls and body copy should remain at least 14–16px, with 12–13px reserved for metadata and uppercase kickers. Numeric property values remain tabular where a component needs alignment.
+Open Sans is the heading face and Inter is the interface/body face, reflecting the practical, highly legible typography loaded by the PropertyHunter reference while giving each role a deliberate owner. Headings use compact tracking and medium-to-bold weights; body copy uses comfortable line height and sentence case. Regular controls and body copy should remain at least 14–16px, with 12–13px reserved for metadata and uppercase kickers. Numeric property values remain tabular where a component needs alignment.
 
 ## Layout
 
