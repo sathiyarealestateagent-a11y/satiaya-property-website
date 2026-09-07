@@ -4,6 +4,11 @@ import { properties } from '@/src/data/properties';
 import { siteContentSchema } from './schema';
 
 export const defaultContent = siteContentSchema.parse({
+  pageLayout: {
+    order: ['hero', 'properties', 'owners', 'services', 'about', 'contact'],
+    hidden: [],
+    hiddenElements: [],
+  },
   navigation: siteConfig.navigation,
   logo: siteConfig.logo,
   agent: siteConfig.agent,

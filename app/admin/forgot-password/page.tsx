@@ -73,7 +73,7 @@ export default function ForgotPasswordPage() {
             has been sent. Check your inbox and spam folder.
           </div>
         ) : (
-          <form onSubmit={requestReset} className="mt-7 grid gap-4">
+          <form onSubmit={requestReset} noValidate className="mt-7 grid gap-4">
             <label
               htmlFor="recovery-email"
               className="grid gap-2 text-sm font-semibold text-[#24343A]"

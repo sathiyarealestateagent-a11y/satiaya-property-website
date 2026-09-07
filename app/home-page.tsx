@@ -26,9 +26,14 @@ import Link from 'next/link';
 import type { SyntheticEvent } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { EditableProperty, SiteContent } from '@/src/content/schema';
+import {
+  pageSectionIds,
+  type EditableProperty,
+  type PageSectionId,
+  type SiteContent,
+} from '@/src/content/schema';
 
 const serviceIcons = [Home, KeyRound, HousePlus, Compass];
 
@@ -96,6 +101,10 @@ function formatPrice(property: EditableProperty) {
     : `RM ${property.price.toLocaleString('en-MY')}`;
 }
 
+function isPageSectionId(value: string): value is PageSectionId {
+  return pageSectionIds.includes(value as PageSectionId);
+}
+
 type WebMcpTool = {
   name: string;
   title: string;
@@ -117,13 +126,24 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const editorSurfaceRef = useRef<HTMLElement>(null);
   const siteConfig = previewContent;
   const properties = previewContent.properties;
-  const navItems = previewContent.navigation.map(
-    (item) => [item.label, item.href] as const,
+  const hiddenSections = new Set(siteConfig.pageLayout.hidden);
+  const sectionOrder = (section: PageSectionId) =>
+    siteConfig.pageLayout.order.indexOf(section);
+  const hiddenElementStyles = siteConfig.pageLayout.hiddenElements
+    .map((path) => `[data-editor-path="${path}"] { display: none !important; }`)
+    .join('\n');
+  const navItems = previewContent.navigation
+    .filter((item) => {
+      const target = item.href.startsWith('#') ? item.href.slice(1) : '';
+      return !isPageSectionId(target) || !hiddenSections.has(target);
+    })
+    .map((item) => [item.label, item.href] as const);
+  const services = previewContent.servicesSection.items.map(
+    (service, index) => ({
+      ...service,
+      icon: serviceIcons[index % serviceIcons.length],
+    }),
   );
-  const services = content.servicesSection.items.map((service, index) => ({
-    ...service,
-    icon: serviceIcons[index % serviceIcons.length],
-  }));
   const socialLinks = [
     {
       label: 'Instagram',
@@ -327,8 +347,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
   return (
     <main
       ref={editorSurfaceRef}
-      className="overflow-hidden bg-background text-foreground"
+      className="flex flex-col overflow-hidden bg-background text-foreground"
     >
+      {hiddenElementStyles && <style>{hiddenElementStyles}</style>}
       <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <a
@@ -381,20 +402,32 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <a href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}>
-              <Button
-                variant="ghost"
-                className="h-11 rounded-full px-4 text-primary hover:bg-[#EAF2F3]"
-              >
-                <Phone className="size-4" />
-                {siteConfig.contact.phone}
-              </Button>
+            <a
+              href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
+              data-slot="button"
+              data-variant="ghost"
+              className={buttonVariants({
+                variant: 'ghost',
+                className:
+                  'h-11 rounded-full px-4 text-primary hover:bg-[#EAF2F3]',
+              })}
+            >
+              <Phone className="size-4" />
+              {siteConfig.contact.phone}
             </a>
-            <a href={whatsappLink()} target="_blank" rel="noreferrer">
-              <Button className="h-11 rounded-2xl bg-[#16807F] px-5 text-white hover:bg-[#173F4A]">
-                {siteConfig.header.cta}
-                <ArrowRight />
-              </Button>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noreferrer"
+              data-slot="button"
+              data-variant="default"
+              className={buttonVariants({
+                className:
+                  'h-11 rounded-2xl bg-[#16807F] px-5 text-white hover:bg-[#173F4A]',
+              })}
+            >
+              {siteConfig.header.cta}
+              <ArrowRight />
             </a>
           </div>
 
@@ -429,7 +462,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
         )}
       </header>
 
-      <section id="top" className="relative min-h-[720px] pt-[72px]">
+      <section
+        id="top"
+        style={{ order: sectionOrder('hero') }}
+        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px]`}
+      >
         <div className="absolute inset-0 overflow-hidden bg-[#173F4A]">
           <Image
             src={siteConfig.hero.image}
@@ -485,14 +522,18 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </p>
             </div>
             <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
-              <a href="#properties">
-                <Button
-                  data-editor-path="hero.primaryCta"
-                  className="h-13 rounded-xl bg-[#16807F] px-7 text-white hover:bg-[#173F4A]"
-                >
-                  {siteConfig.hero.primaryCta}
-                  <ArrowRight />
-                </Button>
+              <a
+                href="#properties"
+                data-slot="button"
+                data-variant="default"
+                data-editor-path="hero.primaryCta"
+                className={buttonVariants({
+                  className:
+                    'h-13 rounded-xl bg-[#16807F] px-7 text-white hover:bg-[#173F4A]',
+                })}
+              >
+                {siteConfig.hero.primaryCta}
+                <ArrowRight />
               </a>
               <a
                 href={whatsappLink(siteConfig.hero.secondaryMessage)}
@@ -611,7 +652,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="properties"
-        className="scroll-mt-20 bg-white px-5 pb-24 pt-44 sm:px-8 lg:px-10 lg:pt-40"
+        style={{ order: sectionOrder('properties') }}
+        className={`${hiddenSections.has('properties') ? 'hidden' : ''} scroll-mt-20 bg-white px-5 pb-24 pt-44 sm:px-8 lg:px-10 lg:pt-40`}
       >
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end">
@@ -768,15 +810,17 @@ export default function HomePage({ content }: { content: SiteContent }) {
               href={whatsappLink(siteConfig.featured.moreMessage)}
               target="_blank"
               rel="noreferrer"
+              data-slot="button"
+              data-variant="outline"
+              data-editor-path="featured.moreLabel"
+              className={buttonVariants({
+                variant: 'outline',
+                className:
+                  'h-12 rounded-full border-primary/25 bg-transparent px-6 text-primary hover:bg-primary hover:text-white',
+              })}
             >
-              <Button
-                data-editor-path="featured.moreLabel"
-                variant="outline"
-                className="h-12 rounded-full border-primary/25 bg-transparent px-6 text-primary hover:bg-primary hover:text-white"
-              >
-                {siteConfig.featured.moreLabel}
-                <ArrowRight />
-              </Button>
+              {siteConfig.featured.moreLabel}
+              <ArrowRight />
             </a>
           </div>
         </div>
@@ -784,7 +828,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="owners"
-        className="scroll-mt-20 bg-[#173F4A] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24"
+        style={{ order: sectionOrder('owners') }}
+        className={`${hiddenSections.has('owners') ? 'hidden' : ''} scroll-mt-20 bg-[#173F4A] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24`}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
           <div className="relative mx-auto w-full max-w-xl">
@@ -851,14 +896,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 href={whatsappLink(siteConfig.ownerSection.primaryMessage)}
                 target="_blank"
                 rel="noreferrer"
+                data-slot="button"
+                data-variant="default"
+                data-editor-path="ownerSection.primaryCta"
+                className={buttonVariants({
+                  className:
+                    'h-12 rounded-2xl bg-[#16807F] px-6 text-white hover:bg-[#173F4A]',
+                })}
               >
-                <Button
-                  data-editor-path="ownerSection.primaryCta"
-                  className="h-12 rounded-2xl bg-[#16807F] px-6 text-white hover:bg-[#173F4A]"
-                >
-                  {siteConfig.ownerSection.primaryCta}
-                  <ArrowRight />
-                </Button>
+                {siteConfig.ownerSection.primaryCta}
+                <ArrowRight />
               </a>
               <a
                 href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
@@ -873,7 +920,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="services"
-        className="scroll-mt-20 bg-[#F5F8F9] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
+        style={{ order: sectionOrder('services') }}
+        className={`${hiddenSections.has('services') ? 'hidden' : ''} scroll-mt-20 bg-[#F5F8F9] px-5 py-20 sm:px-8 lg:px-10 lg:py-24`}
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
@@ -930,7 +978,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="about"
-        className="scroll-mt-20 bg-white px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
+        style={{ order: sectionOrder('about') }}
+        className={`${hiddenSections.has('about') ? 'hidden' : ''} scroll-mt-20 bg-white px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div className="relative mx-auto max-w-md lg:mx-0">
@@ -1005,13 +1054,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 href={whatsappLink(siteConfig.about.ctaMessage)}
                 target="_blank"
                 rel="noreferrer"
+                data-slot="button"
+                data-variant="default"
+                data-editor-path="about.cta"
+                className={buttonVariants({
+                  className: 'h-12 rounded-full px-6',
+                })}
               >
-                <Button
-                  data-editor-path="about.cta"
-                  className="h-12 rounded-full px-6"
-                >
-                  {siteConfig.about.cta} <ArrowRight />
-                </Button>
+                {siteConfig.about.cta} <ArrowRight />
               </a>
               <p className="text-sm text-muted-foreground">
                 Languages: {siteConfig.agent.languages.join(' · ')}
@@ -1023,7 +1073,8 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="contact"
-        className="scroll-mt-20 bg-[#EAF2F3] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
+        style={{ order: sectionOrder('contact') }}
+        className={`${hiddenSections.has('contact') ? 'hidden' : ''} scroll-mt-20 bg-[#EAF2F3] px-5 py-20 sm:px-8 lg:px-10 lg:py-24`}
       >
         <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[20px] border border-[#D9E6E7] bg-white shadow-[0_10px_32px_rgba(23,63,74,.08)] lg:grid-cols-[.8fr_1.2fr]">
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
@@ -1106,15 +1157,17 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   href={whatsappLink()}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-6"
+                  data-slot="button"
+                  data-variant="default"
+                  className={buttonVariants({
+                    className: 'mt-6 h-11 rounded-full px-5',
+                  })}
                 >
-                  <Button className="h-11 rounded-full px-5">
-                    <WhatsAppIcon /> {siteConfig.contactSection.successCta}
-                  </Button>
+                  <WhatsAppIcon /> {siteConfig.contactSection.successCta}
                 </a>
               </output>
             ) : (
-              <form onSubmit={submitContact}>
+              <form onSubmit={submitContact} noValidate>
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label htmlFor="contact-name" className="form-label">
                     {siteConfig.contactSection.nameLabel}
@@ -1196,7 +1249,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
       </section>
 
-      <footer className="bg-[#173F4A] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10">
+      <footer
+        style={{ order: pageSectionIds.length + 1 }}
+        className="bg-[#173F4A] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10"
+      >
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.5fr_1fr_1fr]">
             <div>

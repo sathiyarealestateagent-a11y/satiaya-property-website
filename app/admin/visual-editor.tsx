@@ -2,8 +2,13 @@
 
 import {
   Check,
+  ChevronDown,
   ChevronRight,
+  ChevronUp,
   ExternalLink,
+  Eye,
+  EyeOff,
+  GripVertical,
   ImageIcon,
   Layers3,
   LoaderCircle,
@@ -14,17 +19,22 @@ import {
   Search,
   Smartphone,
   Tablet,
+  Trash2,
   Type,
   Undo2,
   Upload,
 } from 'lucide-react';
-import type { ChangeEvent, RefObject } from 'react';
+import type { ChangeEvent, DragEvent, RefObject } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import type { SiteContent } from '@/src/content/schema';
+import {
+  pageSectionIds,
+  type PageSectionId,
+  type SiteContent,
+} from '@/src/content/schema';
 
 type PathPart = string | number;
 type Viewport = 'desktop' | 'tablet' | 'mobile';
@@ -56,6 +66,29 @@ const sectionLabels: Record<string, string> = {
   properties: 'Property listings',
 };
 
+const pageSectionDetails: Record<
+  PageSectionId,
+  { label: string; selectionPath: string }
+> = {
+  hero: { label: 'Hero & search', selectionPath: 'hero.title' },
+  properties: { label: 'Featured properties', selectionPath: 'featured.title' },
+  owners: { label: 'Owner sell / rent', selectionPath: 'ownerSection.title' },
+  services: { label: 'Services', selectionPath: 'servicesSection.title' },
+  about: { label: 'About agent', selectionPath: 'about.title' },
+  contact: { label: 'Contact form', selectionPath: 'contactSection.title' },
+};
+
+function pageSectionForPath(path: string): PageSectionId | undefined {
+  if (path.startsWith('hero.') || path.startsWith('search.')) return 'hero';
+  if (path.startsWith('featured.') || path.startsWith('properties.'))
+    return 'properties';
+  if (path.startsWith('ownerSection.')) return 'owners';
+  if (path.startsWith('servicesSection.')) return 'services';
+  if (path.startsWith('about.')) return 'about';
+  if (path.startsWith('contactSection.')) return 'contact';
+  return undefined;
+}
+
 function titleCase(value: string) {
   return value
     .replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -68,6 +101,7 @@ function collectEditable(
   path: PathPart[] = [],
   entries: EditableEntry[] = [],
 ) {
+  if (path[0] === 'pageLayout') return entries;
   if (
     typeof value === 'string' ||
     typeof value === 'number' ||
@@ -265,6 +299,9 @@ export default function VisualEditor({
   const [selectedPath, setSelectedPath] = useState('hero.title');
   const [query, setQuery] = useState('');
   const [previewReady, setPreviewReady] = useState(false);
+  const [draggedSection, setDraggedSection] = useState<PageSectionId | null>(
+    null,
+  );
 
   const entries = useMemo(() => collectEditable(draft), [draft]);
   const visibleEntries = useMemo(() => {
@@ -287,8 +324,11 @@ export default function VisualEditor({
     );
   }, [visibleEntries]);
   const selectedEntry = entries.find((entry) => entry.path === selectedPath);
+  const selectedSection = pageSectionForPath(selectedPath);
   const selectedValue = getAtPath(draft, selectedPath);
   const selectedText = typeof selectedValue === 'string' ? selectedValue : '';
+  const selectedElementHidden =
+    draft.pageLayout.hiddenElements.includes(selectedPath);
 
   const sendToPreview = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
@@ -336,6 +376,44 @@ export default function VisualEditor({
 
   function updateSelected(value: unknown) {
     onUpdate(parsePath(selectedPath), value);
+  }
+
+  function selectSection(section: PageSectionId) {
+    setSelectedPath(pageSectionDetails[section].selectionPath);
+  }
+
+  function moveSection(section: PageSectionId, offset: -1 | 1) {
+    const order = [...draft.pageLayout.order];
+    const currentIndex = order.indexOf(section);
+    const nextIndex = currentIndex + offset;
+    if (currentIndex < 0 || nextIndex < 0 || nextIndex >= order.length) return;
+    [order[currentIndex], order[nextIndex]] = [
+      order[nextIndex],
+      order[currentIndex],
+    ];
+    onUpdate(['pageLayout', 'order'], order);
+  }
+
+  function placeSection(source: PageSectionId, target: PageSectionId) {
+    if (source === target) return;
+    const order = draft.pageLayout.order.filter((item) => item !== source);
+    const targetIndex = order.indexOf(target);
+    order.splice(targetIndex, 0, source);
+    onUpdate(['pageLayout', 'order'], order);
+  }
+
+  function toggleSection(section: PageSectionId) {
+    const hidden = draft.pageLayout.hidden.includes(section)
+      ? draft.pageLayout.hidden.filter((item) => item !== section)
+      : [...draft.pageLayout.hidden, section];
+    onUpdate(['pageLayout', 'hidden'], hidden);
+  }
+
+  function toggleSelectedElement() {
+    const hiddenElements = selectedElementHidden
+      ? draft.pageLayout.hiddenElements.filter((path) => path !== selectedPath)
+      : [...draft.pageLayout.hiddenElements, selectedPath];
+    onUpdate(['pageLayout', 'hiddenElements'], hiddenElements);
   }
 
   const viewportWidth = {
@@ -430,6 +508,93 @@ export default function VisualEditor({
             <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.1em] text-[#5F7077]">
               <Layers3 className="size-4" /> Page layers
             </p>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              Drag sections or use the arrows. Removed sections stay available
+              here to restore.
+            </p>
+            <div className="mt-3 grid gap-1.5">
+              {draft.pageLayout.order.map((section, index) => {
+                const hidden = draft.pageLayout.hidden.includes(section);
+                return (
+                  <div
+                    key={section}
+                    draggable
+                    onDragStart={() => setDraggedSection(section)}
+                    onDragEnd={() => setDraggedSection(null)}
+                    onDragOver={(event: DragEvent<HTMLDivElement>) =>
+                      event.preventDefault()
+                    }
+                    onDrop={(event: DragEvent<HTMLDivElement>) => {
+                      event.preventDefault();
+                      if (draggedSection) placeSection(draggedSection, section);
+                      setDraggedSection(null);
+                    }}
+                    className={`group flex items-center gap-1 rounded-xl border px-1.5 py-1.5 transition ${
+                      selectedSection === section
+                        ? 'border-[#77D9D4] bg-[#E2F7F5]'
+                        : 'border-[#D9E6E7] bg-white hover:border-[#8EAFB2]'
+                    } ${hidden ? 'opacity-60' : ''}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => selectSection(section)}
+                      className="flex min-w-0 flex-1 cursor-pointer items-center gap-1.5 rounded-lg px-1 py-1.5 text-left text-xs font-semibold text-[#173F4A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16807F]"
+                    >
+                      <GripVertical className="size-3.5 shrink-0 text-[#8EAFB2]" />
+                      <span
+                        className={`truncate ${hidden ? 'line-through' : ''}`}
+                      >
+                        {pageSectionDetails[section].label}
+                      </span>
+                    </button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => moveSection(section, -1)}
+                      disabled={index === 0}
+                      aria-label={`Move ${pageSectionDetails[section].label} up`}
+                      className="size-7 rounded-lg"
+                    >
+                      <ChevronUp className="size-3.5" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => moveSection(section, 1)}
+                      disabled={index === draft.pageLayout.order.length - 1}
+                      aria-label={`Move ${pageSectionDetails[section].label} down`}
+                      className="size-7 rounded-lg"
+                    >
+                      <ChevronDown className="size-3.5" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => toggleSection(section)}
+                      aria-label={`${hidden ? 'Restore' : 'Remove'} ${pageSectionDetails[section].label}`}
+                      className={`size-7 rounded-lg ${
+                        hidden
+                          ? 'text-[#16807F] hover:bg-[#E2F7F5]'
+                          : 'text-destructive hover:bg-destructive/10 hover:text-destructive'
+                      }`}
+                    >
+                      {hidden ? (
+                        <Eye className="size-3.5" />
+                      ) : (
+                        <Trash2 className="size-3.5" />
+                      )}
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="mt-2 text-[11px] font-medium text-[#5F7077]">
+              {pageSectionIds.length - draft.pageLayout.hidden.length} of{' '}
+              {pageSectionIds.length} sections visible
+            </p>
             <div className="relative mt-3 block">
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -447,26 +612,37 @@ export default function VisualEditor({
                 <p className="px-2 pb-1 pt-2 text-[11px] font-bold uppercase tracking-[0.1em] text-[#5F7077]">
                   {section}
                 </p>
-                {sectionEntries.map((entry) => (
-                  <button
-                    key={entry.path}
-                    type="button"
-                    onClick={() => setSelectedPath(entry.path)}
-                    className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-xs transition ${
-                      selectedPath === entry.path
-                        ? 'bg-[#E2F7F5] font-bold text-[#173F4A]'
-                        : 'text-[#5F7077] hover:bg-[#F5F8F9] hover:text-[#173F4A]'
-                    }`}
-                  >
-                    <EditorIcon path={entry.path} />
-                    <span className="min-w-0 flex-1 truncate">
-                      {entry.label}
-                    </span>
-                    {selectedPath === entry.path && (
-                      <ChevronRight className="size-3.5" />
-                    )}
-                  </button>
-                ))}
+                {sectionEntries.map((entry) => {
+                  const hidden = draft.pageLayout.hiddenElements.includes(
+                    entry.path,
+                  );
+                  return (
+                    <button
+                      key={entry.path}
+                      type="button"
+                      onClick={() => setSelectedPath(entry.path)}
+                      className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-xs transition ${
+                        selectedPath === entry.path
+                          ? 'bg-[#E2F7F5] font-bold text-[#173F4A]'
+                          : 'text-[#5F7077] hover:bg-[#F5F8F9] hover:text-[#173F4A]'
+                      } ${hidden ? 'opacity-55' : ''}`}
+                    >
+                      {hidden ? (
+                        <EyeOff className="size-3.5 shrink-0" />
+                      ) : (
+                        <EditorIcon path={entry.path} />
+                      )}
+                      <span
+                        className={`min-w-0 flex-1 truncate ${hidden ? 'line-through' : ''}`}
+                      >
+                        {entry.label}
+                      </span>
+                      {selectedPath === entry.path && (
+                        <ChevronRight className="size-3.5" />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             ))}
             {visibleEntries.length === 0 && (
@@ -516,6 +692,105 @@ export default function VisualEditor({
                   <p className="mt-1 text-xs text-muted-foreground">
                     {selectedEntry.section}
                   </p>
+                </div>
+
+                {selectedSection && (
+                  <div className="rounded-xl border border-[#D9E6E7] bg-[#F5F8F9] p-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <p className="text-xs font-bold text-[#173F4A]">
+                          {pageSectionDetails[selectedSection].label}
+                        </p>
+                        <p className="mt-0.5 text-[11px] text-muted-foreground">
+                          Move or remove the complete section
+                        </p>
+                      </div>
+                      <div className="flex gap-1">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => moveSection(selectedSection, -1)}
+                          disabled={
+                            draft.pageLayout.order.indexOf(selectedSection) ===
+                            0
+                          }
+                          aria-label={`Move ${pageSectionDetails[selectedSection].label} up`}
+                          className="size-9 rounded-lg bg-white"
+                        >
+                          <ChevronUp className="size-4" />
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => moveSection(selectedSection, 1)}
+                          disabled={
+                            draft.pageLayout.order.indexOf(selectedSection) ===
+                            draft.pageLayout.order.length - 1
+                          }
+                          aria-label={`Move ${pageSectionDetails[selectedSection].label} down`}
+                          className="size-9 rounded-lg bg-white"
+                        >
+                          <ChevronDown className="size-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => toggleSection(selectedSection)}
+                      className={`mt-3 h-10 w-full justify-start rounded-lg bg-white ${
+                        draft.pageLayout.hidden.includes(selectedSection)
+                          ? 'text-[#16807F]'
+                          : 'border-destructive/25 text-destructive hover:bg-destructive/5 hover:text-destructive'
+                      }`}
+                    >
+                      {draft.pageLayout.hidden.includes(selectedSection) ? (
+                        <>
+                          <Eye className="size-4" /> Restore on website
+                        </>
+                      ) : (
+                        <>
+                          <EyeOff className="size-4" /> Remove from website
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-[#D9E6E7] bg-white p-3">
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-[#173F4A]">
+                      Selected element
+                    </p>
+                    <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
+                      {selectedElementHidden
+                        ? 'Removed from the public page'
+                        : 'Visible on the public page'}
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={toggleSelectedElement}
+                    className={`shrink-0 rounded-lg ${
+                      selectedElementHidden
+                        ? 'text-[#16807F]'
+                        : 'border-destructive/25 text-destructive hover:bg-destructive/5 hover:text-destructive'
+                    }`}
+                  >
+                    {selectedElementHidden ? (
+                      <>
+                        <Eye className="size-4" /> Restore
+                      </>
+                    ) : (
+                      <>
+                        <Trash2 className="size-4" /> Remove
+                      </>
+                    )}
+                  </Button>
                 </div>
 
                 {isMediaPath(selectedPath) &&

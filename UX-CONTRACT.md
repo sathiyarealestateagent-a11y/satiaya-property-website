@@ -1,0 +1,60 @@
+# UX Contract
+
+## Product context
+
+- Audience: the authenticated website owner editing a Malaysian real-estate website.
+- Primary job: update, arrange and publish public-site content without changing code.
+- Active locale: English (`en-MY`); Malaysian Ringgit and `Asia/Kuala_Lumpur` conventions.
+- Accessibility target: WCAG 2.2 AA.
+
+## Business-context sources
+
+| Domain / scope         | Authoritative source                                          | Source type        | Reviewed date |
+| ---------------------- | ------------------------------------------------------------- | ------------------ | ------------- |
+| Admin permission model | `supabase/migrations/20260904134258_initial_site_backend.sql` | Database policy    | 2026-09-07    |
+| Content lifecycle      | `app/api/admin/content/route.ts`, `db/content.ts`             | API implementation | 2026-09-07    |
+| Editor behavior        | Current user request and this contract                        | Product decision   | 2026-09-07    |
+
+## Visual contract
+
+- Project visual source: `DESIGN.md`.
+- Runtime tokens remain canonical in `app/globals.css`; `DESIGN.md` mirrors their accepted roles.
+- The visual editor follows the same teal, white and mist-grey system as the public website.
+
+## Canonical UI Map
+
+| Capability | Canonical owner                                                  | Source of truth                | Allowed variants    | Verification           |
+| ---------- | ---------------------------------------------------------------- | ------------------------------ | ------------------- | ---------------------- |
+| Form       | Existing shared fields plus Zod content schema                   | `src/content/schema.ts`        | edit                | lint + build + browser |
+| Scrollbar  | Global application stylesheet                                    | `DESIGN.md`, `app/globals.css` | geometry exceptions | browser                |
+| CRUD       | `AdminDashboard` history/save flow and authenticated content API | This contract                  | stay in editor      | full-flow browser      |
+
+## Editor behavior
+
+- Every public-page section appears in the Page layers panel.
+- Sections can be reordered by drag and drop or by the equivalent Move up / Move down buttons.
+- Removing a section or element is reversible: it is hidden from the public page, retained in the dashboard, and can be restored before or after publishing.
+- Individual property, service, statistic and navigation records continue to use their detailed list controls for permanent record deletion.
+- Every change updates the preview immediately, enters the shared undo history, and remains private until **Save & publish** succeeds.
+- Hidden navigation destinations are removed from public header and footer navigation while their target section is hidden.
+
+## Flow ledger
+
+| Operation               | Trigger                   | Pending                        | Success destination | Success feedback           | Failure recovery             | Focus outcome               |
+| ----------------------- | ------------------------- | ------------------------------ | ------------------- | -------------------------- | ---------------------------- | --------------------------- |
+| Reorder section         | Drag/drop or arrow button | Local immediate preview        | Stay in editor      | Dirty state                | Undo                         | Remains on control          |
+| Remove element/section  | Remove button             | Local immediate preview        | Stay in editor      | Strikethrough/hidden state | Restore or Undo              | Remains in inspector/layers |
+| Restore element/section | Restore button            | Local immediate preview        | Stay in editor      | Visible state              | Undo                         | Remains on control          |
+| Publish                 | Save & publish            | Busy button; duplicate blocked | Stay in editor      | Published status           | Inline error; draft retained | Save control/status         |
+
+## Async and resilience
+
+- Publishing is pessimistic; the public state changes only after the authenticated API and Supabase write succeed.
+- Duplicate publish is blocked while saving. Failed saves retain the complete draft and expose retry through the same action.
+- Undo/redo keeps up to 50 local snapshots. The API validates the full content structure before persistence.
+- Session and authorization remain server-verified by Supabase before every content mutation.
+
+## Verification
+
+- Required commands: formatter, `npm run lint`, `npm run build`, strict premium UI audit, and `designmd lint DESIGN.md` when visual tokens change.
+- Browser matrix: public preview plus authenticated editor at desktop and narrow viewport; verify reorder, remove, restore, undo, publish, and reload persistence.

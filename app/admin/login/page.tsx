@@ -136,7 +136,7 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        <form onSubmit={signIn} className="mt-4 grid gap-4">
+        <form onSubmit={signIn} noValidate className="mt-4 grid gap-4">
           <label
             htmlFor="admin-email"
             className="grid gap-2 text-sm font-semibold text-[#24343A]"

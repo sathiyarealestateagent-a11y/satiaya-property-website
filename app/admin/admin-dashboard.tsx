@@ -23,10 +23,10 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { useCallback, useId, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -278,6 +278,15 @@ export default function AdminDashboard({
   const [history, setHistory] = useState<SiteContent[]>([]);
   const [future, setFuture] = useState<SiteContent[]>([]);
 
+  useEffect(() => {
+    if (!dirty) return;
+    const protectDraft = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+    window.addEventListener('beforeunload', protectDraft);
+    return () => window.removeEventListener('beforeunload', protectDraft);
+  }, [dirty]);
+
   function update(path: PathPart[], value: unknown) {
     setHistory((items) => [...items.slice(-49), draft]);
     setFuture([]);
@@ -432,13 +441,19 @@ export default function AdminDashboard({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Link href="/" target="_blank" rel="noreferrer">
-              <Button
-                variant="outline"
-                className="h-10 rounded-xl border-[#D9E6E7] bg-white px-4 shadow-sm"
-              >
-                Preview site <ExternalLink />
-              </Button>
+            <Link
+              href="/"
+              target="_blank"
+              rel="noreferrer"
+              data-slot="button"
+              data-variant="outline"
+              className={buttonVariants({
+                variant: 'outline',
+                className:
+                  'h-10 rounded-xl border-[#D9E6E7] bg-white px-4 shadow-sm',
+              })}
+            >
+              Preview site <ExternalLink />
             </Link>
             <Button
               onClick={() => void save()}
@@ -448,7 +463,7 @@ export default function AdminDashboard({
               {saving ? <LoaderCircle className="animate-spin" /> : <Save />}
               {saving ? 'Saving…' : 'Save & publish'}
             </Button>
-            <form action="/admin/logout" method="post">
+            <form action="/admin/logout" method="post" noValidate>
               <Button
                 type="submit"
                 variant="ghost"

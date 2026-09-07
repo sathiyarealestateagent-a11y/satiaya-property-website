@@ -4,6 +4,20 @@ const text = z.string().max(5000);
 const shortText = z.string().max(300);
 const urlText = z.string().max(3000);
 
+export const pageSectionIds = [
+  'hero',
+  'properties',
+  'owners',
+  'services',
+  'about',
+  'contact',
+] as const;
+
+export const pageSectionSchema = z.enum(pageSectionIds);
+export type PageSectionId = z.infer<typeof pageSectionSchema>;
+
+const defaultPageOrder: PageSectionId[] = [...pageSectionIds];
+
 export const propertySchema = z.object({
   id: z.number().int().positive(),
   title: shortText,
@@ -19,6 +33,16 @@ export const propertySchema = z.object({
 });
 
 export const siteContentSchema = z.object({
+  pageLayout: z
+    .object({
+      order: z.array(pageSectionSchema).length(pageSectionIds.length),
+      hidden: z.array(pageSectionSchema).max(pageSectionIds.length),
+      hiddenElements: z
+        .array(z.string().regex(/^[a-zA-Z0-9.]+$/))
+        .max(300)
+        .default([]),
+    })
+    .default({ order: defaultPageOrder, hidden: [], hiddenElements: [] }),
   navigation: z.array(z.object({ label: shortText, href: shortText })).max(10),
   logo: z.object({ mark: shortText, image: urlText }),
   agent: z.object({

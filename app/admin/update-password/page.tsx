@@ -104,7 +104,11 @@ export default function UpdatePasswordPage() {
             recovery link…
           </div>
         ) : (
-          <form onSubmit={updatePassword} className="mt-7 grid gap-4">
+          <form
+            onSubmit={updatePassword}
+            noValidate
+            className="mt-7 grid gap-4"
+          >
             <label
               htmlFor="new-password"
               className="grid gap-2 text-sm font-semibold text-[#24343A]"
