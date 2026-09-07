@@ -84,7 +84,7 @@ The visual reference is a well-appointed Malaysian corporate property advisory o
 - **Memorable signature:** Property imagery is framed by a deep-navy cinematic veil with a fine gold trust accent.
 - **Restraint:** Forms, cards, listings and dashboard controls remain white or light grey; gold is reserved for primary calls to action, selected states, icons and fine highlights.
 - **Anti-references:** Avoid casino-like black-and-gold styling, bright neon accents, all-blue slabs, decorative gradients and low-contrast gold body copy.
-- **Token ownership/runtime mapping:** `app/globals.css` is the canonical runtime source. This document mirrors its accepted semantic roles. Tailwind utilities consume those CSS variables; raw colours are permitted only for exact brand accents, image overlays and third-party marks. Drift is checked by repository colour search and production browser review.
+- **Token ownership/runtime mapping:** `app/globals.css` is the canonical runtime source. The higher-specificity `html[data-theme='corporate']` selector guarantees that every route and future component inherits the corporate tokens even when library defaults are present. This document mirrors those accepted semantic roles. Tailwind utilities consume the CSS variables; raw colours are permitted only for exact brand accents, image overlays and third-party marks. Drift is checked by repository colour search and production browser review.
 
 ## Colors
 

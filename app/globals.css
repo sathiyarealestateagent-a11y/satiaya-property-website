@@ -69,6 +69,39 @@
   scrollbar-width: thin;
 }
 
+/*
+ * The branded selector deliberately has higher specificity than third-party
+ * theme defaults, so every route and future component inherits this palette.
+ */
+html[data-theme='corporate'] {
+  --brand-blue: #0b2d5c;
+  --brand-blue-secondary: #174a8b;
+  --brand-gold: #d4af37;
+  --brand-gold-light: #e8c96a;
+  --brand-surface: #f7f8fa;
+  --brand-text: #1f2937;
+  --background: #f7f8fa;
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  --primary: #0b2d5c;
+  --primary-foreground: #ffffff;
+  --secondary: #174a8b;
+  --secondary-foreground: #ffffff;
+  --muted: #edf2f7;
+  --muted-foreground: #5b6574;
+  --accent: #d4af37;
+  --accent-foreground: #0b2d5c;
+  --destructive: #c0392b;
+  --border: #e1e6ed;
+  --input: #e1e6ed;
+  --ring: #174a8b;
+  color-scheme: light;
+  scrollbar-color: #9aabc1 #f7f8fa;
+}
+
 .dark {
   --background: #081f40;
   --foreground: #f7f8fa;
@@ -149,6 +182,18 @@
 
   .form-label {
     @apply text-[13px] font-bold tracking-[0.01em] text-brand-text;
+  }
+
+  html[data-theme='corporate'] .section-kicker {
+    color: var(--secondary);
+  }
+
+  html[data-theme='corporate'] .section-title {
+    color: var(--primary);
+  }
+
+  html[data-theme='corporate'] .form-label {
+    color: var(--foreground);
   }
 }
 
