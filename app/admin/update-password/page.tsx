@@ -81,16 +81,16 @@ export default function UpdatePasswordPage() {
   };
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#F7F8FA] px-5 py-12">
-      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(0,0,64,.12)] ring-1 ring-black/5 sm:p-9">
-        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#000040] text-[#70D7FF]">
+    <main className="grid min-h-screen place-items-center bg-[#F5F8F9] px-5 py-12">
+      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(23,63,74,.12)] ring-1 ring-black/5 sm:p-9">
+        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#173F4A] text-[#77D9D4]">
           <Building2 className="size-7" />
         </div>
         <div className="mt-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#4133BA]">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#16807F]">
             Secure account
           </p>
-          <h1 className="mt-2 font-heading text-3xl font-bold text-[#000040]">
+          <h1 className="mt-2 font-heading text-3xl font-bold text-[#173F4A]">
             Choose a new password
           </h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -99,7 +99,7 @@ export default function UpdatePasswordPage() {
         </div>
 
         {checking ? (
-          <div className="mt-7 flex items-center justify-center gap-2 text-sm font-semibold text-[#5B6574]">
+          <div className="mt-7 flex items-center justify-center gap-2 text-sm font-semibold text-[#5F7077]">
             <LoaderCircle className="size-4 animate-spin" /> Checking your
             recovery link…
           </div>
@@ -107,7 +107,7 @@ export default function UpdatePasswordPage() {
           <form onSubmit={updatePassword} className="mt-7 grid gap-4">
             <label
               htmlFor="new-password"
-              className="grid gap-2 text-sm font-semibold text-[#1F2937]"
+              className="grid gap-2 text-sm font-semibold text-[#24343A]"
             >
               New password
               <Input
@@ -118,12 +118,12 @@ export default function UpdatePasswordPage() {
                 required
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="h-12 rounded-xl bg-[#F7F8FA]"
+                className="h-12 rounded-xl bg-[#F5F8F9]"
               />
             </label>
             <label
               htmlFor="confirm-password"
-              className="grid gap-2 text-sm font-semibold text-[#1F2937]"
+              className="grid gap-2 text-sm font-semibold text-[#24343A]"
             >
               Confirm new password
               <Input
@@ -134,7 +134,7 @@ export default function UpdatePasswordPage() {
                 required
                 value={confirmation}
                 onChange={(event) => setConfirmation(event.target.value)}
-                className="h-12 rounded-xl bg-[#F7F8FA]"
+                className="h-12 rounded-xl bg-[#F5F8F9]"
               />
             </label>
             {error && (
@@ -159,7 +159,7 @@ export default function UpdatePasswordPage() {
 
         <Link
           href="/admin/login"
-          className="mt-6 block text-center text-sm font-semibold text-[#5B6574] hover:text-[#000040]"
+          className="mt-6 block text-center text-sm font-semibold text-[#5F7077] hover:text-[#173F4A]"
         >
           Return to sign in
         </Link>

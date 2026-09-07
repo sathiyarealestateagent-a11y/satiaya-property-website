@@ -14,7 +14,7 @@ export default async function AdminPage() {
   if (!supabase) {
     return (
       <AdminMessage
-        icon={<DatabaseZap className="mx-auto size-10 text-[#00B1FC]" />}
+        icon={<DatabaseZap className="mx-auto size-10 text-[#2DB8B5]" />}
         title="Dashboard connection required"
         description="Add the Supabase environment variables to finish connecting this dashboard."
       />
@@ -52,7 +52,7 @@ function AdminMessage({
   description: string;
 }) {
   return (
-    <main className="grid min-h-screen place-items-center bg-[#F7F8FA] p-6">
+    <main className="grid min-h-screen place-items-center bg-[#F5F8F9] p-6">
       <div className="max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
         {icon}
         <h1 className="mt-4 font-heading text-2xl font-bold">{title}</h1>

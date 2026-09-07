@@ -1,18 +1,18 @@
 ---
 version: alpha
-name: 'Satiaya Property Midnight & Cyan'
-description: 'A premium Malaysian property advisory experience built around midnight blue, vivid cyan, controlled violet and quiet neutral surfaces.'
+name: 'Satiaya Property Teal Signature'
+description: 'A premium Malaysian property advisory experience built around confident turquoise, deep teal and quiet white surfaces.'
 colors:
-  primary: '#000040'
-  secondary: '#4133BA'
-  accent: '#00B1FC'
-  accent-light: '#70D7FF'
-  background: '#F7F8FA'
+  primary: '#173F4A'
+  secondary: '#16807F'
+  accent: '#2DB8B5'
+  accent-light: '#77D9D4'
+  background: '#F5F8F9'
   surface: '#FFFFFF'
-  text: '#1F2937'
-  muted: '#EDF2F7'
-  muted-text: '#5B6574'
-  border: '#E1E6ED'
+  text: '#24343A'
+  muted: '#EAF2F3'
+  muted-text: '#5F7077'
+  border: '#D9E6E7'
   destructive: '#C0392B'
 typography:
   sans:
@@ -32,12 +32,12 @@ spacing:
   page-max: '80rem'
 components:
   button:
-    backgroundColor: '{colors.accent}'
-    textColor: '{colors.primary}'
+    backgroundColor: '{colors.secondary}'
+    textColor: '{colors.surface}'
     rounded: '{rounded.lg}'
   button-hover:
-    backgroundColor: '{colors.accent-light}'
-    textColor: '{colors.primary}'
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.surface}'
   destructive-action:
     backgroundColor: '{colors.destructive}'
     textColor: '{colors.surface}'
@@ -64,15 +64,18 @@ components:
     backgroundColor: '{colors.accent}'
     textColor: '{colors.primary}'
     rounded: '{rounded.xl}'
+  highlight:
+    backgroundColor: '{colors.accent-light}'
+    textColor: '{colors.primary}'
 ---
 
-# Satiaya Property Midnight Blue & Cyan Design System
+# Satiaya Property Premium Teal Design System
 
 ## Overview
 
 ### Creative North Star
 
-The visual reference is the crisp Malaysian corporate language seen on ICDM: near-black midnight blue, vivid cyan actions, controlled royal-violet depth, generous white space and sharp geometric contrast. The property site retains its own imagery, content and layout.
+The visual reference is PropertyHunter Malaysia's approachable turquoise-and-white property language. Satiaya's interpretation adds deeper teal contrast, restrained elevation and polished motion so the identity feels personal and premium rather than copied. The existing imagery, content and layout remain Satiaya's own.
 
 ### Product context and register
 
@@ -81,14 +84,14 @@ The visual reference is the crisp Malaysian corporate language seen on ICDM: nea
 - **Locale(s) and language policy:** English (`en-MY`) is the current interface language. Property prices retain Malaysian Ringgit formatting. Additional locales require reviewed translations rather than mixed-language controls.
 - **Usage scene:** Mobile-first property discovery with desktop comparison and an authenticated desktop/mobile content editor.
 - **Register:** Hybrid. The public routes are premium brand-led marketing; `/admin` is a quiet, task-led editing surface.
-- **Memorable signature:** Property imagery is framed by a midnight-blue cinematic veil, with vivid cyan used as a precise directional accent.
-- **Restraint:** Forms, cards, listings and dashboard controls remain white or light grey; cyan identifies primary actions and highlights, while violet appears only for secondary emphasis and depth.
-- **Anti-references:** Avoid unrelated campaign colours, rainbow palettes, all-blue slabs, decorative gradients and low-contrast cyan body copy.
+- **Memorable signature:** Property imagery is framed by a deep-teal cinematic veil, with turquoise actions carrying a brief moving highlight on hover.
+- **Restraint:** Forms, cards, listings and dashboard controls remain white or mist grey; turquoise identifies primary actions while deep teal carries headings and trust-heavy surfaces.
+- **Anti-references:** Avoid unrelated campaign colours, rainbow palettes, large decorative gradients, neon effects and low-contrast turquoise body copy.
 - **Token ownership/runtime mapping:** `app/globals.css` is the canonical runtime source. The higher-specificity `html[data-theme='corporate']` selector guarantees that every route and future component inherits the corporate tokens even when library defaults are present. This document mirrors those accepted semantic roles. Tailwind utilities consume the CSS variables; raw colours are permitted only for exact brand accents, image overlays and third-party marks. Drift is checked by repository colour search and production browser review.
 
 ## Colors
 
-Midnight blue `#000040` owns headings, dark sections, navigation emphasis and the footer. Royal violet `#4133BA` owns secondary actions, focus rings and selected depth. Vivid cyan `#00B1FC` is the primary accent and action fill; light cyan `#70D7FF` is its hover or dark-surface companion. Pages use `#F7F8FA`, cards use white, and normal text uses `#1F2937`. Muted copy uses `#5B6574`, borders use `#E1E6ED`, and destructive feedback remains semantic red. Cyan is not used for small text on white. Selection uses light cyan with midnight text. The defined dark tokens preserve the same hierarchy if a future route enables dark mode.
+Deep teal `#173F4A` owns headings, dark sections, navigation emphasis and the footer. Accessible action teal `#16807F` owns buttons, focus rings and selected depth. PropertyHunter-inspired turquoise `#2DB8B5` is the bright brand accent; aqua `#77D9D4` is used sparingly for highlights on dark surfaces. Pages use `#F5F8F9`, cards use white, and normal text uses `#24343A`. Muted copy uses `#5F7077`, borders use `#D9E6E7`, and destructive feedback remains semantic red. Bright turquoise is not used behind small white text. Selection uses aqua with deep-teal text.
 
 ## Typography
 
@@ -100,7 +103,7 @@ The public experience keeps its existing narrative section order and max width o
 
 ## Elevation & Depth
 
-Hierarchy comes from white cards on light-grey fields, fine cool-grey borders and low-opacity midnight-blue shadows. The hero uses layered midnight and violet image overlays with subtle glass treatment. Cyan remains concentrated in compact actions and status accents. Dashboard forms avoid decorative elevation inside cards.
+Hierarchy comes from white cards on mist-grey fields, fine blue-grey borders and low-opacity deep-teal shadows. The hero uses layered deep-teal and turquoise image overlays with subtle glass treatment. Turquoise remains concentrated in compact actions and status accents. Dashboard forms avoid decorative elevation inside cards.
 
 ## Shapes
 
@@ -110,35 +113,35 @@ The base radius is 0.75rem. Fields and dashboard controls use 0.75–1rem radii,
 
 ### Foundational visual states
 
-Default surfaces are white with cool-grey borders. Hover uses pale cyan-grey or a controlled shift from midnight to violet. Focus-visible uses the violet ring. Selected navigation uses midnight, violet or cyan according to surface contrast. Disabled controls retain geometry and reduce opacity. Success is communicated with an icon plus blue informational treatment; warning and errors retain explicit text and semantic colour.
+Default surfaces are white with blue-grey borders. Hover uses pale aqua-grey or a controlled shift from turquoise to deeper teal. Focus-visible uses the supporting-teal ring. Selected navigation uses deep teal or turquoise according to surface contrast. Disabled controls retain geometry and reduce opacity. Success is communicated with an icon plus teal informational treatment; warning and errors retain explicit text and semantic colour.
 
 ### Buttons and actions
 
-Primary calls to action use vivid cyan with midnight text and light-cyan hover. They follow the reference's restrained 16px geometry: flat fill, no floating movement, no decorative shadow and a fast 150ms colour/border transition. Secondary actions use violet or midnight with white text. Outline and ghost actions use midnight text on light surfaces with cyan-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
+Primary calls to action use turquoise with white text and a deeper-teal hover. Buttons use 16px geometry, a controlled 2px hover lift, soft teal elevation and one quick diagonal highlight sweep. Motion runs on a 220ms premium easing curve, settles on press and is removed under `prefers-reduced-motion`. Secondary actions use supporting or deep teal with white text. Outline and ghost actions use deep-teal text on light surfaces with an aqua-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
 
 ### Navigation and data display
 
-Public navigation sits on white with midnight text and restrained cyan hover. The footer and dashboard sidebar use midnight blue, white text and small cyan accents. Property tabs use midnight for the selected state. Cards stay white with cool-grey borders; featured badges use cyan with midnight text.
+Public navigation sits on white with deep-teal text and restrained turquoise hover. The footer and dashboard sidebar use deep teal, white text and small turquoise accents. Property tabs use deep teal for the selected state. Cards stay white with blue-grey borders; featured badges use turquoise with deep-teal text.
 
 ### Forms and overlays
 
-Inputs use white or `#F7F8FA`, cool-grey borders, main-text labels and secondary-blue focus treatment. Validation remains textual and field-associated. Existing native selects, authenticated flows, uploads and save feedback retain their current behavior and layout.
+Inputs use white or `#F5F8F9`, blue-grey borders, main-text labels and supporting-teal focus treatment. Validation remains textual and field-associated. Existing native selects, authenticated flows, uploads and save feedback retain their current behavior and layout.
 
 ### Iconography
 
-Lucide is the canonical icon family, using consistent outline strokes at 16–20px for controls. Cyan denotes highlights and trust signals; midnight and violet denote navigation, utilities and secondary actions. Icon-only controls keep accessible names.
+Lucide is the canonical icon family, using consistent outline strokes at 16–20px for controls. Turquoise denotes highlights and trust signals; deep and supporting teal denote navigation, utilities and secondary actions. Icon-only controls keep accessible names.
 
 ### Motion
 
-Motion remains restrained: short colour/elevation transitions and the existing slow cinematic hero drift. Motion communicates affordance without changing layout, and `prefers-reduced-motion` disables the hero animation.
+Motion remains restrained: a single highlight sweep and 2px lift for primary actions, short colour/elevation transitions elsewhere, and the existing slow cinematic hero drift. Motion communicates affordance without changing layout, and `prefers-reduced-motion` disables both button effects and the hero animation.
 
 ### Content and data visualization
 
-Copy and property data remain unchanged by theme work. The voice is direct, personal and professional. Any future charts start with midnight blue and royal violet, using cyan for a single emphasis series and providing a text alternative.
+Copy and property data remain unchanged by theme work. The voice is direct, personal and professional. Any future charts start with deep and supporting teal, using turquoise for a single emphasis series and providing a text alternative.
 
 ## Do's and Don'ts
 
-- **Do:** Let midnight blue establish trust and cyan identify the most important action or detail.
+- **Do:** Let deep teal establish trust and turquoise identify the most important action or detail.
 - **Do:** Build new pages from the shared semantic tokens in `app/globals.css`.
-- **Don't:** use vivid cyan for paragraphs, small labels or large decorative surfaces on white.
-- **Don't:** reintroduce green, gold, orange or ad-hoc campaign colours outside approved third-party marks and semantic alerts.
+- **Don't:** use bright turquoise for paragraphs, small labels or large decorative surfaces on white.
+- **Don't:** add gold, orange, violet or ad-hoc campaign colours outside approved third-party marks and semantic alerts.

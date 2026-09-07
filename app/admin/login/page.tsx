@@ -72,16 +72,16 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#F7F8FA] px-5 py-12">
-      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(0,0,64,.12)] ring-1 ring-black/5 sm:p-9">
-        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#000040] text-[#70D7FF]">
+    <main className="grid min-h-screen place-items-center bg-[#F5F8F9] px-5 py-12">
+      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(23,63,74,.12)] ring-1 ring-black/5 sm:p-9">
+        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#173F4A] text-[#77D9D4]">
           <Building2 className="size-7" />
         </div>
         <div className="mt-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#4133BA]">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#16807F]">
             Private access
           </p>
-          <h1 className="mt-2 font-heading text-3xl font-bold text-[#000040]">
+          <h1 className="mt-2 font-heading text-3xl font-bold text-[#173F4A]">
             Website dashboard
           </h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
         </div>
 
         {passwordUpdated && (
-          <p className="mt-7 rounded-xl bg-[#EDF2F7] px-4 py-3 text-center text-sm font-semibold text-[#4133BA]">
+          <p className="mt-7 rounded-xl bg-[#EAF2F3] px-4 py-3 text-center text-sm font-semibold text-[#16807F]">
             Your password was updated. Sign in with the new password.
           </p>
         )}
@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
             variant="outline"
             disabled={loading || googleLoading}
             onClick={signInWithGoogle}
-            className="h-12 rounded-full border-black/10 bg-white text-sm font-bold text-[#1F2937] shadow-sm hover:bg-[#F7F8FA]"
+            className="h-12 rounded-full border-black/10 bg-white text-sm font-bold text-[#24343A] shadow-sm hover:bg-[#F5F8F9]"
           >
             {googleLoading ? (
               <LoaderCircle className="animate-spin" />
@@ -129,7 +129,7 @@ export default function AdminLoginPage() {
             {googleLoading ? 'Opening Google…' : 'Continue with Google'}
           </Button>
 
-          <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[#5B6574]">
+          <div className="flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[#5F7077]">
             <span className="h-px flex-1 bg-black/10" />
             Or use password
             <span className="h-px flex-1 bg-black/10" />
@@ -139,7 +139,7 @@ export default function AdminLoginPage() {
         <form onSubmit={signIn} className="mt-4 grid gap-4">
           <label
             htmlFor="admin-email"
-            className="grid gap-2 text-sm font-semibold text-[#1F2937]"
+            className="grid gap-2 text-sm font-semibold text-[#24343A]"
           >
             Email address
             <Input
@@ -149,18 +149,18 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="h-12 rounded-xl bg-[#F7F8FA]"
+              className="h-12 rounded-xl bg-[#F5F8F9]"
             />
           </label>
           <label
             htmlFor="admin-password"
-            className="grid gap-2 text-sm font-semibold text-[#1F2937]"
+            className="grid gap-2 text-sm font-semibold text-[#24343A]"
           >
             <span className="flex items-center justify-between gap-3">
               <span>Password</span>
               <Link
                 href="/admin/forgot-password"
-                className="text-xs font-bold text-[#4133BA] hover:text-[#000040]"
+                className="text-xs font-bold text-[#16807F] hover:text-[#173F4A]"
               >
                 Forgot password?
               </Link>
@@ -172,7 +172,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="h-12 rounded-xl bg-[#F7F8FA]"
+              className="h-12 rounded-xl bg-[#F5F8F9]"
             />
           </label>
           {error && (
@@ -196,7 +196,7 @@ export default function AdminLoginPage() {
 
         <Link
           href="/"
-          className="mt-6 block text-center text-sm font-semibold text-[#5B6574] hover:text-[#000040]"
+          className="mt-6 block text-center text-sm font-semibold text-[#5F7077] hover:text-[#173F4A]"
         >
           Return to website
         </Link>
