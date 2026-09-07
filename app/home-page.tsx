@@ -303,7 +303,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className="text-sm font-semibold text-primary transition-colors hover:text-[#B08D20]"
+                className="text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-[#00B1FC]"
               >
                 {label}
               </a>
@@ -321,7 +321,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </Button>
             </a>
             <a href={whatsappLink()} target="_blank" rel="noreferrer">
-              <Button className="h-11 rounded-full bg-[#00B1FC] px-5 text-[#000040] shadow-[0_8px_20px_rgba(0,0,64,.18)] hover:bg-[#70D7FF]">
+              <Button className="h-11 rounded-2xl bg-[#00B1FC] px-5 text-[#000040] hover:bg-[#70D7FF]">
                 {siteConfig.header.cta}
                 <ArrowRight />
               </Button>
@@ -349,7 +349,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={href}
                   href={href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 font-semibold text-primary hover:bg-[#EDF2F7] hover:text-[#B08D20]"
+                  className="rounded-xl px-4 py-3 font-semibold text-primary transition-colors duration-150 ease-in-out hover:bg-[#EDF2F7] hover:text-[#00B1FC]"
                 >
                   {label}
                 </a>
@@ -412,7 +412,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="#properties">
-                <Button className="h-14 rounded-2xl bg-[#00B1FC] px-7 text-[#000040] shadow-[0_16px_38px_rgba(0,0,0,.24)] transition-all hover:-translate-y-0.5 hover:bg-[#70D7FF]">
+                <Button className="h-14 rounded-2xl bg-[#00B1FC] px-7 text-[#000040] hover:bg-[#70D7FF]">
                   {siteConfig.hero.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -421,7 +421,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 href={whatsappLink(siteConfig.hero.secondaryMessage)}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-14 items-center gap-2.5 rounded-2xl border border-white/25 bg-white/[.08] px-7 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,.12)] backdrop-blur-md transition-all hover:-translate-y-0.5 hover:bg-white/[.15]"
+                className="inline-flex h-14 items-center gap-2.5 rounded-2xl border border-white/25 bg-white/[.08] px-7 text-sm font-semibold text-white backdrop-blur-md transition-[color,background-color,border-color] duration-150 ease-in-out hover:border-[#70D7FF]/70 hover:bg-white/[.15]"
               >
                 <WhatsAppIcon className="size-4" />
                 {siteConfig.hero.secondaryCta}
@@ -719,14 +719,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Button className="h-12 rounded-full bg-[#00B1FC] px-6 text-[#000040] hover:bg-[#70D7FF]">
+                <Button className="h-12 rounded-2xl bg-[#00B1FC] px-6 text-[#000040] hover:bg-[#70D7FF]">
                   {siteConfig.ownerSection.primaryCta}
                   <ArrowRight />
                 </Button>
               </a>
               <a
                 href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
-                className="inline-flex h-12 items-center gap-2 rounded-full border border-white/25 px-6 text-sm font-semibold hover:bg-white/10"
+                className="inline-flex h-12 items-center gap-2 rounded-2xl border border-white/25 px-6 text-sm font-semibold transition-[color,background-color,border-color] duration-150 ease-in-out hover:border-[#70D7FF]/70 hover:bg-white/10"
               >
                 <Phone className="size-4" /> Call {siteConfig.agent.firstName}
               </a>
@@ -1041,7 +1041,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       rel="noreferrer"
                       aria-label={`Follow ${siteConfig.agent.firstName} on ${label}`}
                       title={label}
-                      className={`${iconClass} hover:-translate-y-0.5 hover:border-[#00B1FC] hover:bg-[#00B1FC] hover:text-[#000040]`}
+                      className={`${iconClass} hover:border-[#00B1FC] hover:bg-[#00B1FC] hover:text-[#000040]`}
                     >
                       <Icon className="size-[17px]" />
                     </a>
@@ -1115,7 +1115,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         href={whatsappLink()}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-full bg-[#4133BA] px-4 text-sm font-bold text-white shadow-[0_12px_35px_rgba(0,0,64,.32)] transition-transform hover:-translate-y-1 sm:bottom-7 sm:right-7"
+        className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-2xl border border-[#4133BA] bg-[#4133BA] px-4 text-sm font-bold text-white transition-[color,background-color,border-color] duration-150 ease-in-out hover:border-[#00B1FC] hover:bg-[#00B1FC] hover:text-[#000040] sm:bottom-7 sm:right-7"
         aria-label="Chat with Satiaya on WhatsApp"
       >
         <WhatsAppIcon className="size-5" />

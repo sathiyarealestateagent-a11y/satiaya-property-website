@@ -114,7 +114,7 @@ Default surfaces are white with cool-grey borders. Hover uses pale cyan-grey or 
 
 ### Buttons and actions
 
-Primary calls to action use vivid cyan with midnight text and light-cyan hover. Secondary actions use violet or midnight with white text. Outline and ghost actions use midnight text on light surfaces with cyan-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
+Primary calls to action use vivid cyan with midnight text and light-cyan hover. They follow the reference's restrained 16px geometry: flat fill, no floating movement, no decorative shadow and a fast 150ms colour/border transition. Secondary actions use violet or midnight with white text. Outline and ghost actions use midnight text on light surfaces with cyan-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
 
 ### Navigation and data display
 
