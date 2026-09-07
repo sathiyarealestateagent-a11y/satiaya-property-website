@@ -18,11 +18,12 @@ import {
   Settings2,
   Sparkles,
   Trash2,
+  WandSparkles,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { useId, useState } from 'react';
+import { useCallback, useId, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -37,6 +38,8 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import type { EditableProperty, SiteContent } from '@/src/content/schema';
+
+import VisualEditor from './visual-editor';
 
 type PathPart = string | number;
 
@@ -111,7 +114,7 @@ function LongField({
         value={value}
         rows={rows}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-xl border-[#D9E6E7] bg-[#FFFFFF] px-3.5 py-3 text-sm font-medium normal-case leading-6 tracking-normal shadow-none transition focus-visible:border-[#16807F] focus-visible:ring-[#16807F]/12"
+        className="resize-none rounded-xl border-[#D9E6E7] bg-[#FFFFFF] px-3.5 py-3 text-sm font-medium normal-case leading-6 tracking-normal shadow-none transition focus-visible:border-[#16807F] focus-visible:ring-[#16807F]/12"
       />
     </label>
   );
@@ -271,12 +274,41 @@ export default function AdminDashboard({
   const [status, setStatus] = useState<'idle' | 'saved' | 'error'>('idle');
   const [message, setMessage] = useState('');
   const [dirty, setDirty] = useState(false);
+  const [activeTab, setActiveTab] = useState('visual');
+  const [history, setHistory] = useState<SiteContent[]>([]);
+  const [future, setFuture] = useState<SiteContent[]>([]);
 
   function update(path: PathPart[], value: unknown) {
-    setDraft((current) => setAtPath(current, path, value));
+    setHistory((items) => [...items.slice(-49), draft]);
+    setFuture([]);
+    setDraft(setAtPath(draft, path, value));
     setStatus('idle');
     setDirty(true);
   }
+
+  const undo = useCallback(() => {
+    setHistory((items) => {
+      const previous = items.at(-1);
+      if (!previous) return items;
+      setFuture((futureItems) => [draft, ...futureItems].slice(0, 50));
+      setDraft(previous);
+      setDirty(true);
+      setStatus('idle');
+      return items.slice(0, -1);
+    });
+  }, [draft]);
+
+  const redo = useCallback(() => {
+    setFuture((items) => {
+      const next = items[0];
+      if (!next) return items;
+      setHistory((historyItems) => [...historyItems.slice(-49), draft]);
+      setDraft(next);
+      setDirty(true);
+      setStatus('idle');
+      return items.slice(1);
+    });
+  }, [draft]);
 
   async function save() {
     setSaving(true);
@@ -462,10 +494,19 @@ export default function AdminDashboard({
         </div>
 
         <Tabs
-          defaultValue="identity"
-          className="gap-7 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start"
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className={
+            activeTab === 'visual'
+              ? 'gap-5'
+              : 'gap-7 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start'
+          }
         >
-          <TabsList className="sticky top-28 hidden h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#173F4A] p-3 text-white shadow-[0_18px_45px_rgba(23,63,74,.16)] lg:flex">
+          <TabsList
+            className={`sticky top-28 h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#173F4A] p-3 text-white shadow-[0_18px_45px_rgba(23,63,74,.16)] ${
+              activeTab === 'visual' ? 'hidden' : 'hidden lg:flex'
+            }`}
+          >
             <div className="mb-2 rounded-2xl border border-white/10 bg-white/[.06] p-4 text-left">
               <span className="grid size-9 place-items-center rounded-xl bg-[#2DB8B5] text-[#173F4A]">
                 <Globe2 className="size-[18px]" />
@@ -474,9 +515,15 @@ export default function AdminDashboard({
                 Website controls
               </p>
               <p className="mt-1 text-xs leading-5 text-white/55">
-                Choose a section, make changes, then publish.
+                Edit visually or open detailed controls, then publish.
               </p>
             </div>
+            <TabsTrigger
+              value="visual"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
+            >
+              <WandSparkles /> Visual editor
+            </TabsTrigger>
             <TabsTrigger
               value="identity"
               className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
@@ -502,7 +549,17 @@ export default function AdminDashboard({
               <Building2 /> Properties
             </TabsTrigger>
           </TabsList>
-          <TabsList className="mb-5 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#D9E6E7] bg-white p-1.5 lg:hidden">
+          <TabsList
+            className={`mb-5 h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#D9E6E7] bg-white p-1.5 ${
+              activeTab === 'visual' ? 'flex' : 'flex lg:hidden'
+            }`}
+          >
+            <TabsTrigger
+              value="visual"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173F4A] data-[state=active]:text-[#2DB8B5]"
+            >
+              <WandSparkles /> Visual editor
+            </TabsTrigger>
             <TabsTrigger
               value="identity"
               className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173F4A] data-[state=active]:text-[#2DB8B5]"
@@ -528,6 +585,21 @@ export default function AdminDashboard({
               <Building2 /> Properties
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="visual">
+            <VisualEditor
+              draft={draft}
+              dirty={dirty}
+              saving={saving}
+              canUndo={history.length > 0}
+              canRedo={future.length > 0}
+              onUpdate={update}
+              onUndo={undo}
+              onRedo={redo}
+              onSave={save}
+              onOpenDetails={(tab) => setActiveTab(tab)}
+            />
+          </TabsContent>
 
           <TabsContent value="identity" className="grid gap-6">
             <SectionCard

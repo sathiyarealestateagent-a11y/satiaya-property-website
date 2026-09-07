@@ -127,6 +127,10 @@ Public navigation sits on white with deep-teal text and restrained turquoise hov
 
 Inputs use white or `#F5F8F9`, blue-grey borders, main-text labels and supporting-teal focus treatment. Validation remains textual and field-associated. Existing native selects, authenticated flows, uploads and save feedback retain their current behavior and layout.
 
+### Visual content editor
+
+The dashboard opens with a three-pane visual editor: searchable page layers, an exact same-origin website preview, and a focused inspector. A compact white toolbar owns viewport switching, undo/redo, preview and publishing. Editable elements receive turquoise selection outlines only inside editor mode; these affordances never appear on the public website. Detailed section forms remain available as the canonical fallback for every field and advanced listing control.
+
 ### Iconography
 
 Lucide is the canonical icon family, using consistent outline strokes at 16–20px for controls. Turquoise denotes highlights and trust signals; deep and supporting teal denote navigation, utilities and secondary actions. Icon-only controls keep accessible names.

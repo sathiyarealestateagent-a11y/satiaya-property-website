@@ -24,7 +24,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import type { SyntheticEvent } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -113,9 +113,11 @@ type WebMcpContext = {
 };
 
 export default function HomePage({ content }: { content: SiteContent }) {
-  const siteConfig = content;
-  const properties = content.properties;
-  const navItems = content.navigation.map(
+  const [previewContent, setPreviewContent] = useState(content);
+  const editorSurfaceRef = useRef<HTMLElement>(null);
+  const siteConfig = previewContent;
+  const properties = previewContent.properties;
+  const navItems = previewContent.navigation.map(
     (item) => [item.label, item.href] as const,
   );
   const services = content.servicesSection.items.map((service, index) => ({
@@ -159,6 +161,65 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const [searchApplied, setSearchApplied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formSent, setFormSent] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('visualEditor') !== '1')
+      return;
+    editorSurfaceRef.current?.setAttribute('data-editor-surface', 'true');
+
+    function selectEditable(event: MouseEvent) {
+      const target =
+        event.target instanceof Element
+          ? event.target.closest<HTMLElement>('[data-editor-path]')
+          : null;
+      if (!target?.dataset.editorPath) return;
+      event.preventDefault();
+      event.stopPropagation();
+      document
+        .querySelectorAll('[data-editor-selected="true"]')
+        .forEach((element) => {
+          element.removeAttribute('data-editor-selected');
+        });
+      target.dataset.editorSelected = 'true';
+      window.parent.postMessage(
+        { type: 'satiaya-editor-select', path: target.dataset.editorPath },
+        window.location.origin,
+      );
+    }
+
+    function receiveEditorUpdate(event: MessageEvent) {
+      if (
+        event.origin !== window.location.origin ||
+        event.source !== window.parent
+      )
+        return;
+      if (event.data?.type !== 'satiaya-editor-content' || !event.data.content)
+        return;
+      setPreviewContent(event.data.content as SiteContent);
+      if (typeof event.data.selectedPath === 'string') {
+        document
+          .querySelectorAll('[data-editor-selected="true"]')
+          .forEach((element) => {
+            element.removeAttribute('data-editor-selected');
+          });
+        const safePath = CSS.escape(event.data.selectedPath);
+        document
+          .querySelector<HTMLElement>(`[data-editor-path="${safePath}"]`)
+          ?.setAttribute('data-editor-selected', 'true');
+      }
+    }
+
+    document.addEventListener('click', selectEditable, true);
+    window.addEventListener('message', receiveEditorUpdate);
+    window.parent.postMessage(
+      { type: 'satiaya-editor-ready' },
+      window.location.origin,
+    );
+    return () => {
+      document.removeEventListener('click', selectEditable, true);
+      window.removeEventListener('message', receiveEditorUpdate);
+    };
+  }, []);
 
   const visibleProperties = useMemo(() => {
     return properties.filter((property) => {
@@ -264,7 +325,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
   }
 
   return (
-    <main className="overflow-hidden bg-background text-foreground">
+    <main
+      ref={editorSurfaceRef}
+      className="overflow-hidden bg-background text-foreground"
+    >
       <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <a
@@ -286,10 +350,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
               )}
             </span>
             <span>
-              <span className="block font-heading text-[15px] font-bold tracking-tight">
+              <span
+                data-editor-path="agent.name"
+                className="block font-heading text-[15px] font-bold tracking-tight"
+              >
                 {siteConfig.agent.name}
               </span>
-              <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              <span
+                data-editor-path="agent.agency"
+                className="block text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+              >
                 {siteConfig.agent.agency}
               </span>
             </span>
@@ -398,21 +468,32 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <span className="grid size-8 place-items-center rounded-full border border-[#77D9D4]/55 bg-[#2DB8B5]/12 backdrop-blur-md">
                 <Sparkles className="size-3.5 text-[#77D9D4]" />
               </span>
-              {siteConfig.hero.eyebrow}
+              <span data-editor-path="hero.eyebrow">
+                {siteConfig.hero.eyebrow}
+              </span>
               <span className="h-px w-10 bg-[#77D9D4]/70" />
             </div>
-            <h1 className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[1.03] tracking-[-0.024em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]">
+            <h1
+              data-editor-path="hero.title"
+              className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[1.03] tracking-[-0.024em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]"
+            >
               {siteConfig.hero.title}
             </h1>
             <div className="mt-8 flex max-w-2xl items-stretch gap-4 sm:gap-5">
               <span className="w-px shrink-0 bg-gradient-to-b from-[#77D9D4] to-[#77D9D4]/20" />
-              <p className="max-w-xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">
+              <p
+                data-editor-path="hero.description"
+                className="max-w-xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8"
+              >
                 {siteConfig.hero.description}
               </p>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="#properties">
-                <Button className="h-14 rounded-2xl bg-[#16807F] px-7 text-white hover:bg-[#173F4A]">
+                <Button
+                  data-editor-path="hero.primaryCta"
+                  className="h-14 rounded-2xl bg-[#16807F] px-7 text-white hover:bg-[#173F4A]"
+                >
                   {siteConfig.hero.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -421,6 +502,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 href={whatsappLink(siteConfig.hero.secondaryMessage)}
                 target="_blank"
                 rel="noreferrer"
+                data-editor-path="hero.secondaryCta"
                 className="premium-action inline-flex h-14 items-center gap-2.5 rounded-2xl border border-white/25 bg-white/[.08] px-7 text-sm font-semibold text-white backdrop-blur-md hover:border-[#77D9D4]/70 hover:bg-white/[.15]"
               >
                 <WhatsAppIcon className="size-4" />
@@ -444,14 +526,23 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="mx-auto max-w-6xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_80px_rgba(23,63,74,.20)] sm:p-6">
             <div className="mb-4 flex items-center justify-between px-1">
               <div>
-                <p className="font-heading text-lg font-bold text-[#173F4A]">
+                <p
+                  data-editor-path="search.title"
+                  className="font-heading text-lg font-bold text-[#173F4A]"
+                >
                   {siteConfig.search.title}
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p
+                  data-editor-path="search.description"
+                  className="text-xs text-muted-foreground"
+                >
                   {siteConfig.search.description}
                 </p>
               </div>
-              <span className="hidden items-center gap-1.5 rounded-full bg-[#EAF2F3] px-3 py-1.5 text-xs font-semibold text-primary sm:flex">
+              <span
+                data-editor-path="search.verifiedLabel"
+                className="hidden items-center gap-1.5 rounded-full bg-[#EAF2F3] px-3 py-1.5 text-xs font-semibold text-primary sm:flex"
+              >
                 <ShieldCheck className="size-3.5" />{' '}
                 {siteConfig.search.verifiedLabel}
               </span>
@@ -529,11 +620,19 @@ export default function HomePage({ content }: { content: SiteContent }) {
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end">
             <div>
-              <p className="section-kicker">{siteConfig.featured.kicker}</p>
-              <h2 className="section-title mt-3">
+              <p data-editor-path="featured.kicker" className="section-kicker">
+                {siteConfig.featured.kicker}
+              </p>
+              <h2
+                data-editor-path="featured.title"
+                className="section-title mt-3"
+              >
                 {siteConfig.featured.title}
               </h2>
-              <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
+              <p
+                data-editor-path="featured.description"
+                className="mt-4 max-w-xl text-base leading-7 text-muted-foreground"
+              >
                 {siteConfig.featured.description}
               </p>
             </div>
@@ -571,7 +670,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={property.id}
                   className="group overflow-hidden rounded-[24px] border border-[#D9E6E7] bg-white shadow-[0_10px_35px_rgba(23,63,74,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(23,63,74,.12)]"
                 >
-                  <div className="relative h-64 overflow-hidden bg-[#EAF2F3]">
+                  <div
+                    data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.image`}
+                    className="relative h-64 overflow-hidden bg-[#EAF2F3]"
+                  >
                     <Image
                       src={property.image}
                       alt={property.title}
@@ -592,14 +694,23 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
                   </div>
                   <div className="p-6">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                    <div
+                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.location`}
+                      className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground"
+                    >
                       <MapPin className="size-3.5 text-[#2DB8B5]" />
                       {property.location}
                     </div>
-                    <h3 className="mt-3 font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]">
+                    <h3
+                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.title`}
+                      className="mt-3 font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]"
+                    >
                       {property.title}
                     </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p
+                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.propertyType`}
+                      className="mt-1 text-sm text-muted-foreground"
+                    >
                       {property.propertyType}
                     </p>
                     <div className="mt-5 flex items-center gap-5 border-y border-border/70 py-4 text-xs font-semibold text-[#5F7077]">
@@ -616,7 +727,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       </span>
                     </div>
                     <div className="mt-5 flex items-center justify-between gap-3">
-                      <p className="font-heading text-lg font-bold text-primary">
+                      <p
+                        data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.price`}
+                        className="font-heading text-lg font-bold text-primary"
+                      >
                         {formatPrice(property)}
                       </p>
                       <a
@@ -638,10 +752,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
           ) : (
             <div className="mt-10 rounded-[24px] border border-dashed border-primary/25 bg-white px-6 py-14 text-center">
               <Search className="mx-auto size-9 text-primary/45" />
-              <h3 className="mt-4 font-heading text-xl font-bold">
+              <h3
+                data-editor-path="featured.emptyTitle"
+                className="mt-4 font-heading text-xl font-bold"
+              >
                 {siteConfig.featured.emptyTitle}
               </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
+              <p
+                data-editor-path="featured.emptyDescription"
+                className="mt-2 text-sm text-muted-foreground"
+              >
                 {siteConfig.featured.emptyDescription}
               </p>
             </div>
@@ -654,6 +774,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               rel="noreferrer"
             >
               <Button
+                data-editor-path="featured.moreLabel"
                 variant="outline"
                 className="h-12 rounded-full border-primary/25 bg-transparent px-6 text-primary hover:bg-primary hover:text-white"
               >
@@ -671,7 +792,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
           <div className="relative mx-auto w-full max-w-xl">
-            <div className="overflow-hidden rounded-[30px] border border-white/10">
+            <div
+              data-editor-path="ownerSection.image"
+              className="overflow-hidden rounded-[30px] border border-white/10"
+            >
               <Image
                 src={siteConfig.ownerSection.image}
                 alt={siteConfig.ownerSection.imageAlt}
@@ -686,26 +810,39 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   <Star key={star} className="size-4 fill-current" />
                 ))}
               </div>
-              <p className="mt-3 font-heading text-lg font-bold">
+              <p
+                data-editor-path="ownerSection.quote"
+                className="mt-3 font-heading text-lg font-bold"
+              >
                 {siteConfig.ownerSection.quote}
               </p>
             </div>
           </div>
 
           <div>
-            <p className="section-kicker !text-[#77D9D4]">
+            <p
+              data-editor-path="ownerSection.kicker"
+              className="section-kicker !text-[#77D9D4]"
+            >
               {siteConfig.ownerSection.kicker}
             </p>
-            <h2 className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em] text-balance sm:text-5xl">
+            <h2
+              data-editor-path="ownerSection.title"
+              className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em] text-balance sm:text-5xl"
+            >
               {siteConfig.ownerSection.title}
             </h2>
-            <p className="mt-6 max-w-xl text-base leading-8 text-white/70">
+            <p
+              data-editor-path="ownerSection.description"
+              className="mt-6 max-w-xl text-base leading-8 text-white/70"
+            >
               {siteConfig.ownerSection.description}
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {siteConfig.ownerSection.checklist.map((item) => (
+              {siteConfig.ownerSection.checklist.map((item, index) => (
                 <div
                   key={item}
+                  data-editor-path={`ownerSection.checklist.${index}`}
                   className="flex items-center gap-3 text-sm font-semibold text-white/90"
                 >
                   <CheckCircle2 className="size-5 shrink-0 text-[#77D9D4]" />
@@ -719,7 +856,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Button className="h-12 rounded-2xl bg-[#16807F] px-6 text-white hover:bg-[#173F4A]">
+                <Button
+                  data-editor-path="ownerSection.primaryCta"
+                  className="h-12 rounded-2xl bg-[#16807F] px-6 text-white hover:bg-[#173F4A]"
+                >
                   {siteConfig.ownerSection.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -741,13 +881,22 @@ export default function HomePage({ content }: { content: SiteContent }) {
       >
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="section-kicker">
+            <p
+              data-editor-path="servicesSection.kicker"
+              className="section-kicker"
+            >
               {siteConfig.servicesSection.kicker}
             </p>
-            <h2 className="section-title mt-3">
+            <h2
+              data-editor-path="servicesSection.title"
+              className="section-title mt-3"
+            >
               {siteConfig.servicesSection.title}
             </h2>
-            <p className="mt-4 text-base leading-7 text-muted-foreground">
+            <p
+              data-editor-path="servicesSection.description"
+              className="mt-4 text-base leading-7 text-muted-foreground"
+            >
               {siteConfig.servicesSection.description}
             </p>
           </div>
@@ -765,10 +914,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="mt-7 font-heading text-xl font-bold text-[#173F4A]">
+                <h3
+                  data-editor-path={`servicesSection.items.${index}.title`}
+                  className="mt-7 font-heading text-xl font-bold text-[#173F4A]"
+                >
                   {service.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                <p
+                  data-editor-path={`servicesSection.items.${index}.description`}
+                  className="mt-3 text-sm leading-6 text-muted-foreground"
+                >
                   {service.description}
                 </p>
               </article>
@@ -784,7 +939,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div className="relative mx-auto max-w-md lg:mx-0">
             <div className="absolute -inset-5 translate-x-3 translate-y-3 rounded-[34px] border border-[#2DB8B5]/40" />
-            <div className="relative overflow-hidden rounded-[30px] bg-[#EAF2F3]">
+            <div
+              data-editor-path="agent.profilePhoto"
+              className="relative overflow-hidden rounded-[30px] bg-[#EAF2F3]"
+            >
               <Image
                 src={siteConfig.agent.profilePhoto}
                 alt={siteConfig.agent.name}
@@ -793,7 +951,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="aspect-[4/5] w-full object-cover object-top"
               />
               <div className="absolute inset-x-5 bottom-5 rounded-2xl bg-white/92 p-4 backdrop-blur-md">
-                <p className="font-heading text-lg font-bold text-[#173F4A]">
+                <p
+                  data-editor-path="agent.name"
+                  className="font-heading text-lg font-bold text-[#173F4A]"
+                >
                   {siteConfig.agent.name}
                 </p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
@@ -804,23 +965,40 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
 
           <div>
-            <p className="section-kicker">{siteConfig.about.kicker}</p>
-            <h2 className="section-title mt-3 max-w-2xl">
+            <p data-editor-path="about.kicker" className="section-kicker">
+              {siteConfig.about.kicker}
+            </p>
+            <h2
+              data-editor-path="about.title"
+              className="section-title mt-3 max-w-2xl"
+            >
               {siteConfig.about.title}
             </h2>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground">
+            <p
+              data-editor-path="about.bio"
+              className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground"
+            >
               {siteConfig.about.bio}
             </p>
-            <p className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground">
+            <p
+              data-editor-path="about.approach"
+              className="mt-4 max-w-2xl text-base leading-8 text-muted-foreground"
+            >
               {siteConfig.about.approach}
             </p>
             <div className="mt-9 grid grid-cols-3 gap-4 border-y border-border py-7">
-              {siteConfig.about.stats.map((stat) => (
+              {siteConfig.about.stats.map((stat, index) => (
                 <div key={stat.label}>
-                  <p className="font-heading text-2xl font-bold text-primary sm:text-3xl">
+                  <p
+                    data-editor-path={`about.stats.${index}.value`}
+                    className="font-heading text-2xl font-bold text-primary sm:text-3xl"
+                  >
                     {stat.value}
                   </p>
-                  <p className="mt-1 text-xs font-medium text-muted-foreground">
+                  <p
+                    data-editor-path={`about.stats.${index}.label`}
+                    className="mt-1 text-xs font-medium text-muted-foreground"
+                  >
                     {stat.label}
                   </p>
                 </div>
@@ -832,7 +1010,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Button className="h-12 rounded-full px-6">
+                <Button
+                  data-editor-path="about.cta"
+                  className="h-12 rounded-full px-6"
+                >
                   {siteConfig.about.cta} <ArrowRight />
                 </Button>
               </a>
@@ -850,13 +1031,22 @@ export default function HomePage({ content }: { content: SiteContent }) {
       >
         <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(23,63,74,.10)] lg:grid-cols-[.8fr_1.2fr]">
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
-            <p className="section-kicker !text-[#77D9D4]">
+            <p
+              data-editor-path="contactSection.kicker"
+              className="section-kicker !text-[#77D9D4]"
+            >
               {siteConfig.contactSection.kicker}
             </p>
-            <h2 className="mt-4 font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em]">
+            <h2
+              data-editor-path="contactSection.title"
+              className="mt-4 font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em]"
+            >
               {siteConfig.contactSection.title}
             </h2>
-            <p className="mt-5 text-sm leading-7 text-white/70">
+            <p
+              data-editor-path="contactSection.description"
+              className="mt-5 text-sm leading-7 text-white/70"
+            >
               {siteConfig.contactSection.description}
             </p>
             <div className="mt-10 space-y-5">
@@ -867,7 +1057,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <span className="grid size-10 place-items-center rounded-full bg-white/10">
                   <Phone className="size-4" />
                 </span>
-                {siteConfig.contact.phone}
+                <span data-editor-path="contact.phone">
+                  {siteConfig.contact.phone}
+                </span>
               </a>
               <a
                 href={`mailto:${siteConfig.contact.email}`}
@@ -876,7 +1068,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <span className="grid size-10 place-items-center rounded-full bg-white/10">
                   <Mail className="size-4" />
                 </span>
-                {siteConfig.contact.email}
+                <span data-editor-path="contact.email">
+                  {siteConfig.contact.email}
+                </span>
               </a>
               <a
                 href={whatsappLink()}
@@ -887,7 +1081,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <span className="grid size-10 place-items-center rounded-full bg-[#16807F]">
                   <WhatsAppIcon className="size-4" />
                 </span>
-                {siteConfig.contactSection.whatsappLabel}
+                <span data-editor-path="contactSection.whatsappLabel">
+                  {siteConfig.contactSection.whatsappLabel}
+                </span>
               </a>
             </div>
           </div>
@@ -898,10 +1094,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <span className="grid size-16 place-items-center rounded-full bg-[#EAF2F3] text-primary">
                   <CheckCircle2 className="size-8" />
                 </span>
-                <h3 className="mt-5 font-heading text-2xl font-bold">
+                <h3
+                  data-editor-path="contactSection.successTitle"
+                  className="mt-5 font-heading text-2xl font-bold"
+                >
                   {siteConfig.contactSection.successTitle}
                 </h3>
-                <p className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground">
+                <p
+                  data-editor-path="contactSection.successDescription"
+                  className="mt-2 max-w-sm text-sm leading-6 text-muted-foreground"
+                >
                   {siteConfig.contactSection.successDescription}
                 </p>
                 <a
@@ -986,6 +1188,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   </label>
                 </div>
                 <Button
+                  data-editor-path="contactSection.submitLabel"
                   type="submit"
                   className="mt-6 h-12 w-full rounded-xl sm:w-auto sm:px-8"
                 >
@@ -1016,15 +1219,24 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   )}
                 </span>
                 <span>
-                  <span className="block font-heading text-base font-bold">
+                  <span
+                    data-editor-path="agent.name"
+                    className="block font-heading text-base font-bold"
+                  >
                     {siteConfig.agent.name}
                   </span>
-                  <span className="block text-xs uppercase tracking-[0.12em] text-white/50">
+                  <span
+                    data-editor-path="agent.agency"
+                    className="block text-xs uppercase tracking-[0.12em] text-white/50"
+                  >
                     {siteConfig.agent.agency}
                   </span>
                 </span>
               </a>
-              <p className="mt-5 max-w-sm text-sm leading-6 text-white/55">
+              <p
+                data-editor-path="footer.tagline"
+                className="mt-5 max-w-sm text-sm leading-6 text-white/55"
+              >
                 {siteConfig.footer.tagline}
               </p>
               <div className="mt-6 flex gap-2">
@@ -1059,7 +1271,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </div>
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#2DB8B5]">
+              <p
+                data-editor-path="footer.exploreTitle"
+                className="text-xs font-bold uppercase tracking-[0.15em] text-[#2DB8B5]"
+              >
                 {siteConfig.footer.exploreTitle}
               </p>
               <div className="mt-5 grid gap-3 text-sm text-white/60">
@@ -1071,7 +1286,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </div>
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#2DB8B5]">
+              <p
+                data-editor-path="footer.contactTitle"
+                className="text-xs font-bold uppercase tracking-[0.15em] text-[#2DB8B5]"
+              >
                 {siteConfig.footer.contactTitle}
               </p>
               <div className="mt-5 grid gap-3 text-sm text-white/60">
@@ -1087,12 +1305,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 >
                   {siteConfig.contact.email}
                 </a>
-                <p>{siteConfig.contact.serviceArea}</p>
+                <p data-editor-path="contact.serviceArea">
+                  {siteConfig.contact.serviceArea}
+                </p>
               </div>
             </div>
           </div>
           <div className="flex flex-col gap-3 pt-7 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
-            <p>
+            <p data-editor-path="footer.copyright">
               © {new Date().getFullYear()} {siteConfig.agent.name}.{' '}
               {siteConfig.footer.copyright}
             </p>
