@@ -73,15 +73,15 @@ export default function AdminLoginPage() {
 
   return (
     <main className="grid min-h-screen place-items-center bg-[#F7F8FA] px-5 py-12">
-      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(20,61,141,.12)] ring-1 ring-black/5 sm:p-9">
-        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#143D8D] text-[#E8C96A]">
+      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(0,0,64,.12)] ring-1 ring-black/5 sm:p-9">
+        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#000040] text-[#70D7FF]">
           <Building2 className="size-7" />
         </div>
         <div className="mt-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2B5FB8]">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#4133BA]">
             Private access
           </p>
-          <h1 className="mt-2 font-heading text-3xl font-bold text-[#143D8D]">
+          <h1 className="mt-2 font-heading text-3xl font-bold text-[#000040]">
             Website dashboard
           </h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
         </div>
 
         {passwordUpdated && (
-          <p className="mt-7 rounded-xl bg-[#EDF2F7] px-4 py-3 text-center text-sm font-semibold text-[#2B5FB8]">
+          <p className="mt-7 rounded-xl bg-[#EDF2F7] px-4 py-3 text-center text-sm font-semibold text-[#4133BA]">
             Your password was updated. Sign in with the new password.
           </p>
         )}
@@ -160,7 +160,7 @@ export default function AdminLoginPage() {
               <span>Password</span>
               <Link
                 href="/admin/forgot-password"
-                className="text-xs font-bold text-[#2B5FB8] hover:text-[#143D8D]"
+                className="text-xs font-bold text-[#4133BA] hover:text-[#000040]"
               >
                 Forgot password?
               </Link>
@@ -196,7 +196,7 @@ export default function AdminLoginPage() {
 
         <Link
           href="/"
-          className="mt-6 block text-center text-sm font-semibold text-[#5B6574] hover:text-[#143D8D]"
+          className="mt-6 block text-center text-sm font-semibold text-[#5B6574] hover:text-[#000040]"
         >
           Return to website
         </Link>

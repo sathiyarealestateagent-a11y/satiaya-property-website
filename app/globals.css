@@ -25,10 +25,10 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-brand-blue: var(--brand-blue);
-  --color-brand-blue-secondary: var(--brand-blue-secondary);
-  --color-brand-gold: var(--brand-gold);
-  --color-brand-gold-light: var(--brand-gold-light);
+  --color-brand-midnight: var(--brand-midnight);
+  --color-brand-violet: var(--brand-violet);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-cyan-light: var(--brand-cyan-light);
   --color-brand-surface: var(--brand-surface);
   --color-brand-text: var(--brand-text);
   --radius-sm: calc(var(--radius) * 0.6);
@@ -40,10 +40,10 @@
 }
 
 :root {
-  --brand-blue: #143d8d;
-  --brand-blue-secondary: #2b5fb8;
-  --brand-gold: #d4af37;
-  --brand-gold-light: #e8c96a;
+  --brand-midnight: #000040;
+  --brand-violet: #4133ba;
+  --brand-cyan: #00b1fc;
+  --brand-cyan-light: #70d7ff;
   --brand-surface: #f7f8fa;
   --brand-text: #1f2937;
   --background: #f7f8fa;
@@ -52,18 +52,18 @@
   --card-foreground: #1f2937;
   --popover: #ffffff;
   --popover-foreground: #1f2937;
-  --primary: #143d8d;
+  --primary: #000040;
   --primary-foreground: #ffffff;
-  --secondary: #2b5fb8;
+  --secondary: #4133ba;
   --secondary-foreground: #ffffff;
   --muted: #edf2f7;
   --muted-foreground: #5b6574;
-  --accent: #d4af37;
-  --accent-foreground: #143d8d;
+  --accent: #00b1fc;
+  --accent-foreground: #000040;
   --destructive: #c0392b;
   --border: #e1e6ed;
   --input: #e1e6ed;
-  --ring: #2b5fb8;
+  --ring: #4133ba;
   --radius: 0.75rem;
   scrollbar-color: #9aabc1 #f7f8fa;
   scrollbar-width: thin;
@@ -74,10 +74,10 @@
  * theme defaults, so every route and future component inherits this palette.
  */
 html[data-theme='corporate'] {
-  --brand-blue: #143d8d;
-  --brand-blue-secondary: #2b5fb8;
-  --brand-gold: #d4af37;
-  --brand-gold-light: #e8c96a;
+  --brand-midnight: #000040;
+  --brand-violet: #4133ba;
+  --brand-cyan: #00b1fc;
+  --brand-cyan-light: #70d7ff;
   --brand-surface: #f7f8fa;
   --brand-text: #1f2937;
   --background: #f7f8fa;
@@ -86,42 +86,42 @@ html[data-theme='corporate'] {
   --card-foreground: #1f2937;
   --popover: #ffffff;
   --popover-foreground: #1f2937;
-  --primary: #143d8d;
+  --primary: #000040;
   --primary-foreground: #ffffff;
-  --secondary: #2b5fb8;
+  --secondary: #4133ba;
   --secondary-foreground: #ffffff;
   --muted: #edf2f7;
   --muted-foreground: #5b6574;
-  --accent: #d4af37;
-  --accent-foreground: #143d8d;
+  --accent: #00b1fc;
+  --accent-foreground: #000040;
   --destructive: #c0392b;
   --border: #e1e6ed;
   --input: #e1e6ed;
-  --ring: #2b5fb8;
+  --ring: #4133ba;
   color-scheme: light;
   scrollbar-color: #9aabc1 #f7f8fa;
 }
 
 .dark {
-  --background: #0d2860;
+  --background: #00002b;
   --foreground: #f7f8fa;
-  --card: #143d8d;
+  --card: #000040;
   --card-foreground: #ffffff;
-  --popover: #143d8d;
+  --popover: #000040;
   --popover-foreground: #ffffff;
-  --primary: #e8c96a;
-  --primary-foreground: #143d8d;
-  --secondary: #2b5fb8;
+  --primary: #70d7ff;
+  --primary-foreground: #000040;
+  --secondary: #4133ba;
   --secondary-foreground: #ffffff;
-  --muted: #244c97;
+  --muted: #19194f;
   --muted-foreground: #c7d2e0;
-  --accent: #d4af37;
-  --accent-foreground: #143d8d;
+  --accent: #00b1fc;
+  --accent-foreground: #000040;
   --destructive: #e66a5d;
   --border: rgb(255 255 255 / 14%);
   --input: rgb(255 255 255 / 18%);
-  --ring: #e8c96a;
-  scrollbar-color: #6b85b5 #0d2860;
+  --ring: #70d7ff;
+  scrollbar-color: #55558a #00002b;
 }
 
 @layer base {
@@ -177,7 +177,7 @@ html[data-theme='corporate'] {
   }
 
   .section-title {
-    @apply font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-brand-blue sm:text-5xl;
+    @apply font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-brand-midnight sm:text-5xl;
   }
 
   .form-label {
@@ -214,6 +214,6 @@ html[data-theme='corporate'] {
 }
 
 ::selection {
-  background: #e8c96a;
-  color: #143d8d;
+  background: #70d7ff;
+  color: #000040;
 }

@@ -82,7 +82,7 @@ function Field({
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 rounded-xl border-[#E1E6ED] bg-[#FFFFFF] px-3.5 text-sm font-medium normal-case tracking-normal shadow-none transition focus-visible:border-[#2B5FB8] focus-visible:ring-[#2B5FB8]/12"
+        className="h-12 rounded-xl border-[#E1E6ED] bg-[#FFFFFF] px-3.5 text-sm font-medium normal-case tracking-normal shadow-none transition focus-visible:border-[#4133BA] focus-visible:ring-[#4133BA]/12"
       />
     </label>
   );
@@ -111,7 +111,7 @@ function LongField({
         value={value}
         rows={rows}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-xl border-[#E1E6ED] bg-[#FFFFFF] px-3.5 py-3 text-sm font-medium normal-case leading-6 tracking-normal shadow-none transition focus-visible:border-[#2B5FB8] focus-visible:ring-[#2B5FB8]/12"
+        className="rounded-xl border-[#E1E6ED] bg-[#FFFFFF] px-3.5 py-3 text-sm font-medium normal-case leading-6 tracking-normal shadow-none transition focus-visible:border-[#4133BA] focus-visible:ring-[#4133BA]/12"
       />
     </label>
   );
@@ -211,7 +211,7 @@ function ImageField({
             />
             <label
               htmlFor={id}
-              className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-[#143D8D] px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#2B5FB8]"
+              className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-[#000040] px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#4133BA]"
             >
               {uploading ? (
                 <LoaderCircle className="size-4 animate-spin" />
@@ -245,9 +245,9 @@ function SectionCard({
   children: ReactNode;
 }) {
   return (
-    <Card className="overflow-hidden rounded-[24px] border border-[#E1E6ED] bg-white shadow-[0_14px_40px_rgba(20,61,141,.055)]">
+    <Card className="overflow-hidden rounded-[24px] border border-[#E1E6ED] bg-white shadow-[0_14px_40px_rgba(0,0,64,.055)]">
       <CardHeader className="border-b border-[#E1E6ED] bg-[linear-gradient(135deg,#ffffff_0%,#FFFFFF_100%)] px-6 pb-5 pt-6 sm:px-7">
-        <CardTitle className="font-heading text-xl font-bold tracking-[-0.02em] text-[#143D8D]">
+        <CardTitle className="font-heading text-xl font-bold tracking-[-0.02em] text-[#000040]">
           {title}
         </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
@@ -382,14 +382,14 @@ export default function AdminDashboard({
             </Link>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-heading text-lg font-bold tracking-[-0.02em] text-[#143D8D]">
+                <h1 className="font-heading text-lg font-bold tracking-[-0.02em] text-[#000040]">
                   Content studio
                 </h1>
-                <Badge className="rounded-full bg-[#EDF2F7] text-[#2B5FB8] shadow-none">
+                <Badge className="rounded-full bg-[#EDF2F7] text-[#4133BA] shadow-none">
                   Owner
                 </Badge>
                 {dirty && (
-                  <Badge className="rounded-full bg-[#F7F0D1] text-[#143D8D] shadow-none">
+                  <Badge className="rounded-full bg-[#E6F7FE] text-[#000040] shadow-none">
                     Unsaved
                   </Badge>
                 )}
@@ -411,7 +411,7 @@ export default function AdminDashboard({
             <Button
               onClick={() => void save()}
               disabled={saving || !dirty}
-              className="h-10 rounded-xl bg-[#D4AF37] px-5 text-[#143D8D] shadow-[0_8px_20px_rgba(20,61,141,.18)] hover:bg-[#E8C96A] disabled:opacity-50"
+              className="h-10 rounded-xl bg-[#00B1FC] px-5 text-[#000040] shadow-[0_8px_20px_rgba(0,0,64,.18)] hover:bg-[#70D7FF] disabled:opacity-50"
             >
               {saving ? <LoaderCircle className="animate-spin" /> : <Save />}
               {saving ? 'Saving…' : 'Save & publish'}
@@ -433,7 +433,7 @@ export default function AdminDashboard({
       <div className="mx-auto max-w-[1520px] px-5 py-7 sm:px-8 sm:py-9">
         {status !== 'idle' && (
           <output
-            className={`mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${status === 'saved' ? 'bg-[#E8F0FA] text-[#2B5FB8]' : 'bg-red-50 text-destructive'}`}
+            className={`mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${status === 'saved' ? 'bg-[#E8F0FA] text-[#4133BA]' : 'bg-red-50 text-destructive'}`}
           >
             {status === 'saved' && <Check className="size-4" />}
             {message}
@@ -444,13 +444,13 @@ export default function AdminDashboard({
           {dashboardStats.map(({ label, value, icon: Icon }) => (
             <div
               key={label}
-              className="flex items-center gap-3 rounded-2xl border border-[#E1E6ED] bg-white p-4 shadow-[0_8px_24px_rgba(20,61,141,.04)] sm:p-5"
+              className="flex items-center gap-3 rounded-2xl border border-[#E1E6ED] bg-white p-4 shadow-[0_8px_24px_rgba(0,0,64,.04)] sm:p-5"
             >
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#EDF2F7] text-[#2B5FB8]">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#EDF2F7] text-[#4133BA]">
                 <Icon className="size-[18px]" />
               </span>
               <div>
-                <p className="font-heading text-xl font-bold leading-none text-[#143D8D]">
+                <p className="font-heading text-xl font-bold leading-none text-[#000040]">
                   {value}
                 </p>
                 <p className="mt-1 text-xs font-medium text-muted-foreground">
@@ -465,9 +465,9 @@ export default function AdminDashboard({
           defaultValue="identity"
           className="gap-7 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start"
         >
-          <TabsList className="sticky top-28 hidden h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#143D8D] p-3 text-white shadow-[0_18px_45px_rgba(20,61,141,.16)] lg:flex">
+          <TabsList className="sticky top-28 hidden h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#000040] p-3 text-white shadow-[0_18px_45px_rgba(0,0,64,.16)] lg:flex">
             <div className="mb-2 rounded-2xl border border-white/10 bg-white/[.06] p-4 text-left">
-              <span className="grid size-9 place-items-center rounded-xl bg-[#D4AF37] text-[#143D8D]">
+              <span className="grid size-9 place-items-center rounded-xl bg-[#00B1FC] text-[#000040]">
                 <Globe2 className="size-[18px]" />
               </span>
               <p className="mt-3 font-heading text-sm font-bold">
@@ -479,25 +479,25 @@ export default function AdminDashboard({
             </div>
             <TabsTrigger
               value="identity"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#143D8D] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00B1FC] data-[state=active]:text-[#000040] data-[state=active]:shadow-none"
             >
               <CircleUserRound /> Brand & contact
             </TabsTrigger>
             <TabsTrigger
               value="homepage"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#143D8D] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00B1FC] data-[state=active]:text-[#000040] data-[state=active]:shadow-none"
             >
               <FileText /> Homepage content
             </TabsTrigger>
             <TabsTrigger
               value="services"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#143D8D] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00B1FC] data-[state=active]:text-[#000040] data-[state=active]:shadow-none"
             >
               <Settings2 /> Services
             </TabsTrigger>
             <TabsTrigger
               value="properties"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#D4AF37] data-[state=active]:text-[#143D8D] data-[state=active]:shadow-none"
+              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#00B1FC] data-[state=active]:text-[#000040] data-[state=active]:shadow-none"
             >
               <Building2 /> Properties
             </TabsTrigger>
@@ -505,25 +505,25 @@ export default function AdminDashboard({
           <TabsList className="mb-5 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#E1E6ED] bg-white p-1.5 lg:hidden">
             <TabsTrigger
               value="identity"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#143D8D] data-[state=active]:text-[#D4AF37]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#000040] data-[state=active]:text-[#00B1FC]"
             >
               <CircleUserRound /> Brand
             </TabsTrigger>
             <TabsTrigger
               value="homepage"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#143D8D] data-[state=active]:text-[#D4AF37]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#000040] data-[state=active]:text-[#00B1FC]"
             >
               <FileText /> Homepage
             </TabsTrigger>
             <TabsTrigger
               value="services"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#143D8D] data-[state=active]:text-[#D4AF37]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#000040] data-[state=active]:text-[#00B1FC]"
             >
               <Settings2 /> Services
             </TabsTrigger>
             <TabsTrigger
               value="properties"
-              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#143D8D] data-[state=active]:text-[#D4AF37]"
+              className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#000040] data-[state=active]:text-[#00B1FC]"
             >
               <Building2 /> Properties
             </TabsTrigger>
@@ -1220,7 +1220,7 @@ export default function AdminDashboard({
           <TabsContent value="properties" className="grid gap-6">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="font-heading text-2xl font-bold text-[#143D8D]">
+                <h2 className="font-heading text-2xl font-bold text-[#000040]">
                   Property listings
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -1324,7 +1324,7 @@ export default function AdminDashboard({
                           event.target.checked,
                         )
                       }
-                      className="size-4 accent-[#2B5FB8]"
+                      className="size-4 accent-[#4133BA]"
                     />{' '}
                     Featured property
                   </label>
