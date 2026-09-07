@@ -95,7 +95,7 @@ Deep teal `#173F4A` owns headings, dark sections, navigation emphasis and the fo
 
 ## Typography
 
-Open Sans is the heading face and Inter is the interface/body face, reflecting the practical, highly legible typography loaded by the PropertyHunter reference while giving each role a deliberate owner. Headings use compact tracking and medium-to-bold weights; body copy uses comfortable line height and sentence case. Regular controls and body copy should remain at least 14–16px, with 12–13px reserved for metadata and uppercase kickers. Numeric property values remain tabular where a component needs alignment.
+Open Sans is the heading face and Inter is the interface/body face, reflecting the practical, highly legible typography loaded by the PropertyHunter reference while giving each role a deliberate owner. Display headings use gently compact tracking (approximately `-0.024em` at hero scale and `-0.018em` for section titles) with medium-to-bold weights and open line height. Body copy uses `0.006em` tracking and a `1.62` baseline line height; navigation and controls use `0.012em` tracking for clarity. Regular controls and body copy should remain at least 14–16px, with 12–13px reserved for metadata and uppercase kickers. Numeric property values remain tabular where a component needs alignment.
 
 ## Layout
 

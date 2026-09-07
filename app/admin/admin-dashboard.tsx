@@ -247,7 +247,7 @@ function SectionCard({
   return (
     <Card className="overflow-hidden rounded-[24px] border border-[#D9E6E7] bg-white shadow-[0_14px_40px_rgba(23,63,74,.055)]">
       <CardHeader className="border-b border-[#D9E6E7] bg-[linear-gradient(135deg,#ffffff_0%,#FFFFFF_100%)] px-6 pb-5 pt-6 sm:px-7">
-        <CardTitle className="font-heading text-xl font-bold tracking-[-0.02em] text-[#173F4A]">
+        <CardTitle className="font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]">
           {title}
         </CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
@@ -382,7 +382,7 @@ export default function AdminDashboard({
             </Link>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-heading text-lg font-bold tracking-[-0.02em] text-[#173F4A]">
+                <h1 className="font-heading text-lg font-bold tracking-[-0.01em] text-[#173F4A]">
                   Content studio
                 </h1>
                 <Badge className="rounded-full bg-[#EAF2F3] text-[#16807F] shadow-none">

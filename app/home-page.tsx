@@ -401,7 +401,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               {siteConfig.hero.eyebrow}
               <span className="h-px w-10 bg-[#77D9D4]/70" />
             </div>
-            <h1 className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]">
+            <h1 className="max-w-[48rem] font-heading text-[clamp(3.25rem,6.2vw,5.35rem)] font-semibold leading-[1.03] tracking-[-0.024em] text-balance drop-shadow-[0_6px_28px_rgba(0,0,0,.28)]">
               {siteConfig.hero.title}
             </h1>
             <div className="mt-8 flex max-w-2xl items-stretch gap-4 sm:gap-5">
@@ -596,7 +596,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       <MapPin className="size-3.5 text-[#2DB8B5]" />
                       {property.location}
                     </div>
-                    <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-[#173F4A]">
+                    <h3 className="mt-3 font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]">
                       {property.title}
                     </h3>
                     <p className="mt-1 text-sm text-muted-foreground">
@@ -696,7 +696,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             <p className="section-kicker !text-[#77D9D4]">
               {siteConfig.ownerSection.kicker}
             </p>
-            <h2 className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-tight tracking-[-0.035em] text-balance sm:text-5xl">
+            <h2 className="mt-4 max-w-xl font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em] text-balance sm:text-5xl">
               {siteConfig.ownerSection.title}
             </h2>
             <p className="mt-6 max-w-xl text-base leading-8 text-white/70">
@@ -853,7 +853,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             <p className="section-kicker !text-[#77D9D4]">
               {siteConfig.contactSection.kicker}
             </p>
-            <h2 className="mt-4 font-heading text-4xl font-semibold leading-tight tracking-[-0.035em]">
+            <h2 className="mt-4 font-heading text-4xl font-semibold leading-[1.14] tracking-[-0.018em]">
               {siteConfig.contactSection.title}
             </h2>
             <p className="mt-5 text-sm leading-7 text-white/70">

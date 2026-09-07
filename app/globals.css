@@ -218,7 +218,32 @@ html[data-theme='corporate'] [data-slot='button']:active,
 
   body {
     @apply bg-background text-foreground;
+    font-size: 1rem;
+    line-height: 1.62;
+    letter-spacing: 0.006em;
     text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  nav a,
+  button,
+  input,
+  select,
+  textarea {
+    letter-spacing: 0.012em;
   }
 
   *::-webkit-scrollbar {
@@ -254,15 +279,15 @@ html[data-theme='corporate'] [data-slot='button']:active,
   }
 
   .section-kicker {
-    @apply text-xs font-bold uppercase tracking-[0.16em] text-secondary;
+    @apply text-xs font-bold uppercase tracking-[0.14em] text-secondary;
   }
 
   .section-title {
-    @apply font-heading text-4xl font-semibold leading-[1.08] tracking-[-0.04em] text-brand-midnight sm:text-5xl;
+    @apply font-heading text-4xl font-semibold leading-[1.12] tracking-[-0.018em] text-brand-midnight sm:text-5xl;
   }
 
   .form-label {
-    @apply text-[13px] font-bold tracking-[0.01em] text-brand-text;
+    @apply text-[13px] font-bold tracking-[0.025em] text-brand-text;
   }
 
   html[data-theme='corporate'] .section-kicker {
