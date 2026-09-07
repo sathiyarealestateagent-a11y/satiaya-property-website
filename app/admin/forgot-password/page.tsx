@@ -50,15 +50,15 @@ export default function ForgotPasswordPage() {
 
   return (
     <main className="grid min-h-screen place-items-center bg-[#F7F8FA] px-5 py-12">
-      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(11,45,92,.12)] ring-1 ring-black/5 sm:p-9">
-        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#0B2D5C] text-[#E8C96A]">
+      <div className="w-full max-w-md rounded-[2rem] bg-white p-7 shadow-[0_24px_70px_rgba(20,61,141,.12)] ring-1 ring-black/5 sm:p-9">
+        <div className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#143D8D] text-[#E8C96A]">
           <Building2 className="size-7" />
         </div>
         <div className="mt-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#174A8B]">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2B5FB8]">
             Account recovery
           </p>
-          <h1 className="mt-2 font-heading text-3xl font-bold text-[#0B2D5C]">
+          <h1 className="mt-2 font-heading text-3xl font-bold text-[#143D8D]">
             Reset your password
           </h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         {sent ? (
-          <div className="mt-7 rounded-2xl bg-[#EDF2F7] p-5 text-center text-sm leading-6 text-[#174A8B]">
+          <div className="mt-7 rounded-2xl bg-[#EDF2F7] p-5 text-center text-sm leading-6 text-[#2B5FB8]">
             If an administrator account exists for that email, a recovery link
             has been sent. Check your inbox and spam folder.
           </div>
@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
 
         <Link
           href="/admin/login"
-          className="mt-6 block text-center text-sm font-semibold text-[#5B6574] hover:text-[#0B2D5C]"
+          className="mt-6 block text-center text-sm font-semibold text-[#5B6574] hover:text-[#143D8D]"
         >
           Return to sign in
         </Link>

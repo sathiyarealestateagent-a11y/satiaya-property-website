@@ -1,10 +1,10 @@
 ---
 version: alpha
-name: 'Satiaya Property Corporate'
-description: 'A premium Malaysian property advisory experience built around confident navy, restrained gold and quiet neutral surfaces.'
+name: 'Satiaya Property Royal'
+description: 'A premium Malaysian property advisory experience built around deep royal blue, restrained gold and quiet neutral surfaces.'
 colors:
-  primary: '#0B2D5C'
-  secondary: '#174A8B'
+  primary: '#143D8D'
+  secondary: '#2B5FB8'
   accent: '#D4AF37'
   accent-light: '#E8C96A'
   background: '#F7F8FA'
@@ -66,13 +66,13 @@ components:
     rounded: '{rounded.xl}'
 ---
 
-# Satiaya Property Corporate Design System
+# Satiaya Property Royal Blue & Gold Design System
 
 ## Overview
 
 ### Creative North Star
 
-The visual reference is a well-appointed Malaysian corporate property advisory office: deep navy architectural surfaces, crisp white documents and a small amount of brushed-gold detailing used like a seal of trust.
+The visual reference is a refined Malaysian property advisory: deep royal-blue architectural surfaces, crisp white documents and a small amount of brushed-gold detailing used like a seal of trust.
 
 ### Product context and register
 
@@ -81,14 +81,14 @@ The visual reference is a well-appointed Malaysian corporate property advisory o
 - **Locale(s) and language policy:** English (`en-MY`) is the current interface language. Property prices retain Malaysian Ringgit formatting. Additional locales require reviewed translations rather than mixed-language controls.
 - **Usage scene:** Mobile-first property discovery with desktop comparison and an authenticated desktop/mobile content editor.
 - **Register:** Hybrid. The public routes are premium brand-led marketing; `/admin` is a quiet, task-led editing surface.
-- **Memorable signature:** Property imagery is framed by a deep-navy cinematic veil with a fine gold trust accent.
+- **Memorable signature:** Property imagery is framed by a deep royal-blue cinematic veil with a fine gold trust accent.
 - **Restraint:** Forms, cards, listings and dashboard controls remain white or light grey; gold is reserved for primary calls to action, selected states, icons and fine highlights.
 - **Anti-references:** Avoid casino-like black-and-gold styling, bright neon accents, all-blue slabs, decorative gradients and low-contrast gold body copy.
 - **Token ownership/runtime mapping:** `app/globals.css` is the canonical runtime source. The higher-specificity `html[data-theme='corporate']` selector guarantees that every route and future component inherits the corporate tokens even when library defaults are present. This document mirrors those accepted semantic roles. Tailwind utilities consume the CSS variables; raw colours are permitted only for exact brand accents, image overlays and third-party marks. Drift is checked by repository colour search and production browser review.
 
 ## Colors
 
-Primary navy `#0B2D5C` owns headings, dark sections, navigation emphasis and the footer. Secondary blue `#174A8B` owns secondary actions, links, focus rings and informational states. Gold `#D4AF37` is an accent and primary-action fill; light gold `#E8C96A` is its hover or dark-surface companion. Pages use `#F7F8FA`, cards use white, and normal text uses `#1F2937`. Muted copy uses `#5B6574`, borders use `#E1E6ED`, and destructive feedback remains semantic red. Gold is not used for small text on white. Selection uses light gold with navy text. The defined dark tokens preserve the same hierarchy if a future route enables dark mode.
+Primary royal blue `#143D8D` owns headings, dark sections, navigation emphasis and the footer. Secondary royal blue `#2B5FB8` owns secondary actions, links, focus rings and informational states. Gold `#D4AF37` is an accent and primary-action fill; light gold `#E8C96A` is its hover or dark-surface companion. Pages use `#F7F8FA`, cards use white, and normal text uses `#1F2937`. Muted copy uses `#5B6574`, borders use `#E1E6ED`, and destructive feedback remains semantic red. Gold is not used for small text on white. Selection uses light gold with royal-blue text. The defined dark tokens preserve the same hierarchy if a future route enables dark mode.
 
 ## Typography
 
@@ -100,7 +100,7 @@ The public experience keeps its existing narrative section order and max width o
 
 ## Elevation & Depth
 
-Hierarchy comes from white cards on light-grey fields, fine cool-grey borders and low-opacity navy shadows. The hero may use navy image overlays and subtle glass treatment. Gold never becomes a large background field except for compact primary actions or status accents. Dashboard forms avoid decorative elevation inside cards.
+Hierarchy comes from white cards on light-grey fields, fine cool-grey borders and low-opacity royal-blue shadows. The hero uses layered royal-blue image overlays and subtle glass treatment. Gold never becomes a large background field except for compact primary actions or status accents. Dashboard forms avoid decorative elevation inside cards.
 
 ## Shapes
 
@@ -110,15 +110,15 @@ The base radius is 0.75rem. Fields and dashboard controls use 0.75–1rem radii,
 
 ### Foundational visual states
 
-Default surfaces are white with cool-grey borders. Hover uses light blue-grey or a controlled shift from navy to secondary blue. Focus-visible uses the secondary-blue ring. Selected navigation uses navy or gold according to surface contrast. Disabled controls retain geometry and reduce opacity. Success is communicated with an icon plus blue informational treatment; warning and errors retain explicit text and semantic colour.
+Default surfaces are white with cool-grey borders. Hover uses light blue-grey or a controlled shift from primary to secondary royal blue. Focus-visible uses the secondary-blue ring. Selected navigation uses royal blue or gold according to surface contrast. Disabled controls retain geometry and reduce opacity. Success is communicated with an icon plus blue informational treatment; warning and errors retain explicit text and semantic colour.
 
 ### Buttons and actions
 
-Primary calls to action use gold with navy text and light-gold hover. Secondary actions use secondary blue with white text. Outline and ghost actions use navy text on light surfaces with blue-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
+Primary calls to action use gold with royal-blue text and light-gold hover. Secondary actions use secondary royal blue with white text. Outline and ghost actions use royal-blue text on light surfaces with blue-tinted hover. Destructive actions remain visually separate. Icons accompany labels where meaning benefits, and busy states do not resize buttons.
 
 ### Navigation and data display
 
-Public navigation sits on white with navy text and restrained gold hover. The footer and dashboard sidebar use primary navy, white text and small gold accents. Property tabs use navy for the selected state. Cards stay white with cool-grey borders; featured badges use gold with navy text.
+Public navigation sits on white with royal-blue text and restrained gold hover. The footer and dashboard sidebar use primary royal blue, white text and small gold accents. Property tabs use royal blue for the selected state. Cards stay white with cool-grey borders; featured badges use gold with royal-blue text.
 
 ### Forms and overlays
 
@@ -134,11 +134,11 @@ Motion remains restrained: short colour/elevation transitions and the existing s
 
 ### Content and data visualization
 
-Copy and property data remain unchanged by theme work. The voice is direct, personal and professional. Any future charts start with primary navy and secondary blue, using gold for a single emphasis series and providing a text alternative.
+Copy and property data remain unchanged by theme work. The voice is direct, personal and professional. Any future charts start with primary royal blue and secondary royal blue, using gold for a single emphasis series and providing a text alternative.
 
 ## Do's and Don'ts
 
-- **Do:** Let navy establish trust and gold identify the most important action or detail.
+- **Do:** Let royal blue establish trust and gold identify the most important action or detail.
 - **Do:** Build new pages from the shared semantic tokens in `app/globals.css`.
 - **Don't:** use gold for paragraphs, small labels or large decorative surfaces on white.
 - **Don't:** reintroduce green, orange, neon accents or ad-hoc colour literals outside approved third-party marks and semantic alerts.

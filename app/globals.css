@@ -40,8 +40,8 @@
 }
 
 :root {
-  --brand-blue: #0b2d5c;
-  --brand-blue-secondary: #174a8b;
+  --brand-blue: #143d8d;
+  --brand-blue-secondary: #2b5fb8;
   --brand-gold: #d4af37;
   --brand-gold-light: #e8c96a;
   --brand-surface: #f7f8fa;
@@ -52,18 +52,18 @@
   --card-foreground: #1f2937;
   --popover: #ffffff;
   --popover-foreground: #1f2937;
-  --primary: #0b2d5c;
+  --primary: #143d8d;
   --primary-foreground: #ffffff;
-  --secondary: #174a8b;
+  --secondary: #2b5fb8;
   --secondary-foreground: #ffffff;
   --muted: #edf2f7;
   --muted-foreground: #5b6574;
   --accent: #d4af37;
-  --accent-foreground: #0b2d5c;
+  --accent-foreground: #143d8d;
   --destructive: #c0392b;
   --border: #e1e6ed;
   --input: #e1e6ed;
-  --ring: #174a8b;
+  --ring: #2b5fb8;
   --radius: 0.75rem;
   scrollbar-color: #9aabc1 #f7f8fa;
   scrollbar-width: thin;
@@ -74,8 +74,8 @@
  * theme defaults, so every route and future component inherits this palette.
  */
 html[data-theme='corporate'] {
-  --brand-blue: #0b2d5c;
-  --brand-blue-secondary: #174a8b;
+  --brand-blue: #143d8d;
+  --brand-blue-secondary: #2b5fb8;
   --brand-gold: #d4af37;
   --brand-gold-light: #e8c96a;
   --brand-surface: #f7f8fa;
@@ -86,42 +86,42 @@ html[data-theme='corporate'] {
   --card-foreground: #1f2937;
   --popover: #ffffff;
   --popover-foreground: #1f2937;
-  --primary: #0b2d5c;
+  --primary: #143d8d;
   --primary-foreground: #ffffff;
-  --secondary: #174a8b;
+  --secondary: #2b5fb8;
   --secondary-foreground: #ffffff;
   --muted: #edf2f7;
   --muted-foreground: #5b6574;
   --accent: #d4af37;
-  --accent-foreground: #0b2d5c;
+  --accent-foreground: #143d8d;
   --destructive: #c0392b;
   --border: #e1e6ed;
   --input: #e1e6ed;
-  --ring: #174a8b;
+  --ring: #2b5fb8;
   color-scheme: light;
   scrollbar-color: #9aabc1 #f7f8fa;
 }
 
 .dark {
-  --background: #081f40;
+  --background: #0d2860;
   --foreground: #f7f8fa;
-  --card: #0b2d5c;
+  --card: #143d8d;
   --card-foreground: #ffffff;
-  --popover: #0b2d5c;
+  --popover: #143d8d;
   --popover-foreground: #ffffff;
   --primary: #e8c96a;
-  --primary-foreground: #0b2d5c;
-  --secondary: #174a8b;
+  --primary-foreground: #143d8d;
+  --secondary: #2b5fb8;
   --secondary-foreground: #ffffff;
-  --muted: #153a6d;
+  --muted: #244c97;
   --muted-foreground: #c7d2e0;
   --accent: #d4af37;
-  --accent-foreground: #0b2d5c;
+  --accent-foreground: #143d8d;
   --destructive: #e66a5d;
   --border: rgb(255 255 255 / 14%);
   --input: rgb(255 255 255 / 18%);
   --ring: #e8c96a;
-  scrollbar-color: #526f95 #081f40;
+  scrollbar-color: #6b85b5 #0d2860;
 }
 
 @layer base {
@@ -215,5 +215,5 @@ html[data-theme='corporate'] {
 
 ::selection {
   background: #e8c96a;
-  color: #0b2d5c;
+  color: #143d8d;
 }

@@ -272,7 +272,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             className="group flex items-center gap-3"
             aria-label="Back to top"
           >
-            <span className="grid size-11 place-items-center rounded-2xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_8px_20px_rgba(11,45,92,.16)] transition-transform group-hover:-rotate-3">
+            <span className="grid size-11 place-items-center rounded-2xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_8px_20px_rgba(20,61,141,.16)] transition-transform group-hover:-rotate-3">
               {siteConfig.logo.image ? (
                 <Image
                   src={siteConfig.logo.image}
@@ -321,7 +321,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </Button>
             </a>
             <a href={whatsappLink()} target="_blank" rel="noreferrer">
-              <Button className="h-11 rounded-full bg-[#D4AF37] px-5 text-[#0B2D5C] shadow-[0_8px_20px_rgba(11,45,92,.18)] hover:bg-[#E8C96A]">
+              <Button className="h-11 rounded-full bg-[#D4AF37] px-5 text-[#143D8D] shadow-[0_8px_20px_rgba(20,61,141,.18)] hover:bg-[#E8C96A]">
                 {siteConfig.header.cta}
                 <ArrowRight />
               </Button>
@@ -363,7 +363,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         className="relative min-h-[780px] pt-20 lg:min-h-[760px]"
       >
-        <div className="absolute inset-0 overflow-hidden bg-[#0B2D5C]">
+        <div className="absolute inset-0 overflow-hidden bg-[#143D8D]">
           <Image
             src={siteConfig.hero.image}
             alt={siteConfig.hero.imageAlt}
@@ -387,9 +387,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <source src={siteConfig.hero.video} />
             </video>
           )}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,45,92,.94)_0%,rgba(11,45,92,.79)_43%,rgba(23,74,139,.22)_73%,rgba(11,45,92,.18)_100%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,transparent_0%,rgba(11,45,92,.08)_42%,rgba(11,45,92,.54)_100%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0B2D5C]/80 to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,61,141,.94)_0%,rgba(20,61,141,.79)_43%,rgba(43,95,184,.22)_73%,rgba(20,61,141,.18)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_35%,transparent_0%,rgba(20,61,141,.08)_42%,rgba(20,61,141,.54)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#143D8D]/80 to-transparent" />
         </div>
 
         <div className="relative mx-auto flex min-h-[700px] max-w-7xl items-center px-5 pb-44 pt-16 sm:px-8 lg:px-10 lg:pb-36">
@@ -412,7 +412,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="#properties">
-                <Button className="h-14 rounded-2xl bg-[#D4AF37] px-7 text-[#0B2D5C] shadow-[0_16px_38px_rgba(0,0,0,.24)] transition-all hover:-translate-y-0.5 hover:bg-[#E8C96A]">
+                <Button className="h-14 rounded-2xl bg-[#D4AF37] px-7 text-[#143D8D] shadow-[0_16px_38px_rgba(0,0,0,.24)] transition-all hover:-translate-y-0.5 hover:bg-[#E8C96A]">
                   {siteConfig.hero.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -441,10 +441,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-10 translate-y-[42%] px-5 sm:px-8">
-          <div className="mx-auto max-w-6xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_80px_rgba(11,45,92,.20)] sm:p-6">
+          <div className="mx-auto max-w-6xl rounded-[28px] border border-white/70 bg-white p-4 shadow-[0_24px_80px_rgba(20,61,141,.20)] sm:p-6">
             <div className="mb-4 flex items-center justify-between px-1">
               <div>
-                <p className="font-heading text-lg font-bold text-[#0B2D5C]">
+                <p className="font-heading text-lg font-bold text-[#143D8D]">
                   {siteConfig.search.title}
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -569,7 +569,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               {visibleProperties.map((property) => (
                 <article
                   key={property.id}
-                  className="group overflow-hidden rounded-[24px] border border-[#E1E6ED] bg-white shadow-[0_10px_35px_rgba(11,45,92,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(11,45,92,.12)]"
+                  className="group overflow-hidden rounded-[24px] border border-[#E1E6ED] bg-white shadow-[0_10px_35px_rgba(20,61,141,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(20,61,141,.12)]"
                 >
                   <div className="relative h-64 overflow-hidden bg-[#EDF2F7]">
                     <Image
@@ -584,7 +584,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                         For {property.type === 'sale' ? 'Sale' : 'Rent'}
                       </span>
                       {property.featured && (
-                        <span className="rounded-full bg-[#D4AF37] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#0B2D5C]">
+                        <span className="rounded-full bg-[#D4AF37] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#143D8D]">
                           Featured
                         </span>
                       )}
@@ -596,7 +596,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       <MapPin className="size-3.5 text-[#D4AF37]" />
                       {property.location}
                     </div>
-                    <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-[#0B2D5C]">
+                    <h3 className="mt-3 font-heading text-xl font-bold tracking-tight text-[#143D8D]">
                       {property.title}
                     </h3>
                     <p className="mt-1 text-sm text-muted-foreground">
@@ -667,7 +667,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="owners"
-        className="scroll-mt-20 bg-[#0B2D5C] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24"
+        className="scroll-mt-20 bg-[#143D8D] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24"
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
           <div className="relative mx-auto w-full max-w-xl">
@@ -680,7 +680,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="h-[460px] w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-7 -right-2 max-w-[230px] rounded-2xl bg-[#F7F0D1] p-5 text-[#0B2D5C] shadow-2xl sm:right-6">
+            <div className="absolute -bottom-7 -right-2 max-w-[230px] rounded-2xl bg-[#F7F0D1] p-5 text-[#143D8D] shadow-2xl sm:right-6">
               <div className="flex items-center gap-1 text-[#D4AF37]">
                 {[0, 1, 2, 3, 4].map((star) => (
                   <Star key={star} className="size-4 fill-current" />
@@ -719,7 +719,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                <Button className="h-12 rounded-full bg-[#D4AF37] px-6 text-[#0B2D5C] hover:bg-[#E8C96A]">
+                <Button className="h-12 rounded-full bg-[#D4AF37] px-6 text-[#143D8D] hover:bg-[#E8C96A]">
                   {siteConfig.ownerSection.primaryCta}
                   <ArrowRight />
                 </Button>
@@ -765,7 +765,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="mt-7 font-heading text-xl font-bold text-[#0B2D5C]">
+                <h3 className="mt-7 font-heading text-xl font-bold text-[#143D8D]">
                   {service.title}
                 </h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -793,7 +793,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="aspect-[4/5] w-full object-cover object-top"
               />
               <div className="absolute inset-x-5 bottom-5 rounded-2xl bg-white/92 p-4 backdrop-blur-md">
-                <p className="font-heading text-lg font-bold text-[#0B2D5C]">
+                <p className="font-heading text-lg font-bold text-[#143D8D]">
                   {siteConfig.agent.name}
                 </p>
                 <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
@@ -848,7 +848,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="contact"
         className="scroll-mt-20 bg-[#EDF2F7] px-5 py-20 sm:px-8 lg:px-10 lg:py-24"
       >
-        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(11,45,92,.10)] lg:grid-cols-[.8fr_1.2fr]">
+        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[32px] bg-white shadow-[0_20px_70px_rgba(20,61,141,.10)] lg:grid-cols-[.8fr_1.2fr]">
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
             <p className="section-kicker !text-[#E8C96A]">
               {siteConfig.contactSection.kicker}
@@ -884,7 +884,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 rel="noreferrer"
                 className="flex items-center gap-4 text-sm font-semibold"
               >
-                <span className="grid size-10 place-items-center rounded-full bg-[#174A8B]">
+                <span className="grid size-10 place-items-center rounded-full bg-[#2B5FB8]">
                   <WhatsAppIcon className="size-4" />
                 </span>
                 {siteConfig.contactSection.whatsappLabel}
@@ -997,12 +997,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
       </section>
 
-      <footer className="bg-[#0B2D5C] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10">
+      <footer className="bg-[#143D8D] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.5fr_1fr_1fr]">
             <div>
               <a href="#top" className="flex items-center gap-3">
-                <span className="grid size-11 place-items-center rounded-full bg-[#D4AF37] font-heading text-sm font-bold text-[#0B2D5C]">
+                <span className="grid size-11 place-items-center rounded-full bg-[#D4AF37] font-heading text-sm font-bold text-[#143D8D]">
                   {siteConfig.logo.image ? (
                     <Image
                       src={siteConfig.logo.image}
@@ -1041,7 +1041,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       rel="noreferrer"
                       aria-label={`Follow ${siteConfig.agent.firstName} on ${label}`}
                       title={label}
-                      className={`${iconClass} hover:-translate-y-0.5 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#0B2D5C]`}
+                      className={`${iconClass} hover:-translate-y-0.5 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#143D8D]`}
                     >
                       <Icon className="size-[17px]" />
                     </a>
@@ -1115,7 +1115,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         href={whatsappLink()}
         target="_blank"
         rel="noreferrer"
-        className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-full bg-[#174A8B] px-4 text-sm font-bold text-white shadow-[0_12px_35px_rgba(11,45,92,.32)] transition-transform hover:-translate-y-1 sm:bottom-7 sm:right-7"
+        className="fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-full bg-[#2B5FB8] px-4 text-sm font-bold text-white shadow-[0_12px_35px_rgba(20,61,141,.32)] transition-transform hover:-translate-y-1 sm:bottom-7 sm:right-7"
         aria-label="Chat with Satiaya on WhatsApp"
       >
         <WhatsAppIcon className="size-5" />
