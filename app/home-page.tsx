@@ -505,7 +505,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <ChevronDown className="pointer-events-none absolute bottom-4 right-4 size-4 text-muted-foreground" />
               </label>
               <Button
-                className="mt-auto h-12 rounded-xl bg-primary px-6 md:w-14 lg:w-auto"
+                className="mt-auto h-12 rounded-xl bg-primary px-6 text-white hover:bg-secondary hover:text-white md:w-14 lg:w-auto"
                 onClick={() => {
                   setSearchApplied(true);
                   document
