@@ -30,6 +30,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   pageSectionIds,
+  type EditorElementStyle,
   type EditableProperty,
   type PageSectionId,
   type SiteContent,
@@ -105,6 +106,32 @@ function isPageSectionId(value: string): value is PageSectionId {
   return pageSectionIds.includes(value as PageSectionId);
 }
 
+function editorStyleToCss(style: EditorElementStyle) {
+  const declarations = [
+    style.fontSize !== undefined && `font-size:${style.fontSize}px`,
+    style.fontWeight !== undefined && `font-weight:${style.fontWeight}`,
+    style.letterSpacing !== undefined &&
+      `letter-spacing:${style.letterSpacing}px`,
+    style.lineHeight !== undefined && `line-height:${style.lineHeight}`,
+    style.textAlign !== undefined && `text-align:${style.textAlign}`,
+    style.color !== undefined && `color:${style.color}`,
+    style.backgroundColor !== undefined &&
+      `background-color:${style.backgroundColor}`,
+    style.opacity !== undefined && `opacity:${style.opacity / 100}`,
+    style.widthPercent !== undefined && `width:${style.widthPercent}%`,
+    style.paddingX !== undefined &&
+      `padding-left:${style.paddingX}px;padding-right:${style.paddingX}px`,
+    style.paddingY !== undefined &&
+      `padding-top:${style.paddingY}px;padding-bottom:${style.paddingY}px`,
+    style.marginTop !== undefined && `margin-top:${style.marginTop}px`,
+    style.marginBottom !== undefined && `margin-bottom:${style.marginBottom}px`,
+    style.borderRadius !== undefined && `border-radius:${style.borderRadius}px`,
+    style.iconSize !== undefined &&
+      `width:${style.iconSize}px;height:${style.iconSize}px`,
+  ].filter(Boolean);
+  return declarations.join(';');
+}
+
 type WebMcpTool = {
   name: string;
   title: string;
@@ -130,7 +157,21 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const sectionOrder = (section: PageSectionId) =>
     siteConfig.pageLayout.order.indexOf(section);
   const hiddenElementStyles = siteConfig.pageLayout.hiddenElements
-    .map((path) => `[data-editor-path="${path}"] { display: none !important; }`)
+    .map(
+      (path) =>
+        `[data-editor-path="${path}"], [data-editor-node="${path}"] { display: none !important; }`,
+    )
+    .join('\n');
+  const customElementStyles = Object.entries(
+    siteConfig.pageLayout.elementStyles,
+  )
+    .map(([key, style]) => {
+      const declarations = editorStyleToCss(style);
+      return declarations
+        ? `[data-editor-path="${key}"], [data-editor-node="${key}"] { ${declarations} }`
+        : '';
+    })
+    .filter(Boolean)
     .join('\n');
   const navItems = previewContent.navigation
     .filter((item) => {
@@ -190,9 +231,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
     function selectEditable(event: MouseEvent) {
       const target =
         event.target instanceof Element
-          ? event.target.closest<HTMLElement>('[data-editor-path]')
+          ? event.target.closest<HTMLElement>(
+              '[data-editor-path], [data-editor-node]',
+            )
           : null;
-      if (!target?.dataset.editorPath) return;
+      if (!target) return;
+      const editorKey = target.dataset.editorPath ?? target.dataset.editorNode;
+      if (!editorKey) return;
       event.preventDefault();
       event.stopPropagation();
       document
@@ -202,7 +247,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         });
       target.dataset.editorSelected = 'true';
       window.parent.postMessage(
-        { type: 'satiaya-editor-select', path: target.dataset.editorPath },
+        { type: 'satiaya-editor-select', path: editorKey },
         window.location.origin,
       );
     }
@@ -224,7 +269,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
           });
         const safePath = CSS.escape(event.data.selectedPath);
         document
-          .querySelector<HTMLElement>(`[data-editor-path="${safePath}"]`)
+          .querySelector<HTMLElement>(
+            `[data-editor-path="${safePath}"], [data-editor-node="${safePath}"]`,
+          )
           ?.setAttribute('data-editor-selected', 'true');
       }
     }
@@ -349,15 +396,26 @@ export default function HomePage({ content }: { content: SiteContent }) {
       ref={editorSurfaceRef}
       className="flex flex-col overflow-hidden bg-background text-foreground"
     >
-      {hiddenElementStyles && <style>{hiddenElementStyles}</style>}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white">
-        <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+      {(hiddenElementStyles || customElementStyles) && (
+        <style>{`${hiddenElementStyles}\n${customElementStyles}`}</style>
+      )}
+      <header
+        data-editor-node="header.section"
+        className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white"
+      >
+        <div
+          data-editor-node="header.container"
+          className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10"
+        >
           <a
             href="#top"
             className="group flex items-center gap-3"
             aria-label="Back to top"
           >
-            <span className="grid size-10 place-items-center rounded-xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_4px_12px_rgba(23,63,74,.14)]">
+            <span
+              data-editor-node="header.logo"
+              className="grid size-10 place-items-center rounded-xl bg-primary font-heading text-sm font-bold tracking-wide text-primary-foreground shadow-[0_4px_12px_rgba(23,63,74,.14)]"
+            >
               {siteConfig.logo.image ? (
                 <Image
                   src={siteConfig.logo.image}
@@ -387,6 +445,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </a>
 
           <nav
+            data-editor-node="header.navigation"
             className="hidden items-center gap-8 lg:flex"
             aria-label="Main navigation"
           >
@@ -464,10 +523,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="top"
+        data-editor-node="hero.section"
         style={{ order: sectionOrder('hero') }}
         className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px]`}
       >
-        <div className="absolute inset-0 overflow-hidden bg-[#173F4A]">
+        <div
+          data-editor-node="hero.background"
+          className="absolute inset-0 overflow-hidden bg-[#173F4A]"
+        >
           <Image
             src={siteConfig.hero.image}
             alt={siteConfig.hero.imageAlt}
@@ -496,7 +559,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
 
         <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-40 pt-12 sm:px-8 lg:px-10 lg:pb-32">
-          <div className="relative max-w-[50rem] text-white">
+          <div
+            data-editor-node="hero.content"
+            className="relative max-w-[50rem] text-white"
+          >
             <div className="mb-6 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
               <span className="grid size-8 place-items-center rounded-full border border-[#77D9D4]/55 bg-[#2DB8B5]/12 backdrop-blur-md">
                 <Sparkles className="size-3.5 text-[#77D9D4]" />
@@ -521,7 +587,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 {siteConfig.hero.description}
               </p>
             </div>
-            <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+            <div
+              data-editor-node="hero.actions"
+              className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4"
+            >
               <a
                 href="#properties"
                 data-slot="button"
@@ -560,7 +629,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-10 translate-y-[42%] px-5 sm:px-8">
-          <div className="mx-auto max-w-6xl rounded-[20px] border border-[#D9E6E7] bg-white p-4 shadow-[0_16px_45px_rgba(23,63,74,.16)] sm:p-5">
+          <div
+            data-editor-node="search.card"
+            className="mx-auto max-w-6xl rounded-[20px] border border-[#D9E6E7] bg-white p-4 shadow-[0_16px_45px_rgba(23,63,74,.16)] sm:p-5"
+          >
             <div className="mb-4 flex items-center justify-between px-1">
               <div>
                 <p
@@ -652,11 +724,15 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="properties"
+        data-editor-node="properties.section"
         style={{ order: sectionOrder('properties') }}
         className={`${hiddenSections.has('properties') ? 'hidden' : ''} scroll-mt-20 bg-white px-5 pb-24 pt-44 sm:px-8 lg:px-10 lg:pt-40`}
       >
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end">
+          <div
+            data-editor-node="properties.heading"
+            className="flex flex-col items-start justify-between gap-7 md:flex-row md:items-end"
+          >
             <div>
               <p data-editor-path="featured.kicker" className="section-kicker">
                 {siteConfig.featured.kicker}
@@ -702,10 +778,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
 
           {visibleProperties.length > 0 ? (
-            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div
+              data-editor-node="properties.grid"
+              className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+            >
               {visibleProperties.map((property) => (
                 <article
                   key={property.id}
+                  data-editor-node={`properties.card.${property.id}`}
                   className="group overflow-hidden rounded-[18px] border border-[#D9E6E7] bg-white shadow-[0_4px_16px_rgba(23,63,74,.055)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_10px_26px_rgba(23,63,74,.10)]"
                 >
                   <div
@@ -828,11 +908,15 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="owners"
+        data-editor-node="owners.section"
         style={{ order: sectionOrder('owners') }}
         className={`${hiddenSections.has('owners') ? 'hidden' : ''} scroll-mt-20 bg-[#173F4A] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24`}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
-          <div className="relative mx-auto w-full max-w-xl">
+          <div
+            data-editor-node="owners.image"
+            className="relative mx-auto w-full max-w-xl"
+          >
             <div
               data-editor-path="ownerSection.image"
               className="overflow-hidden rounded-[20px] border border-white/10"
@@ -920,11 +1004,15 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="services"
+        data-editor-node="services.section"
         style={{ order: sectionOrder('services') }}
         className={`${hiddenSections.has('services') ? 'hidden' : ''} scroll-mt-20 bg-[#F5F8F9] px-5 py-20 sm:px-8 lg:px-10 lg:py-24`}
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-2xl text-center">
+          <div
+            data-editor-node="services.heading"
+            className="mx-auto max-w-2xl text-center"
+          >
             <p
               data-editor-path="servicesSection.kicker"
               className="section-kicker"
@@ -944,14 +1032,21 @@ export default function HomePage({ content }: { content: SiteContent }) {
               {siteConfig.servicesSection.description}
             </p>
           </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <div
+            data-editor-node="services.grid"
+            className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
+          >
             {services.map((service, index) => (
               <article
                 key={service.title}
+                data-editor-node={`services.card.${index}`}
                 className="group rounded-[18px] border border-[#D9E6E7] bg-white p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_8px_22px_rgba(23,63,74,.08)]"
               >
                 <div className="flex items-start justify-between">
-                  <span className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+                  <span
+                    data-editor-node={`services.icon.${index}`}
+                    className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary transition-colors group-hover:bg-primary group-hover:text-white"
+                  >
                     <service.icon className="size-5" />
                   </span>
                   <span className="font-heading text-xs font-bold text-[#5F7077]">
@@ -978,11 +1073,15 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="about"
+        data-editor-node="about.section"
         style={{ order: sectionOrder('about') }}
         className={`${hiddenSections.has('about') ? 'hidden' : ''} scroll-mt-20 bg-white px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
-          <div className="relative mx-auto max-w-md lg:mx-0">
+          <div
+            data-editor-node="about.image"
+            className="relative mx-auto max-w-md lg:mx-0"
+          >
             <div className="absolute -inset-3 translate-x-2 translate-y-2 rounded-[22px] border border-[#2DB8B5]/35" />
             <div
               data-editor-path="agent.profilePhoto"
@@ -1031,7 +1130,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
             >
               {siteConfig.about.approach}
             </p>
-            <div className="mt-9 grid grid-cols-3 gap-4 border-y border-border py-7">
+            <div
+              data-editor-node="about.stats"
+              className="mt-9 grid grid-cols-3 gap-4 border-y border-border py-7"
+            >
               {siteConfig.about.stats.map((stat, index) => (
                 <div key={stat.label}>
                   <p
@@ -1073,10 +1175,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
       <section
         id="contact"
+        data-editor-node="contact.section"
         style={{ order: sectionOrder('contact') }}
         className={`${hiddenSections.has('contact') ? 'hidden' : ''} scroll-mt-20 bg-[#EAF2F3] px-5 py-20 sm:px-8 lg:px-10 lg:py-24`}
       >
-        <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[20px] border border-[#D9E6E7] bg-white shadow-[0_10px_32px_rgba(23,63,74,.08)] lg:grid-cols-[.8fr_1.2fr]">
+        <div
+          data-editor-node="contact.card"
+          className="mx-auto grid max-w-7xl overflow-hidden rounded-[20px] border border-[#D9E6E7] bg-white shadow-[0_10px_32px_rgba(23,63,74,.08)] lg:grid-cols-[.8fr_1.2fr]"
+        >
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
             <p
               data-editor-path="contactSection.kicker"
@@ -1167,7 +1273,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 </a>
               </output>
             ) : (
-              <form onSubmit={submitContact} noValidate>
+              <form
+                data-editor-node="contact.form"
+                onSubmit={submitContact}
+                noValidate
+              >
                 <div className="grid gap-5 sm:grid-cols-2">
                   <label htmlFor="contact-name" className="form-label">
                     {siteConfig.contactSection.nameLabel}
@@ -1250,10 +1360,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
       </section>
 
       <footer
+        data-editor-node="footer.section"
         style={{ order: pageSectionIds.length + 1 }}
         className="bg-[#173F4A] px-5 pb-8 pt-14 text-white sm:px-8 lg:px-10"
       >
-        <div className="mx-auto max-w-7xl">
+        <div data-editor-node="footer.container" className="mx-auto max-w-7xl">
           <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-[1.5fr_1fr_1fr]">
             <div>
               <a href="#top" className="flex items-center gap-3">
@@ -1384,6 +1495,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
       </footer>
 
       <a
+        data-editor-node="floating.whatsapp"
         href={whatsappLink()}
         target="_blank"
         rel="noreferrer"

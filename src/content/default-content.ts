@@ -8,6 +8,7 @@ export const defaultContent = siteContentSchema.parse({
     order: ['hero', 'properties', 'owners', 'services', 'about', 'contact'],
     hidden: [],
     hiddenElements: [],
+    elementStyles: {},
   },
   navigation: siteConfig.navigation,
   logo: siteConfig.logo,

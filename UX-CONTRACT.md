@@ -33,6 +33,10 @@
 
 - Every public-page section appears in the Page layers panel.
 - Sections can be reordered by drag and drop or by the equivalent Move up / Move down buttons.
+- Text and link layers can be selected from the content list or directly on the live page preview, then edited in the inspector.
+- Containers, cards, images and registered icons appear in a separate layer group and can also be selected directly on the preview.
+- The design inspector supports typography, alignment, text/fill colour, opacity, responsive width, padding, margins, radius and icon sizing. Reset style returns a layer to the design-system default.
+- Layout editing intentionally uses responsive width and spacing controls instead of unrestricted absolute X/Y positioning, so owner changes remain usable on mobile screens.
 - Removing a section or element is reversible: it is hidden from the public page, retained in the dashboard, and can be restored before or after publishing.
 - Individual property, service, statistic and navigation records continue to use their detailed list controls for permanent record deletion.
 - Every change updates the preview immediately, enters the shared undo history, and remains private until **Save & publish** succeeds.
@@ -45,6 +49,7 @@
 | Reorder section         | Drag/drop or arrow button | Local immediate preview        | Stay in editor      | Dirty state                | Undo                         | Remains on control          |
 | Remove element/section  | Remove button             | Local immediate preview        | Stay in editor      | Strikethrough/hidden state | Restore or Undo              | Remains in inspector/layers |
 | Restore element/section | Restore button            | Local immediate preview        | Stay in editor      | Visible state              | Undo                         | Remains on control          |
+| Restyle selected layer  | Inspector design control  | Local immediate preview        | Stay in editor      | Dirty state                | Reset style or Undo          | Remains in inspector        |
 | Publish                 | Save & publish            | Busy button; duplicate blocked | Stay in editor      | Published status           | Inline error; draft retained | Save control/status         |
 
 ## Async and resilience

@@ -1,6 +1,9 @@
 'use client';
 
 import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
   Check,
   ChevronDown,
   ChevronRight,
@@ -14,7 +17,9 @@ import {
   LoaderCircle,
   Monitor,
   MousePointer2,
+  Palette,
   Redo2,
+  RotateCcw,
   Save,
   Search,
   Smartphone,
@@ -32,6 +37,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
   pageSectionIds,
+  type EditorElementStyle,
   type PageSectionId,
   type SiteContent,
 } from '@/src/content/schema';
@@ -46,6 +52,167 @@ type EditableEntry = {
   value: string | number | boolean;
   section: string;
 };
+
+type DesignNode = {
+  key: string;
+  label: string;
+  section: string;
+  kind: 'container' | 'icon';
+};
+
+const designNodes: DesignNode[] = [
+  {
+    key: 'header.section',
+    label: 'Header bar',
+    section: 'Header',
+    kind: 'container',
+  },
+  {
+    key: 'header.container',
+    label: 'Header content',
+    section: 'Header',
+    kind: 'container',
+  },
+  { key: 'header.logo', label: 'Logo shape', section: 'Header', kind: 'icon' },
+  {
+    key: 'header.navigation',
+    label: 'Navigation group',
+    section: 'Header',
+    kind: 'container',
+  },
+  {
+    key: 'hero.section',
+    label: 'Hero canvas',
+    section: 'Hero',
+    kind: 'container',
+  },
+  {
+    key: 'hero.background',
+    label: 'Hero background',
+    section: 'Hero',
+    kind: 'container',
+  },
+  {
+    key: 'hero.content',
+    label: 'Hero content group',
+    section: 'Hero',
+    kind: 'container',
+  },
+  {
+    key: 'hero.actions',
+    label: 'Hero buttons group',
+    section: 'Hero',
+    kind: 'container',
+  },
+  {
+    key: 'search.card',
+    label: 'Search card',
+    section: 'Search',
+    kind: 'container',
+  },
+  {
+    key: 'properties.section',
+    label: 'Properties section',
+    section: 'Properties',
+    kind: 'container',
+  },
+  {
+    key: 'properties.heading',
+    label: 'Properties heading group',
+    section: 'Properties',
+    kind: 'container',
+  },
+  {
+    key: 'properties.grid',
+    label: 'Property grid',
+    section: 'Properties',
+    kind: 'container',
+  },
+  {
+    key: 'owners.section',
+    label: 'Owner section',
+    section: 'Owners',
+    kind: 'container',
+  },
+  {
+    key: 'owners.image',
+    label: 'Owner image frame',
+    section: 'Owners',
+    kind: 'container',
+  },
+  {
+    key: 'services.section',
+    label: 'Services section',
+    section: 'Services',
+    kind: 'container',
+  },
+  {
+    key: 'services.heading',
+    label: 'Services heading group',
+    section: 'Services',
+    kind: 'container',
+  },
+  {
+    key: 'services.grid',
+    label: 'Services grid',
+    section: 'Services',
+    kind: 'container',
+  },
+  {
+    key: 'about.section',
+    label: 'About section',
+    section: 'About',
+    kind: 'container',
+  },
+  {
+    key: 'about.image',
+    label: 'Agent image frame',
+    section: 'About',
+    kind: 'container',
+  },
+  {
+    key: 'about.stats',
+    label: 'Statistics row',
+    section: 'About',
+    kind: 'container',
+  },
+  {
+    key: 'contact.section',
+    label: 'Contact section',
+    section: 'Contact',
+    kind: 'container',
+  },
+  {
+    key: 'contact.card',
+    label: 'Contact card',
+    section: 'Contact',
+    kind: 'container',
+  },
+  {
+    key: 'contact.form',
+    label: 'Contact form',
+    section: 'Contact',
+    kind: 'container',
+  },
+  {
+    key: 'footer.section',
+    label: 'Footer',
+    section: 'Footer',
+    kind: 'container',
+  },
+  {
+    key: 'footer.container',
+    label: 'Footer content',
+    section: 'Footer',
+    kind: 'container',
+  },
+  {
+    key: 'floating.whatsapp',
+    label: 'Floating WhatsApp',
+    section: 'Global',
+    kind: 'icon',
+  },
+];
 
 const sectionLabels: Record<string, string> = {
   agent: 'Agent profile',
@@ -70,12 +237,15 @@ const pageSectionDetails: Record<
   PageSectionId,
   { label: string; selectionPath: string }
 > = {
-  hero: { label: 'Hero & search', selectionPath: 'hero.title' },
-  properties: { label: 'Featured properties', selectionPath: 'featured.title' },
-  owners: { label: 'Owner sell / rent', selectionPath: 'ownerSection.title' },
-  services: { label: 'Services', selectionPath: 'servicesSection.title' },
-  about: { label: 'About agent', selectionPath: 'about.title' },
-  contact: { label: 'Contact form', selectionPath: 'contactSection.title' },
+  hero: { label: 'Hero & search', selectionPath: 'hero.section' },
+  properties: {
+    label: 'Featured properties',
+    selectionPath: 'properties.section',
+  },
+  owners: { label: 'Owner sell / rent', selectionPath: 'owners.section' },
+  services: { label: 'Services', selectionPath: 'services.section' },
+  about: { label: 'About agent', selectionPath: 'about.section' },
+  contact: { label: 'Contact form', selectionPath: 'contact.section' },
 };
 
 function pageSectionForPath(path: string): PageSectionId | undefined {
@@ -271,6 +441,278 @@ function VisualMediaInput({
   );
 }
 
+function NumberControl({
+  label,
+  value,
+  min,
+  max,
+  step = 1,
+  suffix = 'px',
+  onChange,
+}: {
+  label: string;
+  value?: number;
+  min: number;
+  max: number;
+  step?: number;
+  suffix?: string;
+  onChange: (value: number | undefined) => void;
+}) {
+  const id = `style-${label.toLowerCase().replace(/\s+/g, '-')}`;
+  return (
+    <label
+      htmlFor={id}
+      className="grid gap-1 text-[11px] font-semibold text-[#5F7077]"
+    >
+      {label}
+      <span className="relative">
+        <Input
+          id={id}
+          type="number"
+          value={value ?? ''}
+          min={min}
+          max={max}
+          step={step}
+          placeholder="Auto"
+          onChange={(event) =>
+            onChange(
+              event.target.value === ''
+                ? undefined
+                : Number(event.target.value),
+            )
+          }
+          className="h-9 rounded-lg bg-white pr-8 text-xs"
+        />
+        <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground">
+          {suffix}
+        </span>
+      </span>
+    </label>
+  );
+}
+
+function StyleControls({
+  style,
+  kind,
+  allowTypography,
+  onChange,
+  onReset,
+}: {
+  style: EditorElementStyle;
+  kind: DesignNode['kind'] | 'text' | 'media';
+  allowTypography: boolean;
+  onChange: <Key extends keyof EditorElementStyle>(
+    key: Key,
+    value: EditorElementStyle[Key],
+  ) => void;
+  onReset: () => void;
+}) {
+  const hasOverrides = Object.keys(style).length > 0;
+  return (
+    <div className="overflow-hidden rounded-xl border border-[#D9E6E7] bg-[#F5F8F9]">
+      <div className="flex items-center justify-between border-b border-[#D9E6E7] px-3 py-2.5">
+        <p className="flex items-center gap-2 text-xs font-bold text-[#173F4A]">
+          <Palette className="size-3.5 text-[#16807F]" /> Design
+        </p>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={onReset}
+          disabled={!hasOverrides}
+          className="h-7 rounded-lg px-2 text-[11px]"
+        >
+          <RotateCcw className="size-3" /> Reset
+        </Button>
+      </div>
+
+      {allowTypography && (
+        <div className="grid gap-3 border-b border-[#D9E6E7] p-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#5F7077]">
+            Typography
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            <NumberControl
+              label="Font size"
+              value={style.fontSize}
+              min={8}
+              max={120}
+              onChange={(value) => onChange('fontSize', value)}
+            />
+            <label className="grid gap-1 text-[11px] font-semibold text-[#5F7077]">
+              Weight
+              <select
+                value={style.fontWeight ?? ''}
+                onChange={(event) =>
+                  onChange(
+                    'fontWeight',
+                    event.target.value ? Number(event.target.value) : undefined,
+                  )
+                }
+                className="h-9 rounded-lg border border-border bg-white px-2 text-xs outline-none focus:ring-2 focus:ring-[#16807F]/30"
+              >
+                <option value="">Default</option>
+                <option value="300">Light</option>
+                <option value="400">Regular</option>
+                <option value="500">Medium</option>
+                <option value="600">Semibold</option>
+                <option value="700">Bold</option>
+                <option value="800">Extra bold</option>
+              </select>
+            </label>
+            <NumberControl
+              label="Tracking"
+              value={style.letterSpacing}
+              min={-3}
+              max={12}
+              step={0.1}
+              onChange={(value) => onChange('letterSpacing', value)}
+            />
+            <NumberControl
+              label="Line height"
+              value={style.lineHeight}
+              min={0.8}
+              max={3}
+              step={0.05}
+              suffix="×"
+              onChange={(value) => onChange('lineHeight', value)}
+            />
+          </div>
+          <div className="grid grid-cols-[1fr_auto] gap-2">
+            <label className="flex h-9 items-center gap-2 rounded-lg border border-border bg-white px-2 text-[11px] font-semibold text-[#5F7077]">
+              <input
+                type="color"
+                value={style.color ?? '#173F4A'}
+                onChange={(event) => onChange('color', event.target.value)}
+                className="size-6 cursor-pointer rounded border-0 bg-transparent p-0"
+                aria-label="Text colour"
+              />
+              Text colour
+            </label>
+            <div className="flex rounded-lg border border-border bg-white p-0.5">
+              {(
+                [
+                  ['left', AlignLeft],
+                  ['center', AlignCenter],
+                  ['right', AlignRight],
+                ] as const
+              ).map(([alignment, Icon]) => (
+                <Button
+                  key={alignment}
+                  type="button"
+                  variant={
+                    style.textAlign === alignment ? 'secondary' : 'ghost'
+                  }
+                  size="icon"
+                  onClick={() => onChange('textAlign', alignment)}
+                  aria-label={`Align ${alignment}`}
+                  aria-pressed={style.textAlign === alignment}
+                  className="size-7 rounded-md"
+                >
+                  <Icon className="size-3.5" />
+                </Button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="grid gap-3 p-3">
+        <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#5F7077]">
+          Size & spacing
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {kind === 'icon' && (
+            <NumberControl
+              label="Icon size"
+              value={style.iconSize}
+              min={8}
+              max={160}
+              onChange={(value) => onChange('iconSize', value)}
+            />
+          )}
+          {kind !== 'icon' && (
+            <NumberControl
+              label="Width"
+              value={style.widthPercent}
+              min={10}
+              max={100}
+              suffix="%"
+              onChange={(value) => onChange('widthPercent', value)}
+            />
+          )}
+          <NumberControl
+            label="Padding X"
+            value={style.paddingX}
+            min={0}
+            max={160}
+            onChange={(value) => onChange('paddingX', value)}
+          />
+          <NumberControl
+            label="Padding Y"
+            value={style.paddingY}
+            min={0}
+            max={160}
+            onChange={(value) => onChange('paddingY', value)}
+          />
+          <NumberControl
+            label="Margin top"
+            value={style.marginTop}
+            min={-100}
+            max={240}
+            onChange={(value) => onChange('marginTop', value)}
+          />
+          <NumberControl
+            label="Margin bottom"
+            value={style.marginBottom}
+            min={-100}
+            max={240}
+            onChange={(value) => onChange('marginBottom', value)}
+          />
+          <NumberControl
+            label="Corner radius"
+            value={style.borderRadius}
+            min={0}
+            max={120}
+            onChange={(value) => onChange('borderRadius', value)}
+          />
+          <NumberControl
+            label="Opacity"
+            value={style.opacity}
+            min={10}
+            max={100}
+            suffix="%"
+            onChange={(value) => onChange('opacity', value)}
+          />
+        </div>
+        <label className="flex h-9 items-center gap-2 rounded-lg border border-border bg-white px-2 text-[11px] font-semibold text-[#5F7077]">
+          <input
+            type="color"
+            value={
+              style.backgroundColor && style.backgroundColor !== 'transparent'
+                ? style.backgroundColor
+                : '#FFFFFF'
+            }
+            onChange={(event) =>
+              onChange('backgroundColor', event.target.value)
+            }
+            className="size-6 cursor-pointer rounded border-0 bg-transparent p-0"
+            aria-label="Background colour"
+          />
+          Background colour
+          <button
+            type="button"
+            onClick={() => onChange('backgroundColor', 'transparent')}
+            className="ml-auto cursor-pointer text-[10px] font-bold text-[#16807F] hover:underline"
+          >
+            Clear
+          </button>
+        </label>
+      </div>
+    </div>
+  );
+}
+
 export default function VisualEditor({
   draft,
   dirty,
@@ -304,6 +746,34 @@ export default function VisualEditor({
   );
 
   const entries = useMemo(() => collectEditable(draft), [draft]);
+  const availableDesignNodes = useMemo(
+    () => [
+      ...designNodes,
+      ...draft.servicesSection.items.flatMap((_, index): DesignNode[] => [
+        {
+          key: `services.card.${index}`,
+          label: `Service card ${index + 1}`,
+          section: 'Services',
+          kind: 'container',
+        },
+        {
+          key: `services.icon.${index}`,
+          label: `Service icon ${index + 1}`,
+          section: 'Services',
+          kind: 'icon',
+        },
+      ]),
+      ...draft.properties.map(
+        (property): DesignNode => ({
+          key: `properties.card.${property.id}`,
+          label: property.title || `Property card ${property.id}`,
+          section: 'Properties',
+          kind: 'container',
+        }),
+      ),
+    ],
+    [draft.properties, draft.servicesSection.items],
+  );
   const visibleEntries = useMemo(() => {
     const needle = query.trim().toLowerCase();
     return needle
@@ -314,6 +784,14 @@ export default function VisualEditor({
         )
       : entries;
   }, [entries, query]);
+  const visibleDesignNodes = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return needle
+      ? availableDesignNodes.filter((node) =>
+          `${node.section} ${node.label}`.toLowerCase().includes(needle),
+        )
+      : availableDesignNodes;
+  }, [availableDesignNodes, query]);
   const groupedEntries = useMemo(() => {
     return visibleEntries.reduce<Record<string, EditableEntry[]>>(
       (groups, entry) => {
@@ -324,11 +802,20 @@ export default function VisualEditor({
     );
   }, [visibleEntries]);
   const selectedEntry = entries.find((entry) => entry.path === selectedPath);
+  const selectedNode = availableDesignNodes.find(
+    (node) => node.key === selectedPath,
+  );
   const selectedSection = pageSectionForPath(selectedPath);
   const selectedValue = getAtPath(draft, selectedPath);
   const selectedText = typeof selectedValue === 'string' ? selectedValue : '';
   const selectedElementHidden =
     draft.pageLayout.hiddenElements.includes(selectedPath);
+  const selectedStyle = draft.pageLayout.elementStyles[selectedPath] ?? {};
+  const selectedKind: DesignNode['kind'] | 'text' | 'media' = selectedNode
+    ? selectedNode.kind
+    : isMediaPath(selectedPath)
+      ? 'media'
+      : 'text';
 
   const sendToPreview = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
@@ -414,6 +901,26 @@ export default function VisualEditor({
       ? draft.pageLayout.hiddenElements.filter((path) => path !== selectedPath)
       : [...draft.pageLayout.hiddenElements, selectedPath];
     onUpdate(['pageLayout', 'hiddenElements'], hiddenElements);
+  }
+
+  function updateSelectedStyle<Key extends keyof EditorElementStyle>(
+    key: Key,
+    value: EditorElementStyle[Key],
+  ) {
+    const elementStyles = structuredClone(draft.pageLayout.elementStyles);
+    const nextStyle = { ...elementStyles[selectedPath] };
+    if (value === undefined) delete nextStyle[key];
+    else nextStyle[key] = value;
+    if (Object.keys(nextStyle).length > 0)
+      elementStyles[selectedPath] = nextStyle;
+    else delete elementStyles[selectedPath];
+    onUpdate(['pageLayout', 'elementStyles'], elementStyles);
+  }
+
+  function resetSelectedStyle() {
+    const elementStyles = structuredClone(draft.pageLayout.elementStyles);
+    delete elementStyles[selectedPath];
+    onUpdate(['pageLayout', 'elementStyles'], elementStyles);
   }
 
   const viewportWidth = {
@@ -595,6 +1102,41 @@ export default function VisualEditor({
               {pageSectionIds.length - draft.pageLayout.hidden.length} of{' '}
               {pageSectionIds.length} sections visible
             </p>
+            <details className="mt-3 rounded-xl border border-[#D9E6E7] bg-[#F5F8F9]">
+              <summary className="cursor-pointer px-3 py-2 text-[11px] font-bold text-[#173F4A]">
+                Containers & icons
+              </summary>
+              <div className="max-h-48 overflow-y-auto border-t border-[#D9E6E7] p-1.5">
+                {visibleDesignNodes.map((node) => {
+                  const hidden = draft.pageLayout.hiddenElements.includes(
+                    node.key,
+                  );
+                  return (
+                    <button
+                      key={node.key}
+                      type="button"
+                      onClick={() => setSelectedPath(node.key)}
+                      className={`flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-2 text-left text-[11px] transition ${
+                        selectedPath === node.key
+                          ? 'bg-[#E2F7F5] font-bold text-[#173F4A]'
+                          : 'text-[#5F7077] hover:bg-white hover:text-[#173F4A]'
+                      } ${hidden ? 'opacity-55' : ''}`}
+                    >
+                      {node.kind === 'icon' ? (
+                        <ImageIcon className="size-3.5 shrink-0" />
+                      ) : (
+                        <Layers3 className="size-3.5 shrink-0" />
+                      )}
+                      <span
+                        className={`min-w-0 flex-1 truncate ${hidden ? 'line-through' : ''}`}
+                      >
+                        {node.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </details>
             <div className="relative mt-3 block">
               <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -679,18 +1221,18 @@ export default function VisualEditor({
         </div>
 
         <aside className="border-t border-[#D9E6E7] bg-white p-5 lg:border-l lg:border-t-0">
-          <div className="sticky top-28">
+          <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto pr-1">
             <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#5F7077]">
               Inspector
             </p>
-            {selectedEntry ? (
+            {selectedEntry || selectedNode ? (
               <div className="mt-4 grid gap-5">
                 <div>
                   <p className="font-heading text-lg font-bold text-[#173F4A]">
-                    {selectedEntry.label}
+                    {selectedEntry?.label ?? selectedNode?.label}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {selectedEntry.section}
+                    {selectedEntry?.section ?? selectedNode?.section}
                   </p>
                 </div>
 
@@ -793,56 +1335,69 @@ export default function VisualEditor({
                   </Button>
                 </div>
 
-                {isMediaPath(selectedPath) &&
-                typeof selectedValue === 'string' ? (
-                  <VisualMediaInput
-                    path={selectedPath}
-                    value={selectedValue}
-                    onChange={updateSelected}
-                  />
-                ) : typeof selectedValue === 'boolean' ? (
-                  <label className="flex items-center justify-between rounded-xl border border-[#D9E6E7] bg-[#F5F8F9] px-4 py-3 text-sm font-semibold">
-                    Enabled
-                    <input
-                      type="checkbox"
-                      checked={selectedValue}
-                      onChange={(event) => updateSelected(event.target.checked)}
-                      className="size-5 accent-[#16807F]"
+                {selectedEntry &&
+                  (isMediaPath(selectedPath) &&
+                  typeof selectedValue === 'string' ? (
+                    <VisualMediaInput
+                      path={selectedPath}
+                      value={selectedValue}
+                      onChange={updateSelected}
                     />
-                  </label>
-                ) : typeof selectedValue === 'number' ? (
-                  <Input
-                    type="number"
-                    value={selectedValue}
-                    onChange={(event) =>
-                      updateSelected(Number(event.target.value))
-                    }
-                    aria-label={selectedEntry.label}
-                    className="h-12 rounded-xl bg-[#F5F8F9]"
-                  />
-                ) : (
-                  <Textarea
-                    value={selectedText}
-                    onChange={(event) => updateSelected(event.target.value)}
-                    aria-label={selectedEntry.label}
-                    rows={selectedText.length > 80 ? 7 : 4}
-                    className="resize-none rounded-xl bg-[#F5F8F9] leading-6"
-                  />
-                )}
+                  ) : typeof selectedValue === 'boolean' ? (
+                    <label className="flex items-center justify-between rounded-xl border border-[#D9E6E7] bg-[#F5F8F9] px-4 py-3 text-sm font-semibold">
+                      Enabled
+                      <input
+                        type="checkbox"
+                        checked={selectedValue}
+                        onChange={(event) =>
+                          updateSelected(event.target.checked)
+                        }
+                        className="size-5 accent-[#16807F]"
+                      />
+                    </label>
+                  ) : typeof selectedValue === 'number' ? (
+                    <Input
+                      type="number"
+                      value={selectedValue}
+                      onChange={(event) =>
+                        updateSelected(Number(event.target.value))
+                      }
+                      aria-label={selectedEntry.label}
+                      className="h-12 rounded-xl bg-[#F5F8F9]"
+                    />
+                  ) : (
+                    <Textarea
+                      value={selectedText}
+                      onChange={(event) => updateSelected(event.target.value)}
+                      aria-label={selectedEntry.label}
+                      rows={selectedText.length > 80 ? 7 : 4}
+                      className="resize-none rounded-xl bg-[#F5F8F9] leading-6"
+                    />
+                  ))}
+
+                <StyleControls
+                  style={selectedStyle}
+                  kind={selectedKind}
+                  allowTypography={selectedKind === 'text'}
+                  onChange={updateSelectedStyle}
+                  onReset={resetSelectedStyle}
+                />
 
                 <div className="rounded-xl bg-[#EAF2F3] p-3 text-xs leading-5 text-[#5F7077]">
                   Your change appears in the preview immediately. It becomes
                   public only after you select{' '}
                   <strong>Save &amp; publish</strong>.
                 </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => onOpenDetails(detailTabFor(selectedPath))}
-                  className="h-11 justify-between rounded-xl bg-white"
-                >
-                  Open detailed controls <ChevronRight />
-                </Button>
+                {selectedEntry && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => onOpenDetails(detailTabFor(selectedPath))}
+                    className="h-11 justify-between rounded-xl bg-white"
+                  >
+                    Open detailed controls <ChevronRight />
+                  </Button>
+                )}
               </div>
             ) : (
               <div className="mt-5 rounded-xl border border-dashed border-[#D9E6E7] p-5 text-center text-sm text-muted-foreground">

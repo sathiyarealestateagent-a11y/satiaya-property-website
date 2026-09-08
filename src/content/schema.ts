@@ -18,6 +18,31 @@ export type PageSectionId = z.infer<typeof pageSectionSchema>;
 
 const defaultPageOrder: PageSectionId[] = [...pageSectionIds];
 
+export const editorElementStyleSchema = z.object({
+  fontSize: z.number().min(8).max(120).optional(),
+  fontWeight: z.number().int().min(300).max(800).optional(),
+  letterSpacing: z.number().min(-3).max(12).optional(),
+  lineHeight: z.number().min(0.8).max(3).optional(),
+  textAlign: z.enum(['left', 'center', 'right']).optional(),
+  color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/)
+    .optional(),
+  backgroundColor: z
+    .union([z.literal('transparent'), z.string().regex(/^#[0-9a-fA-F]{6}$/)])
+    .optional(),
+  opacity: z.number().min(10).max(100).optional(),
+  widthPercent: z.number().min(10).max(100).optional(),
+  paddingX: z.number().min(0).max(160).optional(),
+  paddingY: z.number().min(0).max(160).optional(),
+  marginTop: z.number().min(-100).max(240).optional(),
+  marginBottom: z.number().min(-100).max(240).optional(),
+  borderRadius: z.number().min(0).max(120).optional(),
+  iconSize: z.number().min(8).max(160).optional(),
+});
+
+export type EditorElementStyle = z.infer<typeof editorElementStyleSchema>;
+
 export const propertySchema = z.object({
   id: z.number().int().positive(),
   title: shortText,
@@ -41,8 +66,16 @@ export const siteContentSchema = z.object({
         .array(z.string().regex(/^[a-zA-Z0-9.]+$/))
         .max(300)
         .default([]),
+      elementStyles: z
+        .record(z.string().regex(/^[a-zA-Z0-9.]+$/), editorElementStyleSchema)
+        .default({}),
     })
-    .default({ order: defaultPageOrder, hidden: [], hiddenElements: [] }),
+    .default({
+      order: defaultPageOrder,
+      hidden: [],
+      hiddenElements: [],
+      elementStyles: {},
+    }),
   navigation: z.array(z.object({ label: shortText, href: shortText })).max(10),
   logo: z.object({ mark: shortText, image: urlText }),
   agent: z.object({
