@@ -206,12 +206,6 @@ const designNodes: DesignNode[] = [
     section: 'Footer',
     kind: 'container',
   },
-  {
-    key: 'floating.whatsapp',
-    label: 'Floating WhatsApp',
-    section: 'Global',
-    kind: 'icon',
-  },
 ];
 
 const sectionLabels: Record<string, string> = {

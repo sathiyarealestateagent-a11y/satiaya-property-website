@@ -1493,20 +1493,6 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
         </div>
       </footer>
-
-      <a
-        data-editor-node="floating.whatsapp"
-        href={whatsappLink()}
-        target="_blank"
-        rel="noreferrer"
-        className="premium-action fixed bottom-5 right-5 z-50 flex h-14 items-center gap-2 rounded-2xl border border-[#16807F] bg-[#16807F] px-4 text-sm font-bold text-white hover:border-[#173F4A] hover:bg-[#173F4A] sm:bottom-7 sm:right-7"
-        aria-label="Chat with Satiaya on WhatsApp"
-      >
-        <WhatsAppIcon className="size-5" />
-        <span className="hidden sm:inline">
-          {siteConfig.footer.whatsappLabel}
-        </span>
-      </a>
     </main>
   );
 }
