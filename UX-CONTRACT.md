@@ -47,6 +47,10 @@
 
 - Selecting a property card image, title or arrow opens its dedicated `/properties/[id]` page in the same tab.
 - A property detail page presents the stored photo, title, location, asking price, bedrooms, bathrooms, size and property type before contact actions.
+- A listing supports up to 12 stored photos. The first photo is the cover; four or more photos are recommended, while legacy one-photo listings remain valid.
+- The public media panel switches between Photos and Map view without navigating away. Map view uses saved coordinates when both are present and otherwise searches the saved full address or location.
+- Share listing invokes the device share sheet when available. Facebook has a direct web share action; Instagram and TikTok copy the listing URL before opening their publishing surfaces because those platforms do not provide a general URL-prefilled web composer.
+- Long-form listing introduction, package/promotions, project information and amenities preserve the owner's line breaks and remain optional.
 - WhatsApp, phone and email are explicit enquiry actions on the detail page; catalogue navigation never opens WhatsApp directly.
 - An unknown or removed property ID presents a recoverable not-found state with a route back to the current listings.
 

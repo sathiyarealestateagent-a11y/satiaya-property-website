@@ -237,6 +237,169 @@ function ImageField({
   );
 }
 
+function PropertyGalleryField({
+  value,
+  fallbackImage,
+  onChange,
+}: {
+  value: string[];
+  fallbackImage: string;
+  onChange: (value: string[]) => void;
+}) {
+  const id = useId();
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState('');
+  const [error, setError] = useState('');
+  const images =
+    value.length > 0 ? value : fallbackImage ? [fallbackImage] : [];
+
+  async function upload(files: File[]) {
+    const available = Math.max(0, 12 - images.length);
+    const selected = files.slice(0, available);
+    if (selected.length === 0) {
+      setError('A listing can contain up to 12 photos.');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+    const uploaded: string[] = [];
+    try {
+      for (const [index, file] of selected.entries()) {
+        setProgress(`Uploading ${index + 1} of ${selected.length}`);
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch('/api/admin/media', {
+          method: 'POST',
+          body: formData,
+        });
+        const result = (await response.json()) as {
+          url?: string;
+          error?: string;
+        };
+        if (!response.ok || !result.url) {
+          throw new Error(result.error ?? `Unable to upload ${file.name}.`);
+        }
+        uploaded.push(result.url);
+      }
+      onChange([...images, ...uploaded].slice(0, 12));
+    } catch (uploadError) {
+      if (uploaded.length > 0) onChange([...images, ...uploaded].slice(0, 12));
+      setError(
+        uploadError instanceof Error ? uploadError.message : 'Upload failed.',
+      );
+    } finally {
+      setUploading(false);
+      setProgress('');
+    }
+  }
+
+  function moveToCover(index: number) {
+    const next = [...images];
+    const [selected] = next.splice(index, 1);
+    onChange([selected, ...next]);
+  }
+
+  return (
+    <div className="grid gap-3">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#5F7077]">
+            Property photos
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Upload at least 4 photos for a strong gallery. The first photo is
+            the cover.
+          </p>
+        </div>
+        <span className="rounded-full bg-muted px-3 py-1 text-xs font-bold text-primary">
+          {images.length}/12 photos
+        </span>
+      </div>
+
+      {images.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {images.map((image, imageIndex) => (
+            <div
+              key={`${image}-${imageIndex}`}
+              className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-border bg-muted"
+            >
+              <Image
+                src={image}
+                alt={`Property photo ${imageIndex + 1}`}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+              {imageIndex === 0 ? (
+                <span className="absolute left-2 top-2 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+                  Cover
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => moveToCover(imageIndex)}
+                  className="absolute left-2 top-2 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-primary opacity-0 shadow-sm transition group-hover:opacity-100 focus-visible:opacity-100"
+                >
+                  Make cover
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() =>
+                  onChange(images.filter((_, index) => index !== imageIndex))
+                }
+                className="absolute bottom-2 right-2 grid size-8 place-items-center rounded-full bg-white/95 text-destructive opacity-0 shadow-sm transition group-hover:opacity-100 focus-visible:opacity-100"
+                aria-label={`Remove property photo ${imageIndex + 1}`}
+              >
+                <Trash2 className="size-4" />
+              </button>
+              <span className="absolute bottom-2 left-2 rounded-full bg-black/55 px-2 py-1 text-[10px] font-bold text-white">
+                {imageIndex + 1}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="rounded-2xl border border-dashed border-[#C7D2E0] bg-[#F5F8F9] p-4">
+        <input
+          id={id}
+          type="file"
+          multiple
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="sr-only"
+          disabled={uploading || images.length >= 12}
+          onChange={(event) => {
+            void upload(Array.from(event.target.files ?? []));
+            event.target.value = '';
+          }}
+        />
+        <label
+          htmlFor={id}
+          aria-disabled={uploading || images.length >= 12}
+          className="inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl bg-[#173F4A] px-4 text-xs font-bold text-white shadow-sm transition hover:bg-[#16807F] aria-disabled:pointer-events-none aria-disabled:opacity-50"
+        >
+          {uploading ? (
+            <LoaderCircle className="size-4 animate-spin" />
+          ) : (
+            <ImageUp className="size-4" />
+          )}
+          {uploading ? progress : 'Upload photos'}
+        </label>
+        <span className="ml-3 text-xs text-muted-foreground">
+          Select several images together · 20 MB each
+        </span>
+      </div>
+      {error && (
+        <p role="alert" className="text-xs font-semibold text-destructive">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function SectionCard({
   title,
   description,
@@ -357,6 +520,14 @@ export default function AdminDashboard({
       bathrooms: 0,
       size: 0,
       image: '',
+      images: [],
+      address: '',
+      latitude: null,
+      longitude: null,
+      description: '',
+      packageDetails: '',
+      projectInfo: '',
+      amenities: '',
       featured: false,
     };
     update(['properties'], [...draft.properties, property]);
@@ -1264,11 +1435,15 @@ export default function AdminDashboard({
                 title={property.title || `Property ${index + 1}`}
                 description={`Listing #${property.id}`}
               >
-                <ImageField
-                  label="Property image"
-                  value={property.image}
+                <PropertyGalleryField
+                  value={property.images}
+                  fallbackImage={property.image}
                   onChange={(value) =>
-                    update(['properties', index, 'image'], value)
+                    update(['properties', index], {
+                      ...property,
+                      images: value,
+                      image: value[0] ?? '',
+                    })
                   }
                 />
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -1284,6 +1459,14 @@ export default function AdminDashboard({
                     value={property.location}
                     onChange={(value) =>
                       update(['properties', index, 'location'], value)
+                    }
+                  />
+                  <Field
+                    label="Full address"
+                    value={property.address}
+                    placeholder="Street, area, postcode, state"
+                    onChange={(value) =>
+                      update(['properties', index, 'address'], value)
                     }
                   />
                   <Field
@@ -1341,6 +1524,30 @@ export default function AdminDashboard({
                       update(['properties', index, 'bathrooms'], Number(value))
                     }
                   />
+                  <Field
+                    label="Map latitude"
+                    type="number"
+                    value={property.latitude ?? ''}
+                    placeholder="3.1390"
+                    onChange={(value) =>
+                      update(
+                        ['properties', index, 'latitude'],
+                        value === '' ? null : Number(value),
+                      )
+                    }
+                  />
+                  <Field
+                    label="Map longitude"
+                    type="number"
+                    value={property.longitude ?? ''}
+                    placeholder="101.6869"
+                    onChange={(value) =>
+                      update(
+                        ['properties', index, 'longitude'],
+                        value === '' ? null : Number(value),
+                      )
+                    }
+                  />
                   <label className="flex items-center gap-3 self-end rounded-xl border border-border bg-[#F5F8F9] px-4 py-3 text-sm font-semibold">
                     <input
                       type="checkbox"
@@ -1355,6 +1562,40 @@ export default function AdminDashboard({
                     />{' '}
                     Featured property
                   </label>
+                </div>
+                <div className="grid gap-5 lg:grid-cols-2">
+                  <LongField
+                    label="Listing introduction"
+                    value={property.description}
+                    rows={6}
+                    onChange={(value) =>
+                      update(['properties', index, 'description'], value)
+                    }
+                  />
+                  <LongField
+                    label="Package and promotions"
+                    value={property.packageDetails}
+                    rows={6}
+                    onChange={(value) =>
+                      update(['properties', index, 'packageDetails'], value)
+                    }
+                  />
+                  <LongField
+                    label="Project information"
+                    value={property.projectInfo}
+                    rows={7}
+                    onChange={(value) =>
+                      update(['properties', index, 'projectInfo'], value)
+                    }
+                  />
+                  <LongField
+                    label="Amenities and access"
+                    value={property.amenities}
+                    rows={7}
+                    onChange={(value) =>
+                      update(['properties', index, 'amenities'], value)
+                    }
+                  />
                 </div>
                 <div className="flex justify-end">
                   <Button

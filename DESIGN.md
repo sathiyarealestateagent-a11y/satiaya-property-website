@@ -145,7 +145,7 @@ Copy and property data remain unchanged by theme work. The voice is direct, pers
 
 ### Property detail pages
 
-Every listing opens a dedicated, shareable `/properties/[id]` page before an enquiry action. The page uses an image-led gallery surface, a clear title and asking price, scannable property facts, an honest details summary and a sticky agent enquiry card on large screens. Detail pages may only present attributes available in the stored listing; tenure, furnishing, facilities and other facts must never be invented. WhatsApp remains an explicit action within the detail page rather than the destination of a catalogue card.
+Every listing opens a dedicated, shareable `/properties/[id]` page before an enquiry action. The page uses an image-led gallery with a quiet Photos / Map view switch, a clear title and asking price, scannable property facts, structured long-form details and a sticky agent enquiry card on large screens. The gallery uses one large cover image with supporting images to create an editorial property-brochure signature; it collapses into a touch-friendly grid on narrow screens. Detail pages may only present attributes available in the stored listing; tenure, furnishing, facilities and other facts must never be invented. WhatsApp remains an explicit action within the detail page rather than the destination of a catalogue card.
 
 ## Do's and Don'ts
 

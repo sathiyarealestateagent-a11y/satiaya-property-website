@@ -23,6 +23,14 @@ type PropertyRow = {
   bathrooms: number;
   size_sqft: number;
   image_url: string;
+  image_urls: string[] | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  description: string | null;
+  package_details: string | null;
+  project_info: string | null;
+  amenities: string | null;
   featured: boolean;
 };
 
@@ -38,6 +46,19 @@ function fromPropertyRow(row: PropertyRow): EditableProperty {
     bathrooms: row.bathrooms,
     size: row.size_sqft,
     image: row.image_url,
+    images:
+      row.image_urls && row.image_urls.length > 0
+        ? row.image_urls
+        : row.image_url
+          ? [row.image_url]
+          : [],
+    address: row.address ?? '',
+    latitude: row.latitude === null ? null : Number(row.latitude),
+    longitude: row.longitude === null ? null : Number(row.longitude),
+    description: row.description ?? '',
+    packageDetails: row.package_details ?? '',
+    projectInfo: row.project_info ?? '',
+    amenities: row.amenities ?? '',
     featured: row.featured,
   });
 }
@@ -53,7 +74,15 @@ function toPropertyRow(property: EditableProperty) {
     bedrooms: property.bedrooms,
     bathrooms: property.bathrooms,
     size_sqft: property.size,
-    image_url: property.image,
+    image_url: property.images[0] ?? property.image,
+    image_urls: property.images,
+    address: property.address,
+    latitude: property.latitude,
+    longitude: property.longitude,
+    description: property.description,
+    package_details: property.packageDetails,
+    project_info: property.projectInfo,
+    amenities: property.amenities,
     featured: Boolean(property.featured),
     updated_at: new Date().toISOString(),
   };
@@ -65,7 +94,11 @@ export async function getSiteContent(): Promise<SiteContent> {
     if (!supabase) return defaultContent;
 
     const [contentResult, propertiesResult] = await Promise.all([
-      supabase.from('site_content').select('content').eq('id', CONTENT_ID).maybeSingle(),
+      supabase
+        .from('site_content')
+        .select('content')
+        .eq('id', CONTENT_ID)
+        .maybeSingle(),
       supabase.from('properties').select('*').order('id'),
     ]);
 

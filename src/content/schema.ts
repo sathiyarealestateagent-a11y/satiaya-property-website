@@ -71,6 +71,14 @@ export const propertySchema = z.object({
   bathrooms: z.number().int().nonnegative(),
   size: z.number().int().nonnegative(),
   image: urlText,
+  images: z.array(urlText).max(12).default([]),
+  address: shortText.default(''),
+  latitude: z.number().min(-90).max(90).nullable().default(null),
+  longitude: z.number().min(-180).max(180).nullable().default(null),
+  description: text.default(''),
+  packageDetails: text.default(''),
+  projectInfo: text.default(''),
+  amenities: text.default(''),
   featured: z.boolean().optional(),
 });
 

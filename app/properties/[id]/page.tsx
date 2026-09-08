@@ -8,7 +8,6 @@ import {
   Bath,
   BedDouble,
   Building2,
-  Camera,
   Mail,
   MapPin,
   Maximize2,
@@ -21,6 +20,8 @@ import { cache } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { getSiteContent } from '@/db/content';
 import { cn } from '@/lib/utils';
+
+import { PropertyMedia, PropertyShare } from './property-media';
 
 export const dynamic = 'force-dynamic';
 
@@ -62,7 +63,12 @@ export async function generateMetadata({
     openGraph: {
       title: property.title,
       description,
-      images: [{ url: property.image, alt: property.title }],
+      images: [
+        {
+          url: property.images[0] ?? property.image,
+          alt: property.title,
+        },
+      ],
     },
   };
 }
@@ -75,6 +81,17 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const { content, property } = data;
   const price = formatPrice(property.type, property.price);
   const listingReference = `SAT-${String(property.id).padStart(4, '0')}`;
+  const images =
+    property.images.length > 0
+      ? property.images
+      : property.image
+        ? [property.image]
+        : [];
+  const mapLabel = property.address || property.location;
+  const mapQuery =
+    property.latitude !== null && property.longitude !== null
+      ? `${property.latitude},${property.longitude}`
+      : mapLabel;
   const enquiryMessage = `Hi ${content.agent.firstName}, I'm interested in ${property.title} at ${property.location}. Please share more details and viewing availability.`;
   const similarProperties = content.properties
     .filter((item) => item.id !== property.id && item.type === property.type)
@@ -150,32 +167,14 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           </span>
         </nav>
 
-        <section className="mt-6 overflow-hidden rounded-[24px] border border-border bg-white shadow-[0_18px_60px_rgba(23,63,74,.10)]">
-          <div className="relative aspect-[4/3] min-h-[300px] sm:aspect-[16/9] lg:aspect-[2.15/1]">
-            <Image
-              src={property.image}
-              alt={property.title}
-              fill
-              priority
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/65 via-transparent to-black/10" />
-            <div className="absolute left-5 top-5 flex flex-wrap gap-2 sm:left-7 sm:top-7">
-              <span className="rounded-full bg-white px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary shadow-sm">
-                For {property.type === 'sale' ? 'Sale' : 'Rent'}
-              </span>
-              {property.featured && (
-                <span className="rounded-full bg-accent px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary shadow-sm">
-                  Featured
-                </span>
-              )}
-            </div>
-            <span className="absolute bottom-5 right-5 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-2 text-xs font-bold text-primary shadow-sm sm:bottom-7 sm:right-7">
-              <Camera className="size-4" /> 1 photo
-            </span>
-          </div>
-        </section>
+        <div className="mt-6">
+          <PropertyMedia
+            images={images}
+            title={property.title}
+            mapQuery={mapQuery}
+            mapLabel={mapLabel}
+          />
+        </div>
 
         <section className="py-8 sm:py-10">
           <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
@@ -213,6 +212,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               </div>
             ))}
           </div>
+          <div className="mt-6 border-t border-border pt-6">
+            <PropertyShare title={property.title} />
+          </div>
         </section>
 
         <div className="grid gap-8 border-t border-border py-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
@@ -231,6 +233,9 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                     `For ${property.type === 'sale' ? 'sale' : 'rent'}`,
                   ],
                   ['Category', property.propertyType],
+                  ...(property.address
+                    ? ([['Address', property.address]] as string[][])
+                    : []),
                   [
                     'Floor area',
                     `${property.size.toLocaleString('en-MY')} sq ft`,
@@ -257,17 +262,31 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               <h2 className="mt-2 font-heading text-2xl font-bold tracking-[-0.02em] text-primary">
                 About this property
               </h2>
-              <p className="mt-5 max-w-3xl text-[15px] leading-7 text-muted-foreground sm:text-base sm:leading-8">
-                This {property.propertyType.toLowerCase()} in{' '}
-                {property.location} offers{' '}
-                {property.size.toLocaleString('en-MY')} sq ft of space with{' '}
-                {property.bedrooms} bedrooms and {property.bathrooms} bathrooms.
-                It is currently available for{' '}
-                {property.type === 'sale' ? 'sale' : 'rent'} at {price}. Contact{' '}
-                {content.agent.firstName} to confirm availability, arrange a
-                viewing and request complete property information.
+              <p className="mt-5 max-w-3xl whitespace-pre-line text-[15px] leading-7 text-muted-foreground sm:text-base sm:leading-8">
+                {property.description ||
+                  `This ${property.propertyType.toLowerCase()} in ${property.location} offers ${property.size.toLocaleString('en-MY')} sq ft of space with ${property.bedrooms} bedrooms and ${property.bathrooms} bathrooms. It is currently available for ${property.type === 'sale' ? 'sale' : 'rent'} at ${price}. Contact ${content.agent.firstName} to confirm availability, arrange a viewing and request complete property information.`}
               </p>
             </section>
+
+            {[
+              ['Package and promotions', property.packageDetails],
+              ['Project information', property.projectInfo],
+              ['Amenities and access', property.amenities],
+            ].map(([heading, body]) =>
+              body ? (
+                <section
+                  key={heading}
+                  className="rounded-[22px] border border-border bg-white p-6 sm:p-8"
+                >
+                  <h2 className="font-heading text-2xl font-bold tracking-[-0.02em] text-primary">
+                    {heading}
+                  </h2>
+                  <p className="mt-5 whitespace-pre-line text-[15px] leading-7 text-muted-foreground sm:text-base sm:leading-8">
+                    {body}
+                  </p>
+                </section>
+              ) : null,
+            )}
           </div>
 
           <aside className="rounded-[22px] border border-border bg-white p-6 shadow-[0_12px_36px_rgba(23,63,74,.08)] lg:sticky lg:top-24">
