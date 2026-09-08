@@ -43,6 +43,13 @@
 - Every change updates the preview immediately, enters the shared undo history, and remains private until **Save & publish** succeeds.
 - Hidden navigation destinations are removed from public header and footer navigation while their target section is hidden.
 
+## Public listing behavior
+
+- Selecting a property card image, title or arrow opens its dedicated `/properties/[id]` page in the same tab.
+- A property detail page presents the stored photo, title, location, asking price, bedrooms, bathrooms, size and property type before contact actions.
+- WhatsApp, phone and email are explicit enquiry actions on the detail page; catalogue navigation never opens WhatsApp directly.
+- An unknown or removed property ID presents a recoverable not-found state with a route back to the current listings.
+
 ## Flow ledger
 
 | Operation               | Trigger                   | Pending                        | Success destination | Success feedback           | Failure recovery             | Focus outcome               |

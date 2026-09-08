@@ -143,6 +143,10 @@ Motion remains restrained: a single highlight sweep and 2px lift for primary act
 
 Copy and property data remain unchanged by theme work. The voice is direct, personal and professional. Any future charts start with deep and supporting teal, using turquoise for a single emphasis series and providing a text alternative.
 
+### Property detail pages
+
+Every listing opens a dedicated, shareable `/properties/[id]` page before an enquiry action. The page uses an image-led gallery surface, a clear title and asking price, scannable property facts, an honest details summary and a sticky agent enquiry card on large screens. Detail pages may only present attributes available in the stored listing; tenure, furnishing, facilities and other facts must never be invented. WhatsApp remains an explicit action within the detail page rather than the destination of a catalogue card.
+
 ## Do's and Don'ts
 
 - **Do:** Let deep teal establish trust and turquoise identify the most important action or detail.

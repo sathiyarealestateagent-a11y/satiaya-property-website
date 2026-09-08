@@ -842,29 +842,35 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   data-editor-node={`properties.card.${property.id}`}
                   className="group overflow-hidden rounded-[18px] border border-[#D9E6E7] bg-white shadow-[0_4px_16px_rgba(23,63,74,.055)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_10px_26px_rgba(23,63,74,.10)]"
                 >
-                  <div
-                    data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.image`}
-                    className="relative h-64 overflow-hidden bg-[#EAF2F3]"
+                  <Link
+                    href={`/properties/${property.id}`}
+                    aria-label={`View details for ${property.title}`}
+                    className="block focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring/60"
                   >
-                    <Image
-                      src={property.image}
-                      alt={property.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute left-4 top-4 flex gap-2">
-                      <span className="rounded-full bg-white/92 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary backdrop-blur-sm">
-                        For {property.type === 'sale' ? 'Sale' : 'Rent'}
-                      </span>
-                      {property.featured && (
-                        <span className="rounded-full bg-[#2DB8B5] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#173F4A]">
-                          Featured
+                    <div
+                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.image`}
+                      className="relative h-64 overflow-hidden bg-[#EAF2F3]"
+                    >
+                      <Image
+                        src={property.image}
+                        alt={property.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute left-4 top-4 flex gap-2">
+                        <span className="rounded-full bg-white/92 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary backdrop-blur-sm">
+                          For {property.type === 'sale' ? 'Sale' : 'Rent'}
                         </span>
-                      )}
+                        {property.featured && (
+                          <span className="rounded-full bg-[#2DB8B5] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#173F4A]">
+                            Featured
+                          </span>
+                        )}
+                      </div>
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
                     </div>
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
-                  </div>
+                  </Link>
                   <div className="p-6">
                     <div
                       data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.location`}
@@ -877,7 +883,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.title`}
                       className="mt-3 font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]"
                     >
-                      {property.title}
+                      <Link
+                        href={`/properties/${property.id}`}
+                        className="rounded-sm transition-colors hover:text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        {property.title}
+                      </Link>
                     </h3>
                     <p
                       data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.propertyType`}
@@ -905,17 +916,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       >
                         {formatPrice(property)}
                       </p>
-                      <a
-                        href={whatsappLink(
-                          `Hi Satiaya, I'm interested in ${property.title} at ${property.location}.`,
-                        )}
-                        target="_blank"
-                        rel="noreferrer"
+                      <Link
+                        href={`/properties/${property.id}`}
                         className="grid size-10 shrink-0 place-items-center rounded-full bg-[#EAF2F3] text-primary transition-colors hover:bg-primary hover:text-white"
-                        aria-label={`Enquire about ${property.title}`}
+                        aria-label={`View details for ${property.title}`}
                       >
                         <ArrowRight className="size-4" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </article>
