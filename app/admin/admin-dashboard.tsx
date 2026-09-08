@@ -8,7 +8,6 @@ import {
   CircleUserRound,
   ExternalLink,
   FileText,
-  Globe2,
   ImageUp,
   KeyRound,
   LoaderCircle,
@@ -508,67 +507,8 @@ export default function AdminDashboard({
           ))}
         </div>
 
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className={
-            activeTab === 'visual'
-              ? 'gap-5'
-              : 'gap-7 lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start'
-          }
-        >
-          <TabsList
-            className={`sticky top-28 h-auto w-full flex-col items-stretch gap-2 rounded-[24px] bg-[#173F4A] p-3 text-white shadow-[0_18px_45px_rgba(23,63,74,.16)] ${
-              activeTab === 'visual' ? 'hidden' : 'hidden lg:flex'
-            }`}
-          >
-            <div className="mb-2 rounded-2xl border border-white/10 bg-white/[.06] p-4 text-left">
-              <span className="grid size-9 place-items-center rounded-xl bg-[#2DB8B5] text-[#173F4A]">
-                <Globe2 className="size-[18px]" />
-              </span>
-              <p className="mt-3 font-heading text-sm font-bold">
-                Website controls
-              </p>
-              <p className="mt-1 text-xs leading-5 text-white/55">
-                Edit visually or open detailed controls, then publish.
-              </p>
-            </div>
-            <TabsTrigger
-              value="visual"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
-            >
-              <WandSparkles /> Visual editor
-            </TabsTrigger>
-            <TabsTrigger
-              value="identity"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
-            >
-              <CircleUserRound /> Brand & contact
-            </TabsTrigger>
-            <TabsTrigger
-              value="homepage"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
-            >
-              <FileText /> Homepage content
-            </TabsTrigger>
-            <TabsTrigger
-              value="services"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
-            >
-              <Settings2 /> Services
-            </TabsTrigger>
-            <TabsTrigger
-              value="properties"
-              className="h-12 justify-start rounded-xl px-3 text-white/65 hover:bg-white/[.07] hover:text-white data-[state=active]:bg-[#16807F] data-[state=active]:text-white data-[state=active]:shadow-none"
-            >
-              <Building2 /> Properties
-            </TabsTrigger>
-          </TabsList>
-          <TabsList
-            className={`mb-5 h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#D9E6E7] bg-white p-1.5 ${
-              activeTab === 'visual' ? 'flex' : 'flex lg:hidden'
-            }`}
-          >
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="gap-5">
+          <TabsList className="mb-5 flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-2xl border border-[#D9E6E7] bg-white p-1.5">
             <TabsTrigger
               value="visual"
               className="h-10 shrink-0 rounded-xl data-[state=active]:bg-[#173F4A] data-[state=active]:text-[#2DB8B5]"
