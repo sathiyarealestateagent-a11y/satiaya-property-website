@@ -21,22 +21,37 @@ import {
   Star,
   X,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { SyntheticEvent } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { createElement, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   pageSectionIds,
   type EditorElementStyle,
+  type EditorIconName,
   type EditableProperty,
   type PageSectionId,
   type SiteContent,
 } from '@/src/content/schema';
 
 const serviceIcons = [Home, KeyRound, HousePlus, Compass];
+
+const editableIcons = {
+  home: Home,
+  key: KeyRound,
+  'house-plus': HousePlus,
+  compass: Compass,
+  building: Building2,
+  shield: ShieldCheck,
+  sparkles: Sparkles,
+  star: Star,
+  search: Search,
+  'map-pin': MapPin,
+} satisfies Record<EditorIconName, LucideIcon>;
 
 function InstagramIcon({ className = 'size-4' }: { className?: string }) {
   return (
@@ -126,8 +141,6 @@ function editorStyleToCss(style: EditorElementStyle) {
     style.marginTop !== undefined && `margin-top:${style.marginTop}px`,
     style.marginBottom !== undefined && `margin-bottom:${style.marginBottom}px`,
     style.borderRadius !== undefined && `border-radius:${style.borderRadius}px`,
-    style.iconSize !== undefined &&
-      `width:${style.iconSize}px;height:${style.iconSize}px`,
   ].filter(Boolean);
   return declarations.join(';');
 }
@@ -167,9 +180,23 @@ export default function HomePage({ content }: { content: SiteContent }) {
   )
     .map(([key, style]) => {
       const declarations = editorStyleToCss(style);
-      return declarations
-        ? `[data-editor-path="${key}"], [data-editor-node="${key}"] { ${declarations} }`
-        : '';
+      const rules = declarations
+        ? [
+            `[data-editor-path="${key}"], [data-editor-node="${key}"] { ${declarations} }`,
+          ]
+        : [];
+      if (style.iconSize !== undefined) {
+        rules.push(
+          `[data-editor-node="${key}"] svg { width:${style.iconSize}px;height:${style.iconSize}px; }`,
+        );
+      }
+      if (style.lineThickness !== undefined) {
+        const dimension = key === 'hero.descriptionLine' ? 'width' : 'height';
+        rules.push(
+          `[data-editor-node="${key}"] { ${dimension}:${style.lineThickness}px; }`,
+        );
+      }
+      return rules.join('\n');
     })
     .filter(Boolean)
     .join('\n');
@@ -179,6 +206,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
       return !isPageSectionId(target) || !hiddenSections.has(target);
     })
     .map((item) => [item.label, item.href] as const);
+  const iconForNode = (key: string, fallback: LucideIcon) => {
+    const iconName = siteConfig.pageLayout.elementStyles[key]?.iconName;
+    return iconName ? editableIcons[iconName] : fallback;
+  };
   const services = previewContent.servicesSection.items.map(
     (service, index) => ({
       ...service,
@@ -564,13 +595,21 @@ export default function HomePage({ content }: { content: SiteContent }) {
             className="relative max-w-[50rem] text-white"
           >
             <div className="mb-6 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
-              <span className="grid size-8 place-items-center rounded-full border border-[#77D9D4]/55 bg-[#2DB8B5]/12 backdrop-blur-md">
-                <Sparkles className="size-3.5 text-[#77D9D4]" />
+              <span
+                data-editor-node="hero.eyebrowIcon"
+                className="grid size-8 place-items-center rounded-full border border-[#77D9D4]/55 bg-[#2DB8B5]/12 backdrop-blur-md"
+              >
+                {createElement(iconForNode('hero.eyebrowIcon', Sparkles), {
+                  className: 'size-3.5 text-[#77D9D4]',
+                })}
               </span>
               <span data-editor-path="hero.eyebrow">
                 {siteConfig.hero.eyebrow}
               </span>
-              <span className="h-px w-10 bg-[#77D9D4]/70" />
+              <span
+                data-editor-node="hero.eyebrowLine"
+                className="h-px w-10 bg-[#77D9D4]/70"
+              />
             </div>
             <h1
               data-editor-path="hero.title"
@@ -579,7 +618,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
               {siteConfig.hero.title}
             </h1>
             <div className="mt-6 flex max-w-2xl items-stretch gap-4 sm:gap-5">
-              <span className="w-px shrink-0 bg-gradient-to-b from-[#77D9D4] to-[#77D9D4]/20" />
+              <span
+                data-editor-node="hero.descriptionLine"
+                className="w-px shrink-0 bg-gradient-to-b from-[#77D9D4] to-[#77D9D4]/20"
+              />
               <p
                 data-editor-path="hero.description"
                 className="max-w-xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8"
@@ -615,15 +657,27 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 {siteConfig.hero.secondaryCta}
               </a>
             </div>
-            <div className="mt-10 flex w-fit flex-wrap items-center gap-x-3 gap-y-2 border-t border-white/18 pt-5 text-[13px] font-semibold text-white/72">
-              <span className="grid size-8 place-items-center rounded-full bg-white/[.09] ring-1 ring-white/15 backdrop-blur-sm">
-                <ShieldCheck className="size-4 text-[#77D9D4]" />
-              </span>
-              <span>
-                {siteConfig.agent.registrationNumber || 'Registered negotiator'}
-              </span>
-              <span className="size-1 rounded-full bg-[#77D9D4]/75" />
-              <span>{siteConfig.agent.agency}</span>
+            <div className="mt-10 w-fit">
+              <span
+                data-editor-node="hero.trustLine"
+                className="block h-px w-full bg-white/18"
+              />
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 pt-5 text-[13px] font-semibold text-white/72">
+                <span
+                  data-editor-node="hero.trustIcon"
+                  className="grid size-8 place-items-center rounded-full bg-white/[.09] ring-1 ring-white/15 backdrop-blur-sm"
+                >
+                  {createElement(iconForNode('hero.trustIcon', ShieldCheck), {
+                    className: 'size-4 text-[#77D9D4]',
+                  })}
+                </span>
+                <span>
+                  {siteConfig.agent.registrationNumber ||
+                    'Registered negotiator'}
+                </span>
+                <span className="size-1 rounded-full bg-[#77D9D4]/75" />
+                <span>{siteConfig.agent.agency}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1047,7 +1101,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     data-editor-node={`services.icon.${index}`}
                     className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary transition-colors group-hover:bg-primary group-hover:text-white"
                   >
-                    <service.icon className="size-5" />
+                    {createElement(
+                      iconForNode(`services.icon.${index}`, service.icon),
+                      { className: 'size-5' },
+                    )}
                   </span>
                   <span className="font-heading text-xs font-bold text-[#5F7077]">
                     0{index + 1}

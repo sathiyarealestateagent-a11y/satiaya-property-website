@@ -18,6 +18,21 @@ export type PageSectionId = z.infer<typeof pageSectionSchema>;
 
 const defaultPageOrder: PageSectionId[] = [...pageSectionIds];
 
+export const editorIconNames = [
+  'home',
+  'key',
+  'house-plus',
+  'compass',
+  'building',
+  'shield',
+  'sparkles',
+  'star',
+  'search',
+  'map-pin',
+] as const;
+
+export type EditorIconName = (typeof editorIconNames)[number];
+
 export const editorElementStyleSchema = z.object({
   fontSize: z.number().min(8).max(120).optional(),
   fontWeight: z.number().int().min(300).max(800).optional(),
@@ -39,6 +54,8 @@ export const editorElementStyleSchema = z.object({
   marginBottom: z.number().min(-100).max(240).optional(),
   borderRadius: z.number().min(0).max(120).optional(),
   iconSize: z.number().min(8).max(160).optional(),
+  iconName: z.enum(editorIconNames).optional(),
+  lineThickness: z.number().min(1).max(12).optional(),
 });
 
 export type EditorElementStyle = z.infer<typeof editorElementStyleSchema>;

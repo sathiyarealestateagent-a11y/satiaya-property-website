@@ -15,6 +15,7 @@ import {
   ImageIcon,
   Layers3,
   LoaderCircle,
+  Minus,
   Monitor,
   MousePointer2,
   Palette,
@@ -37,7 +38,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
   pageSectionIds,
+  editorIconNames,
   type EditorElementStyle,
+  type EditorIconName,
   type PageSectionId,
   type SiteContent,
 } from '@/src/content/schema';
@@ -57,7 +60,20 @@ type DesignNode = {
   key: string;
   label: string;
   section: string;
-  kind: 'container' | 'icon';
+  kind: 'container' | 'icon' | 'line-horizontal' | 'line-vertical';
+};
+
+const iconLabels: Record<EditorIconName, string> = {
+  home: 'Home',
+  key: 'Key',
+  'house-plus': 'House with plus',
+  compass: 'Compass',
+  building: 'Building',
+  shield: 'Shield',
+  sparkles: 'Sparkles',
+  star: 'Star',
+  search: 'Search',
+  'map-pin': 'Location pin',
 };
 
 const designNodes: DesignNode[] = [
@@ -73,7 +89,12 @@ const designNodes: DesignNode[] = [
     section: 'Header',
     kind: 'container',
   },
-  { key: 'header.logo', label: 'Logo shape', section: 'Header', kind: 'icon' },
+  {
+    key: 'header.logo',
+    label: 'Logo shape',
+    section: 'Header',
+    kind: 'container',
+  },
   {
     key: 'header.navigation',
     label: 'Navigation group',
@@ -103,6 +124,36 @@ const designNodes: DesignNode[] = [
     label: 'Hero buttons group',
     section: 'Hero',
     kind: 'container',
+  },
+  {
+    key: 'hero.eyebrowIcon',
+    label: 'Hero small icon',
+    section: 'Hero',
+    kind: 'icon',
+  },
+  {
+    key: 'hero.trustIcon',
+    label: 'Trust badge icon',
+    section: 'Hero',
+    kind: 'icon',
+  },
+  {
+    key: 'hero.eyebrowLine',
+    label: 'Hero title line',
+    section: 'Hero lines',
+    kind: 'line-horizontal',
+  },
+  {
+    key: 'hero.descriptionLine',
+    label: 'Description line',
+    section: 'Hero lines',
+    kind: 'line-vertical',
+  },
+  {
+    key: 'hero.trustLine',
+    label: 'Trust divider line',
+    section: 'Hero lines',
+    kind: 'line-horizontal',
   },
   {
     key: 'search.card',
@@ -502,6 +553,7 @@ function StyleControls({
   onReset: () => void;
 }) {
   const hasOverrides = Object.keys(style).length > 0;
+  const isLine = kind === 'line-horizontal' || kind === 'line-vertical';
   return (
     <div className="overflow-hidden rounded-xl border border-[#D9E6E7] bg-[#F5F8F9]">
       <div className="flex items-center justify-between border-b border-[#D9E6E7] px-3 py-2.5">
@@ -617,15 +669,49 @@ function StyleControls({
         </p>
         <div className="grid grid-cols-2 gap-2">
           {kind === 'icon' && (
-            <NumberControl
-              label="Icon size"
-              value={style.iconSize}
-              min={8}
-              max={160}
-              onChange={(value) => onChange('iconSize', value)}
-            />
+            <>
+              <label className="col-span-2 grid gap-1 text-[11px] font-semibold text-[#5F7077]">
+                Icon
+                <select
+                  value={style.iconName ?? ''}
+                  onChange={(event) =>
+                    onChange(
+                      'iconName',
+                      (event.target.value || undefined) as
+                        | EditorIconName
+                        | undefined,
+                    )
+                  }
+                  className="h-9 rounded-lg border border-border bg-white px-2 text-xs outline-none focus:ring-2 focus:ring-[#16807F]/30"
+                >
+                  <option value="">Original icon</option>
+                  {editorIconNames.map((iconName) => (
+                    <option key={iconName} value={iconName}>
+                      {iconLabels[iconName]}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <NumberControl
+                label="Icon size"
+                value={style.iconSize}
+                min={8}
+                max={160}
+                onChange={(value) => onChange('iconSize', value)}
+              />
+              <label className="flex h-9 items-center gap-2 rounded-lg border border-border bg-white px-2 text-[11px] font-semibold text-[#5F7077]">
+                <input
+                  type="color"
+                  value={style.color ?? '#173F4A'}
+                  onChange={(event) => onChange('color', event.target.value)}
+                  className="size-6 cursor-pointer rounded border-0 bg-transparent p-0"
+                  aria-label="Icon colour"
+                />
+                Icon colour
+              </label>
+            </>
           )}
-          {kind !== 'icon' && (
+          {kind !== 'icon' && kind !== 'line-vertical' && (
             <NumberControl
               label="Width"
               value={style.widthPercent}
@@ -633,6 +719,15 @@ function StyleControls({
               max={100}
               suffix="%"
               onChange={(value) => onChange('widthPercent', value)}
+            />
+          )}
+          {isLine && (
+            <NumberControl
+              label="Thickness"
+              value={style.lineThickness}
+              min={1}
+              max={12}
+              onChange={(value) => onChange('lineThickness', value)}
             />
           )}
           <NumberControl
@@ -693,7 +788,7 @@ function StyleControls({
             className="size-6 cursor-pointer rounded border-0 bg-transparent p-0"
             aria-label="Background colour"
           />
-          Background colour
+          {isLine ? 'Line colour' : 'Background colour'}
           <button
             type="button"
             onClick={() => onChange('backgroundColor', 'transparent')}
@@ -1118,6 +1213,9 @@ export default function VisualEditor({
                     >
                       {node.kind === 'icon' ? (
                         <ImageIcon className="size-3.5 shrink-0" />
+                      ) : node.kind === 'line-horizontal' ||
+                        node.kind === 'line-vertical' ? (
+                        <Minus className="size-3.5 shrink-0" />
                       ) : (
                         <Layers3 className="size-3.5 shrink-0" />
                       )}

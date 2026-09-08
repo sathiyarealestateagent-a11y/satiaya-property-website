@@ -36,6 +36,7 @@
 - Text and link layers can be selected from the content list or directly on the live page preview, then edited in the inspector.
 - Containers, cards, images and registered icons appear in a separate layer group and can also be selected directly on the preview.
 - The design inspector supports typography, alignment, text/fill colour, opacity, responsive width, padding, margins, radius and icon sizing. Reset style returns a layer to the design-system default.
+- Registered icon layers provide a safe icon-library selector as well as size and colour controls. Registered decorative lines provide width, thickness, colour, remove and restore controls.
 - Layout editing intentionally uses responsive width and spacing controls instead of unrestricted absolute X/Y positioning, so owner changes remain usable on mobile screens.
 - Removing a section or element is reversible: it is hidden from the public page, retained in the dashboard, and can be restored before or after publishing.
 - Individual property, service, statistic and navigation records continue to use their detailed list controls for permanent record deletion.
