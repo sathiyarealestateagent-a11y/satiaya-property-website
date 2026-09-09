@@ -432,7 +432,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
       )}
       <header
         data-editor-node="header.section"
-        className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white"
+        className="site-header fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur-xl"
       >
         <div
           data-editor-node="header.container"
@@ -484,7 +484,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className="text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-[#16807F]"
+                className="nav-link text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-secondary"
               >
                 {label}
               </a>
@@ -556,7 +556,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         data-editor-node="hero.section"
         style={{ order: sectionOrder('hero') }}
-        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px]`}
+        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[800px] pt-[72px] sm:min-h-[720px]`}
       >
         <div
           data-editor-node="hero.background"
@@ -589,10 +589,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#173F4A]/65 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-40 pt-12 sm:px-8 lg:px-10 lg:pb-32">
+        <div className="relative mx-auto flex min-h-[728px] max-w-7xl items-center px-5 pb-40 pt-12 sm:min-h-[648px] sm:px-8 lg:px-10 lg:pb-32">
           <div
             data-editor-node="hero.content"
-            className="relative max-w-[50rem] text-white"
+            className="hero-intro relative max-w-[50rem] text-white"
           >
             <div className="mb-6 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
               <span
@@ -613,7 +613,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <h1
               data-editor-path="hero.title"
-              className="max-w-[46rem] font-heading text-[clamp(2.75rem,5.4vw,4.75rem)] font-bold leading-[1.06] tracking-[-0.035em] text-balance"
+              className="max-w-[46rem] font-heading text-[clamp(2.7rem,5.4vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.055em] text-balance"
             >
               {siteConfig.hero.title}
             </h1>
@@ -663,7 +663,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         <div className="absolute inset-x-0 bottom-0 z-10 translate-y-[42%] px-5 sm:px-8">
           <div
             data-editor-node="search.card"
-            className="mx-auto max-w-6xl rounded-[20px] border border-[#D9E6E7] bg-white p-4 shadow-[0_16px_45px_rgba(23,63,74,.16)] sm:p-5"
+            className="mx-auto max-w-6xl rounded-2xl border border-border border-t-secondary/45 bg-white p-4 shadow-[0_18px_50px_rgba(23,63,74,.14)] sm:p-5"
           >
             <div className="mb-4 flex items-center justify-between px-1">
               <div>
@@ -699,7 +699,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     setListingType(event.target.value as 'sale' | 'rent');
                     setSearchApplied(false);
                   }}
-                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#F5F8F9] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                  className="premium-field h-12 w-full appearance-none rounded-lg border px-4 text-sm font-semibold outline-none"
                 >
                   <option value="sale">Buy a property</option>
                   <option value="rent">Rent a property</option>
@@ -713,7 +713,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <select
                   value={location}
                   onChange={(event) => setLocation(event.target.value)}
-                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#F5F8F9] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                  className="premium-field h-12 w-full appearance-none rounded-lg border px-4 text-sm font-semibold outline-none"
                 >
                   {locationOptions.map((option) => (
                     <option key={option}>{option}</option>
@@ -728,7 +728,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 <select
                   value={propertyType}
                   onChange={(event) => setPropertyType(event.target.value)}
-                  className="h-12 w-full appearance-none rounded-xl border border-border bg-[#F5F8F9] px-4 text-sm font-semibold outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                  className="premium-field h-12 w-full appearance-none rounded-lg border px-4 text-sm font-semibold outline-none"
                 >
                   {propertyTypeOptions.map((option) => (
                     <option key={option}>{option}</option>
@@ -812,13 +812,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
           {visibleProperties.length > 0 ? (
             <div
               data-editor-node="properties.grid"
-              className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3"
+              className="mt-10 grid grid-cols-[repeat(auto-fill,minmax(min(100%,22rem),25rem))] gap-6"
             >
               {visibleProperties.map((property) => (
                 <article
                   key={property.id}
                   data-editor-node={`properties.card.${property.id}`}
-                  className="group overflow-hidden rounded-[18px] border border-[#D9E6E7] bg-white shadow-[0_4px_16px_rgba(23,63,74,.055)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_10px_26px_rgba(23,63,74,.10)]"
+                  className="premium-card group overflow-hidden rounded-2xl"
                 >
                   <Link
                     href={`/properties/${property.id}`}
@@ -834,7 +834,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                         alt={property.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
                       />
                       <div className="absolute left-4 top-4 flex gap-2">
                         <span className="rounded-full bg-white/92 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary backdrop-blur-sm">
@@ -949,7 +949,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="owners"
         data-editor-node="owners.section"
         style={{ order: sectionOrder('owners') }}
-        className={`${hiddenSections.has('owners') ? 'hidden' : ''} scroll-mt-20 bg-[#173F4A] px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-24`}
+        className={`${hiddenSections.has('owners') ? 'hidden' : ''} scroll-mt-20 bg-primary px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-28`}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
           <div
@@ -958,7 +958,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           >
             <div
               data-editor-path="ownerSection.image"
-              className="overflow-hidden rounded-[20px] border border-white/10"
+              className="overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_70px_rgba(5,24,29,.24)]"
             >
               <Image
                 src={siteConfig.ownerSection.image}
@@ -973,13 +973,13 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div>
             <p
               data-editor-path="ownerSection.kicker"
-              className="section-kicker !text-[#77D9D4]"
+              className="section-kicker !text-brand-cyan-light"
             >
               {siteConfig.ownerSection.kicker}
             </p>
             <h2
               data-editor-path="ownerSection.title"
-              className="mt-4 max-w-xl font-heading text-4xl font-bold leading-[1.12] tracking-[-0.028em] text-balance sm:text-5xl"
+              className="mt-4 max-w-xl font-heading text-[2.35rem] font-semibold leading-[1.06] tracking-[-0.045em] text-balance sm:text-5xl"
             >
               {siteConfig.ownerSection.title}
             </h2>
@@ -1032,7 +1032,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="services"
         data-editor-node="services.section"
         style={{ order: sectionOrder('services') }}
-        className={`${hiddenSections.has('services') ? 'hidden' : ''} scroll-mt-20 bg-[#F5F8F9] px-5 py-20 sm:px-8 lg:px-10 lg:py-24`}
+        className={`${hiddenSections.has('services') ? 'hidden' : ''} scroll-mt-20 bg-background px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
       >
         <div className="mx-auto max-w-7xl">
           <div
@@ -1060,15 +1060,15 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
           <div
             data-editor-node="services.grid"
-            className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4"
+            className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
           >
             {services.map((service, index) => (
               <article
                 key={service.title}
                 data-editor-node={`services.card.${index}`}
-                className="group rounded-[18px] border border-[#D9E6E7] bg-white p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#2DB8B5]/50 hover:shadow-[0_8px_22px_rgba(23,63,74,.08)]"
+                className="premium-card group relative overflow-hidden rounded-2xl p-6 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:origin-left before:scale-x-0 before:bg-secondary before:transition-transform before:duration-300 hover:before:scale-x-100"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start">
                   <span
                     data-editor-node={`services.icon.${index}`}
                     className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary transition-colors group-hover:bg-primary group-hover:text-white"
@@ -1078,13 +1078,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       { className: 'size-5' },
                     )}
                   </span>
-                  <span className="font-heading text-xs font-bold text-[#5F7077]">
-                    0{index + 1}
-                  </span>
                 </div>
                 <h3
                   data-editor-path={`servicesSection.items.${index}.title`}
-                  className="mt-7 font-heading text-xl font-bold text-[#173F4A]"
+                  className="mt-6 font-heading text-lg font-semibold text-primary"
                 >
                   {service.title}
                 </h3>
@@ -1111,10 +1108,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
             data-editor-node="about.image"
             className="relative mx-auto max-w-md lg:mx-0"
           >
-            <div className="absolute -inset-3 translate-x-2 translate-y-2 rounded-[22px] border border-[#2DB8B5]/35" />
             <div
               data-editor-path="agent.profilePhoto"
-              className="relative overflow-hidden rounded-[20px] bg-[#EAF2F3]"
+              className="relative overflow-hidden rounded-2xl border border-border bg-muted shadow-[0_18px_50px_rgba(23,63,74,.10)]"
             >
               <Image
                 src={siteConfig.agent.profilePhoto}
@@ -1161,13 +1157,16 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </p>
             <div
               data-editor-node="about.stats"
-              className="mt-9 grid grid-cols-3 gap-4 border-y border-border py-7"
+              className="mt-9 grid grid-cols-2 gap-x-6 gap-y-5 border-y border-border py-7 sm:grid-cols-3"
             >
               {siteConfig.about.stats.map((stat, index) => (
-                <div key={stat.label}>
+                <div
+                  key={stat.label}
+                  className="last:col-span-2 sm:last:col-span-1"
+                >
                   <p
                     data-editor-path={`about.stats.${index}.value`}
-                    className="font-heading text-2xl font-bold text-primary sm:text-3xl"
+                    className="font-heading text-xl font-semibold leading-tight text-primary sm:text-2xl lg:text-3xl"
                   >
                     {stat.value}
                   </p>
@@ -1206,11 +1205,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="contact"
         data-editor-node="contact.section"
         style={{ order: sectionOrder('contact') }}
-        className={`${hiddenSections.has('contact') ? 'hidden' : ''} scroll-mt-20 bg-[#EAF2F3] px-5 py-20 sm:px-8 lg:px-10 lg:py-24`}
+        className={`${hiddenSections.has('contact') ? 'hidden' : ''} scroll-mt-20 bg-muted px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
       >
         <div
           data-editor-node="contact.card"
-          className="mx-auto grid max-w-7xl overflow-hidden rounded-[20px] border border-[#D9E6E7] bg-white shadow-[0_10px_32px_rgba(23,63,74,.08)] lg:grid-cols-[.8fr_1.2fr]"
+          className="mx-auto grid max-w-7xl overflow-hidden rounded-2xl border border-border bg-white shadow-[0_18px_55px_rgba(23,63,74,.09)] lg:grid-cols-[.8fr_1.2fr]"
         >
           <div className="bg-primary p-8 text-white sm:p-12 lg:p-14">
             <p
@@ -1315,7 +1314,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       required
                       name="name"
                       placeholder={siteConfig.contactSection.namePlaceholder}
-                      className="mt-2 h-12 rounded-xl bg-[#F5F8F9] px-4"
+                      className="premium-field mt-2 h-12 rounded-lg px-4"
                     />
                   </label>
                   <label htmlFor="contact-phone" className="form-label">
@@ -1326,7 +1325,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       name="phone"
                       type="tel"
                       placeholder={siteConfig.contactSection.phonePlaceholder}
-                      className="mt-2 h-12 rounded-xl bg-[#F5F8F9] px-4"
+                      className="premium-field mt-2 h-12 rounded-lg px-4"
                     />
                   </label>
                   <label
@@ -1340,7 +1339,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       name="email"
                       type="email"
                       placeholder={siteConfig.contactSection.emailPlaceholder}
-                      className="mt-2 h-12 rounded-xl bg-[#F5F8F9] px-4"
+                      className="premium-field mt-2 h-12 rounded-lg px-4"
                     />
                   </label>
                   <label
@@ -1351,7 +1350,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                     <select
                       id="contact-interest"
                       name="interest"
-                      className="mt-2 h-12 w-full rounded-xl border border-border bg-[#F5F8F9] px-4 text-sm outline-none focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                      className="premium-field mt-2 h-12 w-full rounded-lg border px-4 text-sm outline-none"
                     >
                       {siteConfig.contactSection.interestOptions.map(
                         (option) => (
@@ -1371,7 +1370,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       name="message"
                       rows={4}
                       placeholder={siteConfig.contactSection.messagePlaceholder}
-                      className="mt-2 w-full resize-none rounded-xl border border-border bg-[#F5F8F9] px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50 focus:ring-3 focus:ring-primary/10"
+                      className="premium-field mt-2 w-full resize-none rounded-lg border px-4 py-3 text-sm outline-none placeholder:text-muted-foreground"
                     />
                   </label>
                 </div>

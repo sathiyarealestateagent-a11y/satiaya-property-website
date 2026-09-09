@@ -95,10 +95,12 @@ export function PropertyMedia({
       {view === 'photos' ? (
         <div
           role="tabpanel"
-          className={`relative grid gap-1 overflow-hidden rounded-[24px] border border-border bg-muted shadow-[0_18px_60px_rgba(23,63,74,.10)] ${
+          className={`relative grid gap-1 overflow-hidden rounded-2xl border border-border bg-muted shadow-[0_18px_50px_rgba(23,63,74,.09)] ${
             showAll
               ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-              : 'grid-cols-2 lg:h-[560px] lg:grid-cols-4 lg:grid-rows-2'
+              : images.length === 1
+                ? 'grid-cols-1 lg:h-[560px]'
+                : 'grid-cols-2 lg:h-[560px] lg:grid-cols-4 lg:grid-rows-2'
           }`}
         >
           {visibleImages.map((image, index) => (
@@ -108,11 +110,13 @@ export function PropertyMedia({
               onClick={() => setSelectedImageIndex(index)}
               aria-label={`View ${title} photo ${index + 1} larger`}
               className={`group relative min-h-52 cursor-zoom-in overflow-hidden bg-muted text-left focus-visible:z-10 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-inset ${
-                !showAll && index === 0
-                  ? 'col-span-2 h-[360px] lg:h-auto lg:row-span-2'
-                  : showAll
-                    ? 'aspect-[4/3]'
-                    : 'h-44 lg:h-auto'
+                !showAll && images.length === 1
+                  ? 'col-span-1 h-[360px] lg:h-full'
+                  : !showAll && index === 0
+                    ? 'col-span-2 h-[360px] lg:h-auto lg:row-span-2'
+                    : showAll
+                      ? 'aspect-[4/3]'
+                      : 'h-44 lg:h-auto'
               }`}
             >
               <Image
@@ -148,7 +152,7 @@ export function PropertyMedia({
       ) : (
         <div
           role="tabpanel"
-          className="overflow-hidden rounded-[24px] border border-border bg-white shadow-[0_18px_60px_rgba(23,63,74,.10)]"
+          className="overflow-hidden rounded-2xl border border-border bg-white shadow-[0_18px_50px_rgba(23,63,74,.09)]"
         >
           <iframe
             src={mapUrl}
@@ -242,7 +246,9 @@ export function PropertyMedia({
                   type="button"
                   onClick={() => setSelectedImageIndex(index)}
                   aria-label={`View property photo ${index + 1}`}
-                  aria-current={selectedImageIndex === index ? 'true' : undefined}
+                  aria-current={
+                    selectedImageIndex === index ? 'true' : undefined
+                  }
                   className={`relative aspect-[4/3] w-20 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 transition focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white sm:w-24 ${
                     selectedImageIndex === index
                       ? 'border-accent'

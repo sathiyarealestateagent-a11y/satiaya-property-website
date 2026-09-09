@@ -18,7 +18,7 @@ typography:
   sans:
     fontFamily: 'Inter, system-ui, sans-serif'
   heading:
-    fontFamily: 'Lexend, Inter, system-ui, sans-serif'
+    fontFamily: 'Manrope, Inter, system-ui, sans-serif'
   mono:
     fontFamily: 'ui-monospace, monospace'
 rounded:
@@ -75,7 +75,7 @@ components:
 
 ### Creative North Star
 
-The visual reference combines PropertyGuru Malaysia's search-first clarity and restrained information hierarchy with Satiaya's established turquoise identity. Satiaya's interpretation uses standout Lexend headlines, flatter white surfaces and calm teal actions so the site feels direct, personal and trustworthy rather than copied. The existing imagery, content and editorial structure remain Satiaya's own.
+The visual reference combines PropertyGuru Malaysia's search-first clarity and restrained information hierarchy with Satiaya's established turquoise identity. Satiaya's interpretation uses precise Manrope headlines, flatter white surfaces and calm teal actions so the site feels direct, personal and trustworthy rather than copied. The existing imagery, content and editorial structure remain Satiaya's own.
 
 ### Product context and register
 
@@ -84,7 +84,7 @@ The visual reference combines PropertyGuru Malaysia's search-first clarity and r
 - **Locale(s) and language policy:** English (`en-MY`) is the current interface language. Property prices retain Malaysian Ringgit formatting. Additional locales require reviewed translations rather than mixed-language controls.
 - **Usage scene:** Mobile-first property discovery with desktop comparison and an authenticated desktop/mobile content editor.
 - **Register:** Hybrid. The public routes are premium brand-led marketing; `/admin` is a quiet, task-led editing surface.
-- **Memorable signature:** Bold, highly legible Lexend headlines create a confident editorial voice over property imagery, while turquoise identifies the single next action.
+- **Memorable signature:** Precise Manrope headlines and a slim teal rule create an architectural editorial voice, while turquoise identifies the single next action.
 - **Restraint:** Forms, cards, listings and dashboard controls remain white or mist grey; turquoise identifies primary actions while deep teal carries headings and trust-heavy surfaces. Elevation is quiet and decorative motion is minimal.
 - **Anti-references:** Avoid unrelated campaign colours, rainbow palettes, large decorative gradients, neon effects and low-contrast turquoise body copy.
 - **Token ownership/runtime mapping:** `app/globals.css` is the canonical runtime source. The higher-specificity `html[data-theme='corporate']` selector guarantees that every route and future component inherits the corporate tokens even when library defaults are present. This document mirrors those accepted semantic roles. Tailwind utilities consume the CSS variables; raw colours are permitted only for exact brand accents, image overlays and third-party marks. Drift is checked by repository colour search and production browser review.
@@ -95,7 +95,7 @@ Deep teal `#173F4A` owns headings, dark sections, navigation emphasis and the fo
 
 ## Typography
 
-Lexend is the heading face and Inter is the interface/body face. Lexend gives the property experience a distinctive, readable voice while Inter keeps forms and detailed information neutral. Display headings use bold weight, approximately `-0.028em` tracking and an open `1.08–1.12` line height. Body copy uses normal tracking and a `1.58` baseline line height; navigation and controls use `0.012em` tracking for clarity. Regular controls and body copy remain at least 14–16px, with 12–13px reserved for metadata and compact uppercase kickers. Numeric property values remain tabular where a component needs alignment.
+Manrope is the heading face and Inter is the interface/body face. Manrope gives the property experience a precise, architectural voice while Inter keeps forms and detailed information neutral. Display headings use semibold weight, approximately `-0.035em` to `-0.055em` tracking and a compact `1.02–1.10` line height. Body copy uses subtly tightened tracking and a `1.65` baseline line height; navigation and controls remain compact and highly legible. Regular controls and body copy remain at least 14–16px, with 11–13px reserved for metadata and compact uppercase kickers. Numeric property values remain tabular where a component needs alignment.
 
 ## Layout
 

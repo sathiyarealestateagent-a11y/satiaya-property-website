@@ -1,6 +1,12 @@
 'use client';
 
-import { Building2, LoaderCircle, LockKeyhole } from 'lucide-react';
+import {
+  Building2,
+  Eye,
+  EyeOff,
+  LoaderCircle,
+  LockKeyhole,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SubmitEventHandler, useState, useSyncExternalStore } from 'react';
@@ -18,6 +24,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
@@ -165,15 +172,29 @@ export default function AdminLoginPage() {
                 Forgot password?
               </Link>
             </span>
-            <Input
-              type="password"
-              id="admin-password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="h-12 rounded-xl bg-[#F5F8F9]"
-            />
+            <div className="relative">
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                id="admin-password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="premium-field h-12 rounded-lg pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((visible) => !visible)}
+                className="absolute inset-y-0 right-0 grid w-12 cursor-pointer place-items-center rounded-r-lg text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? (
+                  <EyeOff className="size-4" />
+                ) : (
+                  <Eye className="size-4" />
+                )}
+              </button>
+            </div>
           </label>
           {error && (
             <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive">

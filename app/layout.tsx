@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Lexend } from 'next/font/google';
+import { Inter, Manrope } from 'next/font/google';
 
 import { siteConfig } from '@/src/config/site';
 
@@ -10,8 +10,8 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
-const lexend = Lexend({
-  variable: '--font-lexend',
+const manrope = Manrope({
+  variable: '--font-manrope',
   subsets: ['latin'],
 });
 
@@ -67,7 +67,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="scroll-smooth" data-theme="corporate">
-      <body className={`${inter.variable} ${lexend.variable} antialiased`}>
+      <body className={`${inter.variable} ${manrope.variable} antialiased`}>
         {children}
       </body>
     </html>
