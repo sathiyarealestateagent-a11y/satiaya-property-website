@@ -218,12 +218,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           </div>
         </section>
 
-        {property.type === 'sale' && (
-          <div className="pb-10">
-            <MortgageCalculator propertyPrice={property.price} />
-          </div>
-        )}
-
         <div className="grid gap-8 border-t border-border py-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div className="space-y-8">
             <section className="rounded-[22px] border border-border bg-white p-6 sm:p-8">
@@ -360,6 +354,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             </div>
           </aside>
         </div>
+
+        {property.type === 'sale' && (
+          <div className="border-t border-border py-10 sm:py-12">
+            <MortgageCalculator propertyPrice={property.price} />
+          </div>
+        )}
 
         {similarProperties.length > 0 && (
           <section className="border-t border-border py-12 sm:py-16">
