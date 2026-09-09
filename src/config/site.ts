@@ -151,6 +151,7 @@ export const siteConfig = {
     interestOptions: [
       'Buying a property',
       'Selling my property',
+      'Renting out my property',
       'General consultation',
     ],
   },
@@ -163,8 +164,8 @@ export const siteConfig = {
     whatsappLabel: 'WhatsApp',
   },
   social: {
-    instagram: '',
-    facebook: '',
+    instagram: '#',
+    facebook: '#',
     tiktok: '',
   },
 } as const;

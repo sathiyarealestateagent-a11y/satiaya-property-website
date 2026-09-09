@@ -650,8 +650,6 @@ export default function AdminDashboard({
       <div className="mx-auto max-w-[1520px] px-5 py-7 sm:px-8 sm:py-9">
         {status !== 'idle' && (
           <output
-            role={status === 'error' ? 'alert' : 'status'}
-            aria-live="polite"
             className={`mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${status === 'saved' ? 'bg-[#E8F0FA] text-[#16807F]' : 'bg-red-50 text-destructive'}`}
           >
             {status === 'saved' && <Check className="size-4" />}

@@ -11,10 +11,7 @@ import {
 } from '@/src/content/schema';
 
 const CONTENT_ID = 'main';
-const REMOVED_INTEREST_OPTIONS = new Set([
-  'Renting a property',
-  'Renting out my property',
-]);
+const REMOVED_INTEREST_OPTIONS = new Set(['Renting a property']);
 
 type PropertyRow = {
   id: number;
@@ -96,21 +93,14 @@ export async function getSiteContent(): Promise<SiteContent> {
   try {
     const supabase = await createClient();
     if (!supabase) return defaultContent;
-    const contentSignal = AbortSignal.timeout(4000);
-    const propertiesSignal = AbortSignal.timeout(4000);
 
     const [contentResult, propertiesResult] = await Promise.all([
       supabase
         .from('site_content')
         .select('content')
         .eq('id', CONTENT_ID)
-        .abortSignal(contentSignal)
         .maybeSingle(),
-      supabase
-        .from('properties')
-        .select('*')
-        .order('id')
-        .abortSignal(propertiesSignal),
+      supabase.from('properties').select('*').order('id'),
     ]);
 
     if (contentResult.error || !contentResult.data) return defaultContent;
@@ -131,8 +121,7 @@ export async function getSiteContent(): Promise<SiteContent> {
       },
       properties,
     });
-  } catch (error) {
-    console.error('Failed to load website content; using defaults.', error);
+  } catch {
     return defaultContent;
   }
 }

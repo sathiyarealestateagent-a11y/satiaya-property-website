@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 
 import { isAdmin } from '@/db/content';
 import { createClient } from '@/lib/supabase/server';
-import { isSameOriginRequest } from '@/lib/security';
 
 const ALLOWED_TYPES = new Set([
   'image/jpeg',
@@ -13,35 +12,8 @@ const ALLOWED_TYPES = new Set([
   'video/webm',
 ]);
 const MAX_SIZE = 20 * 1024 * 1024;
-const EXTENSIONS_BY_TYPE: Record<string, string> = {
-  'image/jpeg': 'jpg',
-  'image/png': 'png',
-  'image/webp': 'webp',
-  'image/gif': 'gif',
-  'video/mp4': 'mp4',
-  'video/webm': 'webm',
-};
 
 export async function POST(request: Request) {
-  if (!isSameOriginRequest(request)) {
-    return NextResponse.json(
-      { error: 'Invalid request origin.' },
-      { status: 403 },
-    );
-  }
-  if (!request.headers.get('content-type')?.startsWith('multipart/form-data')) {
-    return NextResponse.json(
-      { error: 'Content-Type must be multipart/form-data.' },
-      { status: 415 },
-    );
-  }
-  const contentLength = Number(request.headers.get('content-length') ?? 0);
-  if (contentLength > MAX_SIZE + 1_000_000) {
-    return NextResponse.json(
-      { error: 'The media upload is too large.' },
-      { status: 413 },
-    );
-  }
   const supabase = await createClient();
   if (!supabase) {
     return NextResponse.json(
@@ -69,7 +41,12 @@ export async function POST(request: Request) {
     );
   }
 
-  const extension = EXTENSIONS_BY_TYPE[file.type];
+  const extension =
+    file.name
+      .split('.')
+      .pop()
+      ?.toLowerCase()
+      .replace(/[^a-z0-9]/g, '') || 'jpg';
   const key = `${data.user.id}/site-media-${Date.now()}-${crypto.randomUUID()}.${extension}`;
   const upload = await supabase.storage
     .from('property-images')
@@ -79,11 +56,7 @@ export async function POST(request: Request) {
       upsert: false,
     });
   if (upload.error) {
-    console.error('Media upload failed.', upload.error);
-    return NextResponse.json(
-      { error: 'The media could not be uploaded. Please try again.' },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: upload.error.message }, { status: 400 });
   }
   const { data: publicUrl } = supabase.storage
     .from('property-images')

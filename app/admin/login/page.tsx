@@ -36,15 +36,8 @@ export default function AdminLoginPage() {
 
   const signIn: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    setError('');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !password) {
-      setError('Enter your email address and password.');
-      event.currentTarget
-        .querySelector<HTMLInputElement>('input:invalid, input[value=""]')
-        ?.focus();
-      return;
-    }
     setLoading(true);
+    setError('');
     const supabase = createClient();
     if (!supabase) {
       setError('The dashboard connection is not configured yet.');
@@ -105,9 +98,9 @@ export default function AdminLoginPage() {
         </div>
 
         {passwordUpdated && (
-          <output className="mt-7 rounded-xl bg-[#EAF2F3] px-4 py-3 text-center text-sm font-semibold text-[#16807F]">
+          <p className="mt-7 rounded-xl bg-[#EAF2F3] px-4 py-3 text-center text-sm font-semibold text-[#16807F]">
             Your password was updated. Sign in with the new password.
-          </output>
+          </p>
         )}
 
         <div className={`${passwordUpdated ? 'mt-4' : 'mt-7'} grid gap-4`}>
@@ -162,8 +155,6 @@ export default function AdminLoginPage() {
               autoComplete="email"
               required
               value={email}
-              aria-invalid={Boolean(error)}
-              aria-describedby={error ? 'admin-login-error' : undefined}
               onChange={(event) => setEmail(event.target.value)}
               className="h-12 rounded-xl bg-[#F5F8F9]"
             />
@@ -188,8 +179,6 @@ export default function AdminLoginPage() {
                 autoComplete="current-password"
                 required
                 value={password}
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? 'admin-login-error' : undefined}
                 onChange={(event) => setPassword(event.target.value)}
                 className="premium-field h-12 rounded-lg pr-12"
               />
@@ -208,11 +197,7 @@ export default function AdminLoginPage() {
             </div>
           </label>
           {error && (
-            <p
-              id="admin-login-error"
-              role="alert"
-              className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive"
-            >
+            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive">
               {error}
             </p>
           )}
