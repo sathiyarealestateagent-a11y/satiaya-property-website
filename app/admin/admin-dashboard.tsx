@@ -1581,7 +1581,7 @@ export default function AdminDashboard({
                     }
                   />
                   <LongField
-                    label="Project information"
+                    label="Property information"
                     value={property.projectInfo}
                     rows={7}
                     onChange={(value) =>

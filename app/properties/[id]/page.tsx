@@ -234,7 +234,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           <div className="space-y-8">
             {[
               ['Package and promotions', property.packageDetails],
-              ['Project information', property.projectInfo],
+              ['Property information', property.projectInfo],
               ['Amenities and access', property.amenities],
             ].map(([heading, body]) =>
               body ? (
