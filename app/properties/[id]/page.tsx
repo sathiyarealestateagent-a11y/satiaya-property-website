@@ -21,6 +21,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { getSiteContent } from '@/db/content';
 import { cn } from '@/lib/utils';
 
+import { MortgageCalculator } from './mortgage-calculator';
 import { PropertyMedia, PropertyShare } from './property-media';
 
 export const dynamic = 'force-dynamic';
@@ -216,6 +217,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
             <PropertyShare title={property.title} />
           </div>
         </section>
+
+        {property.type === 'sale' && (
+          <div className="pb-10">
+            <MortgageCalculator propertyPrice={property.price} />
+          </div>
+        )}
 
         <div className="grid gap-8 border-t border-border py-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div className="space-y-8">
