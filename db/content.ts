@@ -11,6 +11,7 @@ import {
 } from '@/src/content/schema';
 
 const CONTENT_ID = 'main';
+const REMOVED_INTEREST_OPTIONS = new Set(['Renting a property']);
 
 type PropertyRow = {
   id: number;
@@ -110,7 +111,16 @@ export async function getSiteContent(): Promise<SiteContent> {
       ? defaultContent.properties
       : (propertiesResult.data as PropertyRow[]).map(fromPropertyRow);
 
-    return siteContentSchema.parse({ ...settings.data, properties });
+    return siteContentSchema.parse({
+      ...settings.data,
+      contactSection: {
+        ...settings.data.contactSection,
+        interestOptions: settings.data.contactSection.interestOptions.filter(
+          (option) => !REMOVED_INTEREST_OPTIONS.has(option),
+        ),
+      },
+      properties,
+    });
   } catch {
     return defaultContent;
   }

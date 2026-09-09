@@ -150,7 +150,6 @@ export const siteConfig = {
     messagePlaceholder: 'Share a little about what you need...',
     interestOptions: [
       'Buying a property',
-      'Renting a property',
       'Selling my property',
       'Renting out my property',
       'General consultation',
