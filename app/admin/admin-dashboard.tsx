@@ -1045,11 +1045,6 @@ export default function AdminDashboard({
                   onChange={(value) => update(['ownerSection', 'title'], value)}
                 />
                 <Field
-                  label="Quote card"
-                  value={draft.ownerSection.quote}
-                  onChange={(value) => update(['ownerSection', 'quote'], value)}
-                />
-                <Field
                   label="Button"
                   value={draft.ownerSection.primaryCta}
                   onChange={(value) =>

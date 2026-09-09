@@ -968,19 +968,6 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 className="h-[460px] w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-7 -right-2 max-w-[230px] rounded-2xl bg-[#E2F7F5] p-5 text-[#173F4A] shadow-2xl sm:right-6">
-              <div className="flex items-center gap-1 text-[#2DB8B5]">
-                {[0, 1, 2, 3, 4].map((star) => (
-                  <Star key={star} className="size-4 fill-current" />
-                ))}
-              </div>
-              <p
-                data-editor-path="ownerSection.quote"
-                className="mt-3 font-heading text-lg font-bold"
-              >
-                {siteConfig.ownerSection.quote}
-              </p>
-            </div>
           </div>
 
           <div>

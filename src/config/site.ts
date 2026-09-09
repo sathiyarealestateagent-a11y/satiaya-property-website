@@ -77,7 +77,6 @@ export const siteConfig = {
     title: 'Thinking of selling or renting your property?',
     description:
       "Get a clear view of your property's market position and a tailored plan to reach serious buyers or tenants.",
-    quote: 'Personal strategy, not a generic listing.',
     checklist: [
       'Current market assessment',
       'Pricing & positioning strategy',

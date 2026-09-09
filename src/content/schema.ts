@@ -150,7 +150,6 @@ export const siteContentSchema = z.object({
     kicker: shortText,
     title: shortText,
     description: text,
-    quote: shortText,
     checklist: z.array(shortText).max(10),
     primaryCta: shortText,
     primaryMessage: text,
