@@ -12,7 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   Dialog,
@@ -20,6 +20,9 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { handleHorizontalTabKey } from '@/lib/accessibility';
+
+const mediaViews = ['photos', 'map'] as const;
 
 type PropertyMediaProps = {
   images: string[];
@@ -66,8 +69,14 @@ export function PropertyMedia({
       >
         <button
           type="button"
+          id="property-media-tab-photos"
           role="tab"
           aria-selected={view === 'photos'}
+          aria-controls="property-media-panel"
+          tabIndex={view === 'photos' ? 0 : -1}
+          onKeyDown={(event) =>
+            handleHorizontalTabKey(event, mediaViews, view, setView)
+          }
           onClick={() => setView('photos')}
           className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition ${
             view === 'photos'
@@ -79,8 +88,14 @@ export function PropertyMedia({
         </button>
         <button
           type="button"
+          id="property-media-tab-map"
           role="tab"
           aria-selected={view === 'map'}
+          aria-controls="property-media-panel"
+          tabIndex={view === 'map' ? 0 : -1}
+          onKeyDown={(event) =>
+            handleHorizontalTabKey(event, mediaViews, view, setView)
+          }
           onClick={() => setView('map')}
           className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition ${
             view === 'map'
@@ -94,7 +109,9 @@ export function PropertyMedia({
 
       {view === 'photos' ? (
         <div
+          id="property-media-panel"
           role="tabpanel"
+          aria-labelledby="property-media-tab-photos"
           className={`relative grid gap-1 overflow-hidden rounded-2xl border border-border bg-muted shadow-[0_18px_50px_rgba(23,63,74,.09)] ${
             showAll
               ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
@@ -103,6 +120,11 @@ export function PropertyMedia({
                 : 'grid-cols-2 lg:h-[560px] lg:grid-cols-4 lg:grid-rows-2'
           }`}
         >
+          {images.length === 0 && (
+            <div className="col-span-full grid min-h-72 place-items-center px-6 text-center text-sm font-semibold text-muted-foreground">
+              Property photos are coming soon.
+            </div>
+          )}
           {visibleImages.map((image, index) => (
             <button
               type="button"
@@ -151,7 +173,9 @@ export function PropertyMedia({
         </div>
       ) : (
         <div
+          id="property-media-panel"
           role="tabpanel"
+          aria-labelledby="property-media-tab-map"
           className="overflow-hidden rounded-2xl border border-border bg-white shadow-[0_18px_50px_rgba(23,63,74,.09)]"
         >
           <iframe
@@ -159,6 +183,7 @@ export function PropertyMedia({
             title={`Map showing ${mapLabel}`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-same-origin allow-popups"
             className="h-[480px] w-full border-0 lg:h-[560px]"
           />
         </div>
@@ -273,21 +298,45 @@ export function PropertyMedia({
 }
 
 export function PropertyShare({ title }: { title: string }) {
-  const [copied, setCopied] = useState(false);
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'error'>(
+    'idle',
+  );
+  const statusTimer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (statusTimer.current !== null)
+        window.clearTimeout(statusTimer.current);
+    },
+    [],
+  );
 
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2200);
+      setShareStatus('copied');
+      if (statusTimer.current !== null)
+        window.clearTimeout(statusTimer.current);
+      statusTimer.current = window.setTimeout(
+        () => setShareStatus('idle'),
+        2200,
+      );
+      return true;
     } catch {
-      setCopied(false);
+      setShareStatus('error');
+      return false;
     }
   }
 
   async function share() {
     if (navigator.share) {
-      await navigator.share({ title, url: window.location.href });
+      try {
+        await navigator.share({ title, url: window.location.href });
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError')
+          return;
+        setShareStatus('error');
+      }
       return;
     }
     await copyLink();
@@ -352,17 +401,22 @@ export function PropertyShare({ title }: { title: string }) {
         className="grid size-11 place-items-center rounded-xl border border-border bg-white text-primary transition hover:bg-muted"
         aria-label="Copy listing link"
       >
-        {copied ? (
+        {shareStatus === 'copied' ? (
           <Check className="size-4 text-secondary" />
         ) : (
           <Copy className="size-4" />
         )}
       </button>
-      {copied && (
-        <output className="text-xs font-semibold text-secondary">
-          Link copied — paste it into your post.
-        </output>
-      )}
+      <output
+        aria-live="polite"
+        className={`text-xs font-semibold ${shareStatus === 'error' ? 'text-destructive' : 'text-secondary'}`}
+      >
+        {shareStatus === 'copied'
+          ? 'Link copied — paste it into your post.'
+          : shareStatus === 'error'
+            ? 'The link could not be copied. Copy it from the address bar.'
+            : ''}
+      </output>
     </div>
   );
 }

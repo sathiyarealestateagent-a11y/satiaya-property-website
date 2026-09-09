@@ -16,8 +16,13 @@ export default function ForgotPasswordPage() {
 
   const requestReset: SubmitEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
-    setLoading(true);
     setError('');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Enter a valid administrator email address.');
+      event.currentTarget.querySelector<HTMLInputElement>('input')?.focus();
+      return;
+    }
+    setLoading(true);
 
     const supabase = createRecoveryClient();
     if (!supabase) {
@@ -68,10 +73,10 @@ export default function ForgotPasswordPage() {
         </div>
 
         {sent ? (
-          <div className="mt-7 rounded-2xl bg-[#EAF2F3] p-5 text-center text-sm leading-6 text-[#16807F]">
+          <output className="mt-7 rounded-2xl bg-[#EAF2F3] p-5 text-center text-sm leading-6 text-[#16807F]">
             If an administrator account exists for that email, a recovery link
             has been sent. Check your inbox and spam folder.
-          </div>
+          </output>
         ) : (
           <form onSubmit={requestReset} noValidate className="mt-7 grid gap-4">
             <label
@@ -85,12 +90,18 @@ export default function ForgotPasswordPage() {
                 autoComplete="email"
                 required
                 value={email}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? 'recovery-email-error' : undefined}
                 onChange={(event) => setEmail(event.target.value)}
                 className="h-12 rounded-xl bg-[#F5F8F9]"
               />
             </label>
             {error && (
-              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive">
+              <p
+                id="recovery-email-error"
+                role="alert"
+                className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive"
+              >
                 {error}
               </p>
             )}

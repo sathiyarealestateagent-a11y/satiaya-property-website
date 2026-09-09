@@ -29,6 +29,7 @@ import { createElement, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { handleHorizontalTabKey } from '@/lib/accessibility';
 import {
   pageSectionIds,
   type EditorElementStyle,
@@ -39,6 +40,10 @@ import {
 } from '@/src/content/schema';
 
 const serviceIcons = [Home, KeyRound, HousePlus, Compass];
+const listingTypes = ['sale', 'rent'] as const;
+
+type ContactField = 'name' | 'phone' | 'email' | 'message';
+type ContactErrors = Partial<Record<ContactField, string>>;
 
 const editableIcons = {
   home: Home,
@@ -224,9 +229,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
     },
     { label: 'Facebook', href: siteConfig.social.facebook, icon: FacebookIcon },
     { label: 'TikTok', href: siteConfig.social.tiktok, icon: TikTokIcon },
-  ].filter(
-    (item) => item.label === 'TikTok' || (item.href && item.href !== '#'),
-  );
+  ].filter((item) => item.href && item.href !== '#');
   const locationOptions = useMemo(
     () => [
       'All locations',
@@ -252,7 +255,44 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const [propertyType, setPropertyType] = useState('All types');
   const [searchApplied, setSearchApplied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [heroVideoEnabled, setHeroVideoEnabled] = useState(false);
   const [formSent, setFormSent] = useState(false);
+  const [preparedEnquiryLink, setPreparedEnquiryLink] = useState('');
+  const [formErrors, setFormErrors] = useState<ContactErrors>({});
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const media = window.matchMedia(
+      '(min-width: 768px) and (prefers-reduced-motion: no-preference)',
+    );
+    const connection = (
+      navigator as Navigator & { connection?: { saveData?: boolean } }
+    ).connection;
+    if (!media.matches || connection?.saveData) return;
+
+    let timer = 0;
+    const enableVideo = () => {
+      timer = window.setTimeout(() => setHeroVideoEnabled(true), 900);
+    };
+    if (document.readyState === 'complete') enableVideo();
+    else window.addEventListener('load', enableVideo, { once: true });
+
+    return () => {
+      window.removeEventListener('load', enableVideo);
+      window.clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setMobileMenuOpen(false);
+      mobileMenuButtonRef.current?.focus();
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('visualEditor') !== '1')
@@ -419,6 +459,49 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
   function submitContact(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const fieldValue = (name: string) => {
+      const value = formData.get(name);
+      return typeof value === 'string' ? value.trim() : '';
+    };
+    const values = {
+      name: fieldValue('name'),
+      phone: fieldValue('phone'),
+      email: fieldValue('email'),
+      interest: fieldValue('interest'),
+      message: fieldValue('message'),
+    };
+    const errors: ContactErrors = {};
+    if (values.name.length < 2) errors.name = 'Enter your full name.';
+    if (!/^\+?[0-9 ()-]{8,20}$/.test(values.phone)) {
+      errors.phone = 'Enter a valid phone number, including country code.';
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      errors.email = 'Enter a valid email address.';
+    }
+    if (values.message.length < 10) {
+      errors.message = 'Add at least 10 characters so Satiaya can help.';
+    }
+
+    setFormErrors(errors);
+    const firstError = Object.keys(errors)[0] as ContactField | undefined;
+    if (firstError) {
+      document.getElementById(`contact-${firstError}`)?.focus();
+      return;
+    }
+
+    const enquiry = [
+      `Hi ${siteConfig.agent.firstName}, I would like to make a property enquiry.`,
+      `Name: ${values.name}`,
+      `Phone: ${values.phone}`,
+      `Email: ${values.email}`,
+      `Interest: ${values.interest}`,
+      `Message: ${values.message}`,
+    ].join('\n');
+    const enquiryLink = whatsappLink(enquiry);
+    setPreparedEnquiryLink(enquiryLink);
+    window.open(enquiryLink, '_blank', 'noopener,noreferrer');
     setFormSent(true);
   }
 
@@ -522,9 +605,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
           </div>
 
           <button
+            ref={mobileMenuButtonRef}
             type="button"
             className="grid size-11 place-items-center rounded-full border border-border bg-white lg:hidden"
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
             onClick={() => setMobileMenuOpen((open) => !open)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -533,6 +619,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
         {mobileMenuOpen && (
           <nav
+            id="mobile-navigation"
             className="border-t border-border bg-white px-5 py-5 lg:hidden"
             aria-label="Mobile navigation"
           >
@@ -570,14 +657,14 @@ export default function HomePage({ content }: { content: SiteContent }) {
             sizes="100vw"
             className="object-cover object-center"
           />
-          {siteConfig.hero.video && (
+          {siteConfig.hero.video && heroVideoEnabled && (
             <video
               key={siteConfig.hero.video}
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="none"
               poster={siteConfig.hero.image}
               aria-hidden="true"
               className="hero-video absolute inset-0 size-full object-cover object-center motion-reduce:hidden"
@@ -787,12 +874,26 @@ export default function HomePage({ content }: { content: SiteContent }) {
               role="tablist"
               aria-label="Listing type"
             >
-              {(['sale', 'rent'] as const).map((tab) => (
+              {listingTypes.map((tab) => (
                 <button
                   key={tab}
+                  id={`listing-tab-${tab}`}
                   type="button"
                   role="tab"
                   aria-selected={listingType === tab}
+                  aria-controls="listing-results"
+                  tabIndex={listingType === tab ? 0 : -1}
+                  onKeyDown={(event) =>
+                    handleHorizontalTabKey(
+                      event,
+                      listingTypes,
+                      listingType,
+                      (value) => {
+                        setListingType(value);
+                        setSearchApplied(false);
+                      },
+                    )
+                  }
                   onClick={() => {
                     setListingType(tab);
                     setSearchApplied(false);
@@ -809,120 +910,126 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
           </div>
 
-          {visibleProperties.length > 0 ? (
-            <div
-              data-editor-node="properties.grid"
-              className="mt-10 grid grid-cols-[repeat(auto-fill,minmax(min(100%,22rem),25rem))] gap-6"
-            >
-              {visibleProperties.map((property) => (
-                <article
-                  key={property.id}
-                  data-editor-node={`properties.card.${property.id}`}
-                  className="premium-card group overflow-hidden rounded-2xl"
-                >
-                  <Link
-                    href={`/properties/${property.id}`}
-                    aria-label={`View details for ${property.title}`}
-                    className="block focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring/60"
+          <div
+            id="listing-results"
+            role="tabpanel"
+            aria-labelledby={`listing-tab-${listingType}`}
+          >
+            {visibleProperties.length > 0 ? (
+              <div
+                data-editor-node="properties.grid"
+                className="mt-10 grid grid-cols-[repeat(auto-fill,minmax(min(100%,22rem),25rem))] gap-6"
+              >
+                {visibleProperties.map((property) => (
+                  <article
+                    key={property.id}
+                    data-editor-node={`properties.card.${property.id}`}
+                    className="premium-card premium-card-interactive group overflow-hidden rounded-2xl"
                   >
-                    <div
-                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.image`}
-                      className="relative h-64 overflow-hidden bg-[#EAF2F3]"
+                    <Link
+                      href={`/properties/${property.id}`}
+                      aria-label={`View details for ${property.title}`}
+                      className="block focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-ring/60"
                     >
-                      <Image
-                        src={property.image}
-                        alt={property.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
-                      />
-                      <div className="absolute left-4 top-4 flex gap-2">
-                        <span className="rounded-full bg-white/92 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary backdrop-blur-sm">
-                          For {property.type === 'sale' ? 'Sale' : 'Rent'}
-                        </span>
-                        {property.featured && (
-                          <span className="rounded-full bg-[#2DB8B5] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#173F4A]">
-                            Featured
+                      <div
+                        data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.image`}
+                        className="relative h-64 overflow-hidden bg-[#EAF2F3]"
+                      >
+                        <Image
+                          src={property.image}
+                          alt={property.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+                        />
+                        <div className="absolute left-4 top-4 flex gap-2">
+                          <span className="rounded-full bg-white/92 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-primary backdrop-blur-sm">
+                            For {property.type === 'sale' ? 'Sale' : 'Rent'}
                           </span>
-                        )}
+                          {property.featured && (
+                            <span className="rounded-full bg-[#2DB8B5] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#173F4A]">
+                              Featured
+                            </span>
+                          )}
+                        </div>
+                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
                       </div>
-                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
-                    </div>
-                  </Link>
-                  <div className="p-6">
-                    <div
-                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.location`}
-                      className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground"
-                    >
-                      <MapPin className="size-3.5 text-[#2DB8B5]" />
-                      {property.location}
-                    </div>
-                    <h3
-                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.title`}
-                      className="mt-3 font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]"
-                    >
-                      <Link
-                        href={`/properties/${property.id}`}
-                        className="rounded-sm transition-colors hover:text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    </Link>
+                    <div className="p-6">
+                      <div
+                        data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.location`}
+                        className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground"
                       >
-                        {property.title}
-                      </Link>
-                    </h3>
-                    <p
-                      data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.propertyType`}
-                      className="mt-1 text-sm text-muted-foreground"
-                    >
-                      {property.propertyType}
-                    </p>
-                    <div className="mt-5 flex items-center gap-5 border-y border-border/70 py-4 text-xs font-semibold text-[#5F7077]">
-                      <span className="flex items-center gap-1.5">
-                        <BedDouble className="size-4" /> {property.bedrooms}{' '}
-                        beds
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Bath className="size-4" /> {property.bathrooms} baths
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Building2 className="size-4" />{' '}
-                        {property.size.toLocaleString()} sq ft
-                      </span>
-                    </div>
-                    <div className="mt-5 flex items-center justify-between gap-3">
+                        <MapPin className="size-3.5 text-[#2DB8B5]" />
+                        {property.location}
+                      </div>
+                      <h3
+                        data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.title`}
+                        className="mt-3 font-heading text-xl font-bold tracking-[-0.01em] text-[#173F4A]"
+                      >
+                        <Link
+                          href={`/properties/${property.id}`}
+                          className="rounded-sm transition-colors hover:text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        >
+                          {property.title}
+                        </Link>
+                      </h3>
                       <p
-                        data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.price`}
-                        className="font-heading text-lg font-bold text-primary"
+                        data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.propertyType`}
+                        className="mt-1 text-sm text-muted-foreground"
                       >
-                        {formatPrice(property)}
+                        {property.propertyType}
                       </p>
-                      <Link
-                        href={`/properties/${property.id}`}
-                        className="grid size-10 shrink-0 place-items-center rounded-full bg-[#EAF2F3] text-primary transition-colors hover:bg-primary hover:text-white"
-                        aria-label={`View details for ${property.title}`}
-                      >
-                        <ArrowRight className="size-4" />
-                      </Link>
+                      <div className="mt-5 flex items-center gap-5 border-y border-border/70 py-4 text-xs font-semibold text-[#5F7077]">
+                        <span className="flex items-center gap-1.5">
+                          <BedDouble className="size-4" /> {property.bedrooms}{' '}
+                          beds
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Bath className="size-4" /> {property.bathrooms} baths
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <Building2 className="size-4" />{' '}
+                          {property.size.toLocaleString()} sq ft
+                        </span>
+                      </div>
+                      <div className="mt-5 flex items-center justify-between gap-3">
+                        <p
+                          data-editor-path={`properties.${properties.findIndex((item) => item.id === property.id)}.price`}
+                          className="font-heading text-lg font-bold text-primary"
+                        >
+                          {formatPrice(property)}
+                        </p>
+                        <Link
+                          href={`/properties/${property.id}`}
+                          className="grid size-10 shrink-0 place-items-center rounded-full bg-[#EAF2F3] text-primary transition-colors hover:bg-primary hover:text-white"
+                          aria-label={`View details for ${property.title}`}
+                        >
+                          <ArrowRight className="size-4" />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <div className="mt-10 rounded-[18px] border border-dashed border-primary/25 bg-white px-6 py-14 text-center">
-              <Search className="mx-auto size-9 text-primary/45" />
-              <h3
-                data-editor-path="featured.emptyTitle"
-                className="mt-4 font-heading text-xl font-bold"
-              >
-                {siteConfig.featured.emptyTitle}
-              </h3>
-              <p
-                data-editor-path="featured.emptyDescription"
-                className="mt-2 text-sm text-muted-foreground"
-              >
-                {siteConfig.featured.emptyDescription}
-              </p>
-            </div>
-          )}
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-10 rounded-[18px] border border-dashed border-primary/25 bg-white px-6 py-14 text-center">
+                <Search className="mx-auto size-9 text-primary/45" />
+                <h3
+                  data-editor-path="featured.emptyTitle"
+                  className="mt-4 font-heading text-xl font-bold"
+                >
+                  {siteConfig.featured.emptyTitle}
+                </h3>
+                <p
+                  data-editor-path="featured.emptyDescription"
+                  className="mt-2 text-sm text-muted-foreground"
+                >
+                  {siteConfig.featured.emptyDescription}
+                </p>
+              </div>
+            )}
+          </div>
 
           <div className="mt-10 text-center">
             <a
@@ -1066,12 +1173,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <article
                 key={service.title}
                 data-editor-node={`services.card.${index}`}
-                className="premium-card group relative overflow-hidden rounded-2xl p-6 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:origin-left before:scale-x-0 before:bg-secondary before:transition-transform before:duration-300 hover:before:scale-x-100"
+                className="premium-card relative overflow-hidden rounded-2xl p-6 before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:bg-secondary/70"
               >
                 <div className="flex items-start">
                   <span
                     data-editor-node={`services.icon.${index}`}
-                    className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary transition-colors group-hover:bg-primary group-hover:text-white"
+                    className="grid size-12 place-items-center rounded-2xl bg-[#EAF2F3] text-primary"
                   >
                     {createElement(
                       iconForNode(`services.icon.${index}`, service.icon),
@@ -1288,7 +1395,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   {siteConfig.contactSection.successDescription}
                 </p>
                 <a
-                  href={whatsappLink()}
+                  href={preparedEnquiryLink || whatsappLink()}
                   target="_blank"
                   rel="noreferrer"
                   data-slot="button"
@@ -1313,9 +1420,30 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       id="contact-name"
                       required
                       name="name"
+                      autoComplete="name"
+                      maxLength={100}
+                      aria-invalid={Boolean(formErrors.name)}
+                      aria-describedby={
+                        formErrors.name ? 'contact-name-error' : undefined
+                      }
+                      onChange={() =>
+                        setFormErrors((current) => ({
+                          ...current,
+                          name: undefined,
+                        }))
+                      }
                       placeholder={siteConfig.contactSection.namePlaceholder}
                       className="premium-field mt-2 h-12 rounded-lg px-4"
                     />
+                    {formErrors.name && (
+                      <span
+                        id="contact-name-error"
+                        role="alert"
+                        className="mt-1.5 block text-xs font-semibold text-destructive"
+                      >
+                        {formErrors.name}
+                      </span>
+                    )}
                   </label>
                   <label htmlFor="contact-phone" className="form-label">
                     {siteConfig.contactSection.phoneLabel}
@@ -1324,9 +1452,31 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       required
                       name="phone"
                       type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      maxLength={20}
+                      aria-invalid={Boolean(formErrors.phone)}
+                      aria-describedby={
+                        formErrors.phone ? 'contact-phone-error' : undefined
+                      }
+                      onChange={() =>
+                        setFormErrors((current) => ({
+                          ...current,
+                          phone: undefined,
+                        }))
+                      }
                       placeholder={siteConfig.contactSection.phonePlaceholder}
                       className="premium-field mt-2 h-12 rounded-lg px-4"
                     />
+                    {formErrors.phone && (
+                      <span
+                        id="contact-phone-error"
+                        role="alert"
+                        className="mt-1.5 block text-xs font-semibold text-destructive"
+                      >
+                        {formErrors.phone}
+                      </span>
+                    )}
                   </label>
                   <label
                     htmlFor="contact-email"
@@ -1338,9 +1488,30 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       required
                       name="email"
                       type="email"
+                      autoComplete="email"
+                      maxLength={254}
+                      aria-invalid={Boolean(formErrors.email)}
+                      aria-describedby={
+                        formErrors.email ? 'contact-email-error' : undefined
+                      }
+                      onChange={() =>
+                        setFormErrors((current) => ({
+                          ...current,
+                          email: undefined,
+                        }))
+                      }
                       placeholder={siteConfig.contactSection.emailPlaceholder}
                       className="premium-field mt-2 h-12 rounded-lg px-4"
                     />
+                    {formErrors.email && (
+                      <span
+                        id="contact-email-error"
+                        role="alert"
+                        className="mt-1.5 block text-xs font-semibold text-destructive"
+                      >
+                        {formErrors.email}
+                      </span>
+                    )}
                   </label>
                   <label
                     htmlFor="contact-interest"
@@ -1369,9 +1540,29 @@ export default function HomePage({ content }: { content: SiteContent }) {
                       required
                       name="message"
                       rows={4}
+                      maxLength={2000}
+                      aria-invalid={Boolean(formErrors.message)}
+                      aria-describedby={
+                        formErrors.message ? 'contact-message-error' : undefined
+                      }
+                      onChange={() =>
+                        setFormErrors((current) => ({
+                          ...current,
+                          message: undefined,
+                        }))
+                      }
                       placeholder={siteConfig.contactSection.messagePlaceholder}
                       className="premium-field mt-2 w-full resize-none rounded-lg border px-4 py-3 text-sm outline-none placeholder:text-muted-foreground"
                     />
+                    {formErrors.message && (
+                      <span
+                        id="contact-message-error"
+                        role="alert"
+                        className="mt-1.5 block text-xs font-semibold text-destructive"
+                      >
+                        {formErrors.message}
+                      </span>
+                    )}
                   </label>
                 </div>
                 <Button

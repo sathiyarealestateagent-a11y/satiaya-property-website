@@ -3,6 +3,26 @@ import { z } from 'zod';
 const text = z.string().max(5000);
 const shortText = z.string().max(300);
 const urlText = z.string().max(3000);
+const safeUrl = urlText.refine((value) => {
+  if (value === '') return true;
+  if (value.startsWith('/') && !value.startsWith('//')) return true;
+  try {
+    return new URL(value).protocol === 'https:';
+  } catch {
+    return false;
+  }
+}, 'Use an HTTPS URL or a site path beginning with /.');
+const navigationHref = shortText.refine(
+  (value) =>
+    /^#[a-zA-Z][\w-]*$/.test(value) ||
+    (value.startsWith('/') && !value.startsWith('//')) ||
+    safeUrl.safeParse(value).success,
+  'Use a page section, site path or HTTPS URL.',
+);
+const socialUrl = urlText.refine(
+  (value) => value === '#' || safeUrl.safeParse(value).success,
+  'Use an HTTPS URL.',
+);
 
 export const pageSectionIds = [
   'hero',
@@ -70,8 +90,8 @@ export const propertySchema = z.object({
   bedrooms: z.number().int().nonnegative(),
   bathrooms: z.number().int().nonnegative(),
   size: z.number().int().nonnegative(),
-  image: urlText,
-  images: z.array(urlText).max(12).default([]),
+  image: safeUrl,
+  images: z.array(safeUrl).max(12).default([]),
   address: shortText.default(''),
   latitude: z.number().min(-90).max(90).nullable().default(null),
   longitude: z.number().min(-180).max(180).nullable().default(null),
@@ -101,30 +121,38 @@ export const siteContentSchema = z.object({
       hiddenElements: [],
       elementStyles: {},
     }),
-  navigation: z.array(z.object({ label: shortText, href: shortText })).max(10),
-  logo: z.object({ mark: shortText, image: urlText }),
+  navigation: z
+    .array(z.object({ label: shortText, href: navigationHref }))
+    .max(10),
+  logo: z.object({ mark: shortText, image: safeUrl }),
   agent: z.object({
     name: shortText,
     firstName: shortText,
     title: shortText,
     agency: shortText,
     registrationNumber: shortText,
-    profilePhoto: urlText,
+    profilePhoto: safeUrl,
     languages: z.array(shortText).max(10),
   }),
   contact: z.object({
     phone: shortText,
-    email: shortText,
+    email: z.email().max(300),
     serviceArea: shortText,
   }),
-  whatsapp: z.object({ number: shortText, defaultMessage: text }),
+  whatsapp: z.object({
+    number: z
+      .string()
+      .regex(/^\d{8,15}$/)
+      .max(15),
+    defaultMessage: text,
+  }),
   header: z.object({ cta: shortText }),
   hero: z.object({
     eyebrow: shortText,
     title: shortText,
     description: text,
-    video: urlText.default('/hero-property.mp4'),
-    image: urlText,
+    video: safeUrl.default('/hero-property.mp4'),
+    image: safeUrl,
     imageAlt: shortText,
     primaryCta: shortText,
     secondaryCta: shortText,
@@ -145,7 +173,7 @@ export const siteContentSchema = z.object({
     moreMessage: text,
   }),
   ownerSection: z.object({
-    image: urlText,
+    image: safeUrl,
     imageAlt: shortText,
     kicker: shortText,
     title: shortText,
@@ -208,7 +236,7 @@ export const siteContentSchema = z.object({
         tiktok: social.tiktok ?? '',
       };
     },
-    z.object({ instagram: urlText, facebook: urlText, tiktok: urlText }),
+    z.object({ instagram: socialUrl, facebook: socialUrl, tiktok: socialUrl }),
   ),
   properties: z.array(propertySchema).max(100),
 });

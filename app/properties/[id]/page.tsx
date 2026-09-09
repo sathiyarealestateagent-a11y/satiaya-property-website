@@ -18,8 +18,10 @@ import {
 import { cache } from 'react';
 
 import { buttonVariants } from '@/components/ui/button';
+import { JsonLd } from '@/components/json-ld';
 import { getSiteContent } from '@/db/content';
 import { cn } from '@/lib/utils';
+import { siteConfig } from '@/src/config/site';
 
 import { MortgageCalculator } from './mortgage-calculator';
 import { PropertyMedia, PropertyShare } from './property-media';
@@ -61,9 +63,12 @@ export async function generateMetadata({
   return {
     title: `${property.title} | Satiaya Property`,
     description,
+    alternates: { canonical: `/properties/${property.id}` },
     openGraph: {
       title: property.title,
       description,
+      url: `/properties/${property.id}`,
+      type: 'article',
       images: [
         {
           url: property.images[0] ?? property.image,
@@ -116,6 +121,38 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'RealEstateListing',
+          name: property.title,
+          url: `${siteConfig.domain}/properties/${property.id}`,
+          image: images,
+          datePosted: undefined,
+          mainEntity: {
+            '@type': 'Accommodation',
+            name: property.title,
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: property.address || undefined,
+              addressLocality: property.location,
+              addressCountry: 'MY',
+            },
+            numberOfBedrooms: property.bedrooms,
+            floorSize: {
+              '@type': 'QuantitativeValue',
+              value: property.size,
+              unitCode: 'FTK',
+            },
+          },
+          offers: {
+            '@type': 'Offer',
+            price: property.price,
+            priceCurrency: 'MYR',
+            availability: 'https://schema.org/InStock',
+          },
+        }}
+      />
       <header className="sticky top-0 z-50 border-b border-border/80 bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link

@@ -107,10 +107,10 @@ export default function UpdatePasswordPage() {
         </div>
 
         {checking ? (
-          <div className="mt-7 flex items-center justify-center gap-2 text-sm font-semibold text-[#5F7077]">
+          <output className="mt-7 flex min-h-12 items-center justify-center gap-2 text-sm font-semibold text-[#5F7077]">
             <LoaderCircle className="size-4 animate-spin" /> Checking your
             recovery link…
-          </div>
+          </output>
         ) : (
           <form
             onSubmit={updatePassword}
@@ -130,6 +130,8 @@ export default function UpdatePasswordPage() {
                   minLength={8}
                   required
                   value={password}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? 'update-password-error' : undefined}
                   onChange={(event) => setPassword(event.target.value)}
                   className="premium-field h-12 rounded-lg pr-12"
                 />
@@ -160,6 +162,8 @@ export default function UpdatePasswordPage() {
                   minLength={8}
                   required
                   value={confirmation}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? 'update-password-error' : undefined}
                   onChange={(event) => setConfirmation(event.target.value)}
                   className="premium-field h-12 rounded-lg pr-12"
                 />
@@ -180,7 +184,11 @@ export default function UpdatePasswordPage() {
               </div>
             </label>
             {error && (
-              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive">
+              <p
+                id="update-password-error"
+                role="alert"
+                className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-destructive"
+              >
                 {error}
               </p>
             )}

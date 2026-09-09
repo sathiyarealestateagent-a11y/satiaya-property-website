@@ -24,6 +24,14 @@ export const metadata: Metadata = {
   },
   description:
     'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
+  keywords: [
+    'property for sale Malaysia',
+    'property for rent Malaysia',
+    'Kuala Lumpur property agent',
+    'Selangor property agent',
+    'Satiaya Selvan',
+    'MAXXAN Realty',
+  ],
   alternates: {
     canonical: '/',
   },
@@ -43,6 +51,8 @@ export const metadata: Metadata = {
     description:
       'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
     type: 'website',
+    siteName: 'Satiaya Property',
+    url: '/',
     locale: 'en_MY',
     images: [
       {
@@ -66,9 +76,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth" data-theme="corporate">
+    <html lang="en-MY" className="scroll-smooth" data-theme="corporate">
       <body className={`${inter.variable} ${manrope.variable} antialiased`}>
-        {children}
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <div id="main-content" tabIndex={-1}>
+          {children}
+        </div>
       </body>
     </html>
   );
