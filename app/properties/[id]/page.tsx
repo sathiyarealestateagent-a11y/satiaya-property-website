@@ -106,7 +106,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
       value: `${property.size.toLocaleString('en-MY')} sq ft`,
       icon: Maximize2,
     },
-    { label: 'Property type', value: property.propertyType, icon: Building2 },
+    {
+      label: 'Property type',
+      value: property.propertyType,
+      meta: listingReference,
+      icon: Building2,
+    },
   ];
 
   return (
@@ -198,15 +203,22 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           </div>
 
           <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {facts.map(({ label, value, icon: Icon }) => (
+            {facts.map(({ label, value, meta, icon: Icon }) => (
               <div
                 key={label}
                 className="rounded-2xl border border-border bg-white p-4 sm:p-5"
               >
                 <Icon className="size-5 text-secondary" />
-                <p className="mt-4 font-heading text-base font-bold text-primary sm:text-lg">
-                  {value}
-                </p>
+                <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <p className="font-heading text-base font-bold text-primary sm:text-lg">
+                    {value}
+                  </p>
+                  {meta ? (
+                    <span className="rounded-full bg-muted px-2 py-1 text-[10px] font-bold tracking-[0.08em] text-secondary sm:text-xs">
+                      {meta}
+                    </span>
+                  ) : null}
+                </div>
                 <p className="mt-1 text-xs font-medium text-muted-foreground sm:text-sm">
                   {label}
                 </p>
@@ -220,42 +232,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
         <div className="grid gap-8 border-t border-border py-10 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
           <div className="space-y-8">
-            <section className="rounded-[22px] border border-border bg-white p-6 sm:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-secondary">
-                At a glance
-              </p>
-              <h2 className="mt-2 font-heading text-2xl font-bold tracking-[-0.02em] text-primary">
-                Property details
-              </h2>
-              <dl className="mt-7 divide-y divide-border">
-                {[
-                  [
-                    'Listing type',
-                    `For ${property.type === 'sale' ? 'sale' : 'rent'}`,
-                  ],
-                  ['Category', property.propertyType],
-                  ...(property.address
-                    ? ([['Address', property.address]] as string[][])
-                    : []),
-                  [
-                    'Floor area',
-                    `${property.size.toLocaleString('en-MY')} sq ft`,
-                  ],
-                  ['Listing reference', listingReference],
-                ].map(([term, description]) => (
-                  <div
-                    key={term}
-                    className="grid grid-cols-2 gap-4 py-4 text-sm"
-                  >
-                    <dt className="text-muted-foreground">{term}</dt>
-                    <dd className="text-right font-semibold text-foreground">
-                      {description}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-
             {[
               ['Package and promotions', property.packageDetails],
               ['Project information', property.projectInfo],

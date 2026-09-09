@@ -46,7 +46,7 @@
 ## Public listing behavior
 
 - Selecting a property card image, title or arrow opens its dedicated `/properties/[id]` page in the same tab.
-- A property detail page presents the stored photo, title, location, asking price, bedrooms, bathrooms, size and property type before contact actions.
+- A property detail page presents the stored photo, title, location, asking price, bedrooms, bathrooms, size and property type before contact actions. The listing reference appears beside the property type in this summary; no separate property-details card is rendered.
 - A listing supports up to 12 stored photos. The first photo is the cover; four or more photos are recommended, while legacy one-photo listings remain valid.
 - The public media panel switches between Photos and Map view without navigating away. Map view uses saved coordinates when both are present and otherwise searches the saved full address or location.
 - Selecting any gallery photo opens a modal full-size viewer. Multiple-photo listings provide previous/next buttons, thumbnail selection and Left/Right Arrow navigation; Escape or the Close button exits the viewer and restores focus to the selected gallery photo.
