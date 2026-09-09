@@ -51,7 +51,7 @@
 - The public media panel switches between Photos and Map view without navigating away. Map view uses saved coordinates when both are present and otherwise searches the saved full address or location.
 - Selecting any gallery photo opens a modal full-size viewer. Multiple-photo listings provide previous/next buttons, thumbnail selection and Left/Right Arrow navigation; Escape or the Close button exits the viewer and restores focus to the selected gallery photo.
 - Share listing invokes the device share sheet when available. Facebook has a direct web share action; Instagram and TikTok copy the listing URL before opening their publishing surfaces because those platforms do not provide a general URL-prefilled web composer.
-- Long-form listing introduction, package/promotions, project information and amenities preserve the owner's line breaks and remain optional.
+- Long-form package/promotions, project information and amenities preserve the owner's line breaks and remain optional. The public detail page does not render a separate generic overview/about card.
 - For-sale detail pages include an interactive mortgage estimator prefilled from the listing price. Visitors can change property price, down payment percentage, annual interest rate and tenure up to 35 years; monthly repayment, financing amount, total interest and total repayment update immediately. Results are illustrative only, exclude ancillary fees and never represent lender approval. Rental listings do not show this purchase-financing tool.
 - WhatsApp, phone and email are explicit enquiry actions on the detail page; catalogue navigation never opens WhatsApp directly.
 - An unknown or removed property ID presents a recoverable not-found state with a route back to the current listings.

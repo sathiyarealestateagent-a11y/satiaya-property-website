@@ -256,19 +256,6 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
               </dl>
             </section>
 
-            <section className="rounded-[22px] border border-border bg-white p-6 sm:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-secondary">
-                Overview
-              </p>
-              <h2 className="mt-2 font-heading text-2xl font-bold tracking-[-0.02em] text-primary">
-                About this property
-              </h2>
-              <p className="mt-5 max-w-3xl whitespace-pre-line text-[15px] leading-7 text-muted-foreground sm:text-base sm:leading-8">
-                {property.description ||
-                  `This ${property.propertyType.toLowerCase()} in ${property.location} offers ${property.size.toLocaleString('en-MY')} sq ft of space with ${property.bedrooms} bedrooms and ${property.bathrooms} bathrooms. It is currently available for ${property.type === 'sale' ? 'sale' : 'rent'} at ${price}. Contact ${content.agent.firstName} to confirm availability, arrange a viewing and request complete property information.`}
-              </p>
-            </section>
-
             {[
               ['Package and promotions', property.packageDetails],
               ['Project information', property.projectInfo],
