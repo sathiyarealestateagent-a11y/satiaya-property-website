@@ -132,12 +132,6 @@ const designNodes: DesignNode[] = [
     kind: 'icon',
   },
   {
-    key: 'hero.trustIcon',
-    label: 'Trust badge icon',
-    section: 'Hero',
-    kind: 'icon',
-  },
-  {
     key: 'hero.eyebrowLine',
     label: 'Hero title line',
     section: 'Hero lines',
@@ -148,12 +142,6 @@ const designNodes: DesignNode[] = [
     label: 'Description line',
     section: 'Hero lines',
     kind: 'line-vertical',
-  },
-  {
-    key: 'hero.trustLine',
-    label: 'Trust divider line',
-    section: 'Hero lines',
-    kind: 'line-horizontal',
   },
   {
     key: 'search.card',

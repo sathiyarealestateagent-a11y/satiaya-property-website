@@ -657,28 +657,6 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 {siteConfig.hero.secondaryCta}
               </a>
             </div>
-            <div className="mt-10 w-fit">
-              <span
-                data-editor-node="hero.trustLine"
-                className="block h-px w-full bg-white/18"
-              />
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 pt-5 text-[13px] font-semibold text-white/72">
-                <span
-                  data-editor-node="hero.trustIcon"
-                  className="grid size-8 place-items-center rounded-full bg-white/[.09] ring-1 ring-white/15 backdrop-blur-sm"
-                >
-                  {createElement(iconForNode('hero.trustIcon', ShieldCheck), {
-                    className: 'size-4 text-[#77D9D4]',
-                  })}
-                </span>
-                <span>
-                  {siteConfig.agent.registrationNumber ||
-                    'Registered negotiator'}
-                </span>
-                <span className="size-1 rounded-full bg-[#77D9D4]/75" />
-                <span>{siteConfig.agent.agency}</span>
-              </div>
-            </div>
           </div>
         </div>
 
