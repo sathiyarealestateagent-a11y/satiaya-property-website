@@ -1,8 +1,25 @@
 'use client';
 
-import { Check, Copy, Images, Map, Share2 } from 'lucide-react';
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Images,
+  Map,
+  Maximize2,
+  Share2,
+  X,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 type PropertyMediaProps = {
   images: string[];
@@ -19,9 +36,26 @@ export function PropertyMedia({
 }: PropertyMediaProps) {
   const [view, setView] = useState<'photos' | 'map'>('photos');
   const [showAll, setShowAll] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+    null,
+  );
 
   const visibleImages = showAll ? images : images.slice(0, 5);
   const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
+  const selectedImage =
+    selectedImageIndex === null ? null : images[selectedImageIndex];
+
+  function showPreviousImage() {
+    setSelectedImageIndex((current) =>
+      current === null ? 0 : (current - 1 + images.length) % images.length,
+    );
+  }
+
+  function showNextImage() {
+    setSelectedImageIndex((current) =>
+      current === null ? 0 : (current + 1) % images.length,
+    );
+  }
 
   return (
     <section aria-label="Property photos and map">
@@ -68,9 +102,12 @@ export function PropertyMedia({
           }`}
         >
           {visibleImages.map((image, index) => (
-            <div
+            <button
+              type="button"
               key={`${image}-${index}`}
-              className={`relative min-h-52 overflow-hidden bg-muted ${
+              onClick={() => setSelectedImageIndex(index)}
+              aria-label={`View ${title} photo ${index + 1} larger`}
+              className={`group relative min-h-52 cursor-zoom-in overflow-hidden bg-muted text-left focus-visible:z-10 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-inset ${
                 !showAll && index === 0
                   ? 'col-span-2 h-[360px] lg:h-auto lg:row-span-2'
                   : showAll
@@ -88,9 +125,12 @@ export function PropertyMedia({
                     ? '(max-width: 1024px) 100vw, 50vw'
                     : '(max-width: 640px) 50vw, 25vw'
                 }
-                className="object-cover transition-transform duration-500 hover:scale-[1.02]"
+                className="pointer-events-none object-cover transition-transform duration-500 group-hover:scale-[1.02]"
               />
-            </div>
+              <span className="pointer-events-none absolute right-3 top-3 grid size-10 place-items-center rounded-xl bg-primary/80 text-white opacity-0 shadow-lg backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                <Maximize2 className="size-4" />
+              </span>
+            </button>
           ))}
           {images.length > 1 && (
             <button
@@ -119,6 +159,109 @@ export function PropertyMedia({
           />
         </div>
       )}
+
+      <Dialog
+        open={selectedImageIndex !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedImageIndex(null);
+        }}
+      >
+        <DialogContent
+          showCloseButton={false}
+          overlayClassName="bg-[#07181d]/90 supports-backdrop-filter:backdrop-blur-md"
+          className="flex h-[calc(100dvh-1rem)] max-h-[960px] w-[calc(100%-1rem)] max-w-[min(1280px,calc(100%-1rem))] flex-col gap-0 overflow-hidden rounded-2xl border border-white/15 bg-[#07181d] p-0 text-white ring-0 sm:h-[calc(100dvh-2rem)] sm:w-[calc(100%-2rem)] sm:max-w-[min(1280px,calc(100%-2rem))]"
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowLeft' && images.length > 1) {
+              event.preventDefault();
+              showPreviousImage();
+            }
+            if (event.key === 'ArrowRight' && images.length > 1) {
+              event.preventDefault();
+              showNextImage();
+            }
+          }}
+        >
+          <DialogTitle className="sr-only">{title} photo viewer</DialogTitle>
+          <DialogDescription className="sr-only">
+            View the property photos at full size. Use the arrow buttons or
+            keyboard arrow keys to move between photos.
+          </DialogDescription>
+
+          <div className="relative flex min-h-0 flex-1 items-center justify-center bg-black/20">
+            {selectedImage && (
+              <Image
+                src={selectedImage}
+                alt={`${title} — photo ${(selectedImageIndex ?? 0) + 1}`}
+                fill
+                priority
+                sizes="100vw"
+                className="object-contain"
+              />
+            )}
+
+            <button
+              type="button"
+              onClick={() => setSelectedImageIndex(null)}
+              className="absolute right-3 top-3 z-10 grid size-11 cursor-pointer place-items-center rounded-xl border border-white/20 bg-black/55 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/75 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white sm:right-5 sm:top-5"
+              aria-label="Close photo viewer"
+            >
+              <X className="size-5" />
+            </button>
+
+            {images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={showPreviousImage}
+                  className="absolute left-3 top-1/2 z-10 grid size-12 -translate-y-1/2 cursor-pointer place-items-center rounded-xl border border-white/20 bg-black/55 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/75 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white sm:left-5"
+                  aria-label="Previous property photo"
+                >
+                  <ChevronLeft className="size-6" />
+                </button>
+                <button
+                  type="button"
+                  onClick={showNextImage}
+                  className="absolute right-3 top-1/2 z-10 grid size-12 -translate-y-1/2 cursor-pointer place-items-center rounded-xl border border-white/20 bg-black/55 text-white shadow-lg backdrop-blur-sm transition hover:bg-black/75 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white sm:right-5"
+                  aria-label="Next property photo"
+                >
+                  <ChevronRight className="size-6" />
+                </button>
+              </>
+            )}
+
+            <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm sm:bottom-5">
+              {(selectedImageIndex ?? 0) + 1} / {images.length}
+            </span>
+          </div>
+
+          {images.length > 1 && (
+            <div className="flex shrink-0 gap-2 overflow-x-auto border-t border-white/10 bg-black/30 p-3 sm:p-4">
+              {images.map((image, index) => (
+                <button
+                  key={`${image}-thumbnail-${index}`}
+                  type="button"
+                  onClick={() => setSelectedImageIndex(index)}
+                  aria-label={`View property photo ${index + 1}`}
+                  aria-current={selectedImageIndex === index ? 'true' : undefined}
+                  className={`relative aspect-[4/3] w-20 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 transition focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-white sm:w-24 ${
+                    selectedImageIndex === index
+                      ? 'border-accent'
+                      : 'border-transparent opacity-65 hover:opacity-100'
+                  }`}
+                >
+                  <Image
+                    src={image}
+                    alt=""
+                    fill
+                    sizes="96px"
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
