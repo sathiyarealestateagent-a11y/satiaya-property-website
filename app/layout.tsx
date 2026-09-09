@@ -17,9 +17,27 @@ const lexend = Lexend({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
-  title: `${siteConfig.agent.name} | Real Estate Negotiator`,
+  applicationName: 'Satiaya Property',
+  title: {
+    default: `${siteConfig.agent.name} | Real Estate Negotiator`,
+    template: `%s | ${siteConfig.agent.name}`,
+  },
   description:
     'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
     title: `${siteConfig.agent.name} | Move forward with the right property`,
     description:
