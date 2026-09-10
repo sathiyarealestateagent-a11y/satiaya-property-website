@@ -54,7 +54,12 @@ export async function generateMetadata({
 }: PropertyPageProps): Promise<Metadata> {
   const { id } = await params;
   const data = await getPropertyPageData(id);
-  if (!data) return { title: 'Property not found' };
+  if (!data) {
+    return {
+      title: 'Property not found',
+      robots: { index: false, follow: false },
+    };
+  }
 
   const { property } = data;
   const description = `${property.propertyType} for ${property.type} in ${property.location}. ${property.bedrooms} bedrooms, ${property.bathrooms} bathrooms and ${property.size.toLocaleString('en-MY')} sq ft.`;
@@ -62,15 +67,25 @@ export async function generateMetadata({
   return {
     title: `${property.title} | Satiaya Property`,
     description,
+    alternates: {
+      canonical: `/properties/${property.id}`,
+    },
     openGraph: {
       title: property.title,
       description,
+      url: `/properties/${property.id}`,
       images: [
         {
           url: property.images[0] ?? property.image,
           alt: property.title,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: property.title,
+      description,
+      images: [property.images[0] ?? property.image],
     },
   };
 }

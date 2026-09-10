@@ -24,9 +24,6 @@ export const metadata: Metadata = {
   },
   description:
     'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
-  alternates: {
-    canonical: '/',
-  },
   robots: {
     index: true,
     follow: true,
