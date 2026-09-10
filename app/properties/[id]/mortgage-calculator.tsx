@@ -1,12 +1,13 @@
 'use client';
 
 import { CalendarDays, Calculator, Landmark, Percent } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
 type MortgageCalculatorProps = {
   propertyPrice: number;
+  onMonthlyRepaymentChange?: (amount: number) => void;
 };
 
 const currencyFormatter = new Intl.NumberFormat('en-MY', {
@@ -36,6 +37,7 @@ function calculateMonthlyRepayment(
 
 export function MortgageCalculator({
   propertyPrice: initialPropertyPrice,
+  onMonthlyRepaymentChange,
 }: MortgageCalculatorProps) {
   const [propertyPrice, setPropertyPrice] = useState(initialPropertyPrice);
   const [downPaymentPercent, setDownPaymentPercent] = useState(10);
@@ -65,6 +67,10 @@ export function MortgageCalculator({
       loanPercent: 100 - safeDownPayment,
     };
   }, [downPaymentPercent, interestRate, propertyPrice, tenureYears]);
+
+  useEffect(() => {
+    onMonthlyRepaymentChange?.(estimate.monthlyRepayment);
+  }, [estimate.monthlyRepayment, onMonthlyRepaymentChange]);
 
   return (
     <section

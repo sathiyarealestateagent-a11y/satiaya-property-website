@@ -21,7 +21,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { getSiteContent } from '@/db/content';
 import { cn } from '@/lib/utils';
 
-import { MortgageCalculator } from './mortgage-calculator';
+import { PropertyFinanceCalculators } from './property-finance-calculators';
 import { PropertyMedia, PropertyShare } from './property-media';
 
 export const dynamic = 'force-dynamic';
@@ -320,7 +320,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
         {property.type === 'sale' && (
           <div className="border-t border-border py-10 sm:py-12">
-            <MortgageCalculator propertyPrice={property.price} />
+            <PropertyFinanceCalculators propertyPrice={property.price} />
           </div>
         )}
 
