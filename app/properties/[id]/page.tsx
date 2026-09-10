@@ -8,6 +8,7 @@ import {
   Bath,
   BedDouble,
   Building2,
+  Calculator,
   Mail,
   MapPin,
   Maximize2,
@@ -21,7 +22,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { getSiteContent } from '@/db/content';
 import { cn } from '@/lib/utils';
 
-import { PropertyFinanceCalculators } from './property-finance-calculators';
+import { MortgageCalculator } from './mortgage-calculator';
 import { PropertyMedia, PropertyShare } from './property-media';
 
 export const dynamic = 'force-dynamic';
@@ -227,6 +228,17 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
           </div>
           <div className="mt-6 border-t border-border pt-6">
             <PropertyShare title={property.title} />
+            {property.type === 'sale' ? (
+              <a
+                href="#home-loan-dsr-calculator"
+                className={cn(
+                  buttonVariants({ variant: 'outline', size: 'lg' }),
+                  'mt-4 h-11 px-4',
+                )}
+              >
+                <Calculator /> Check Monthly Loan &amp; DSR
+              </a>
+            ) : null}
           </div>
         </section>
 
@@ -320,7 +332,10 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
         {property.type === 'sale' && (
           <div className="border-t border-border py-10 sm:py-12">
-            <PropertyFinanceCalculators propertyPrice={property.price} />
+            <MortgageCalculator
+              propertyPrice={property.price}
+              whatsappNumber={content.whatsapp.number}
+            />
           </div>
         )}
 

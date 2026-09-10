@@ -149,7 +149,7 @@ Every listing opens a dedicated, shareable `/properties/[id]` page before an enq
 
 Property photos are direct zoom targets. Selecting any gallery image opens a restrained full-screen viewer with object-contain presentation, a position counter, thumbnail navigation when multiple photos exist, and high-contrast controls that do not compete with the image.
 
-For-sale detail pages include a teal mortgage estimator after the complete property-information area and before further listing recommendations. Its white input surface and deep-teal results panel reuse the established property-card language; turquoise is limited to financing emphasis. The listing price is the starting value, while down payment, illustrative annual interest rate and tenure remain editable. Financial results must be labelled as estimates and must never imply lender approval.
+For-sale detail pages include one combined Home Loan & DSR Calculator after the complete property-information area and before further listing recommendations. Its white input surface and deep-teal summary panel reuse the established property-card language; turquoise is limited to financing emphasis. The listing price is the starting value, while loan assumptions, monthly income, deductions and existing commitments remain editable locally. The combined summary shows the estimated instalment, net income, DSR and disposable income without implying lender approval. Detailed visitor income and commitments are never persisted or included in WhatsApp summaries.
 
 ## Do's and Don'ts
 
