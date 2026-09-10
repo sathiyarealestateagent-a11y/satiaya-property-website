@@ -253,6 +253,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const [searchApplied, setSearchApplied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formSent, setFormSent] = useState(false);
+  const [submittedWhatsappLink, setSubmittedWhatsappLink] = useState(() =>
+    whatsappLink(),
+  );
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get('visualEditor') !== '1')
@@ -419,7 +422,31 @@ export default function HomePage({ content }: { content: SiteContent }) {
 
   function submitContact(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+    const readField = (name: string) => {
+      const value = formData.get(name);
+      return typeof value === 'string' ? value.trim() : '';
+    };
+    const enquiryMessage = [
+      `Hi ${siteConfig.agent.firstName}, I would like to make a property enquiry.`,
+      '',
+      `Name: ${readField('name')}`,
+      `Phone: ${readField('phone')}`,
+      `Email: ${readField('email')}`,
+      `Interested in: ${readField('interest')}`,
+      `Message: ${readField('message')}`,
+    ].join('\n');
+    const enquiryLink = whatsappLink(enquiryMessage);
+
+    setSubmittedWhatsappLink(enquiryLink);
     setFormSent(true);
+    window.location.assign(enquiryLink);
   }
 
   return (
@@ -1288,7 +1315,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   {siteConfig.contactSection.successDescription}
                 </p>
                 <a
-                  href={whatsappLink()}
+                  href={submittedWhatsappLink}
                   target="_blank"
                   rel="noreferrer"
                   data-slot="button"
