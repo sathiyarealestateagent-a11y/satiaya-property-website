@@ -250,6 +250,7 @@ function PropertyGalleryField({
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState('');
   const [error, setError] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const images =
     value.length > 0 ? value : fallbackImage ? [fallbackImage] : [];
 
@@ -298,6 +299,18 @@ function PropertyGalleryField({
     const next = [...images];
     const [selected] = next.splice(index, 1);
     onChange([selected, ...next]);
+  }
+
+  function addImageUrl() {
+    const nextImage = imageUrl.trim();
+    if (!nextImage) return;
+    if (images.length >= 12) {
+      setError('A listing can contain up to 12 photos.');
+      return;
+    }
+    onChange([...images, nextImage]);
+    setImageUrl('');
+    setError('');
   }
 
   return (
@@ -390,6 +403,33 @@ function PropertyGalleryField({
         <span className="ml-3 text-xs text-muted-foreground">
           Select several images together · 20 MB each
         </span>
+
+        <div className="mt-4 flex flex-col gap-2 border-t border-[#D9E6E7] pt-4 sm:flex-row">
+          <input
+            type="text"
+            value={imageUrl}
+            onChange={(event) => setImageUrl(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                addImageUrl();
+              }
+            }}
+            placeholder="Or paste an image URL"
+            aria-label="Property image URL"
+            className="h-10 min-w-0 flex-1 rounded-xl border border-border bg-white px-3 text-sm outline-none transition focus:border-[#16807F] focus:ring-2 focus:ring-[#16807F]/15"
+            disabled={images.length >= 12}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={addImageUrl}
+            disabled={!imageUrl.trim() || images.length >= 12}
+            className="h-10 rounded-xl"
+          >
+            Add image URL
+          </Button>
+        </div>
       </div>
       {error && (
         <p role="alert" className="text-xs font-semibold text-destructive">
