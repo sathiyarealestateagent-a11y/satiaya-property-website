@@ -206,7 +206,7 @@ export function MortgageCalculator({
       </div>
 
       <div>
-        <div className="p-6 sm:p-8 lg:p-10">
+        <div className="space-y-6 bg-background/70 p-5 sm:p-7 lg:p-9">
           <CalculatorSection
             number="01"
             title="Property & loan details"
@@ -271,6 +271,7 @@ export function MortgageCalculator({
             number="02"
             title="Monthly income"
             icon={WalletCards}
+            tone="tinted"
           >
             <MoneyFieldGrid
               fields={incomeFields}
@@ -303,6 +304,7 @@ export function MortgageCalculator({
             number="04"
             title="Existing monthly commitments"
             icon={BadgeDollarSign}
+            tone="tinted"
           >
             <MoneyFieldGrid
               fields={commitmentFields}
@@ -425,6 +427,7 @@ type CalculatorSectionProps = {
   number: string;
   title: string;
   icon: typeof Calculator;
+  tone?: 'white' | 'tinted';
   children: React.ReactNode;
 };
 
@@ -432,11 +435,17 @@ function CalculatorSection({
   number,
   title,
   icon: Icon,
+  tone = 'white',
   children,
 }: CalculatorSectionProps) {
   return (
-    <fieldset className="border-b border-border py-8 first:pt-0 last:border-b-0 last:pb-0">
-      <legend className="flex w-full items-center gap-3 pb-6">
+    <fieldset
+      className={cn(
+        'rounded-[20px] border border-border/80 p-5 shadow-[0_8px_24px_rgba(23,63,74,.035)] sm:p-7',
+        tone === 'tinted' ? 'bg-muted/45' : 'bg-white',
+      )}
+    >
+      <legend className="flex w-full items-center gap-3 pb-7">
         <span className="grid size-9 place-items-center rounded-xl bg-muted text-secondary">
           <Icon className="size-4" />
         </span>
@@ -504,7 +513,7 @@ function NumberField({
             onChange(raw === '' ? '' : clamp(Number(raw), min, max));
           }}
           className={cn(
-            'h-12 rounded-xl bg-background text-base font-semibold tabular-nums text-foreground',
+            'h-12 rounded-xl bg-white text-base font-semibold tabular-nums text-foreground',
             prefix && 'pl-12',
             suffix && 'pr-20',
           )}
