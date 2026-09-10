@@ -616,7 +616,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#173F4A]/65 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[728px] max-w-7xl items-center px-5 pb-40 pt-12 sm:min-h-[648px] sm:px-8 lg:px-10 lg:pb-32">
+        <div className="relative mx-auto flex min-h-[728px] max-w-7xl items-center px-5 pb-48 pt-8 sm:min-h-[648px] sm:px-8 sm:pb-40 sm:pt-12 lg:px-10 lg:pb-32">
           <div
             data-editor-node="hero.content"
             className="hero-intro relative max-w-[50rem] text-white"
