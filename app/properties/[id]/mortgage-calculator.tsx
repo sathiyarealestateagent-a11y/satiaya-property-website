@@ -98,6 +98,9 @@ export function MortgageCalculator({
   propertyPrice: initialPropertyPrice,
   whatsappNumber,
 }: MortgageCalculatorProps) {
+  const [activeCalculator, setActiveCalculator] = useState<'mortgage' | 'dsr'>(
+    'mortgage',
+  );
   const [propertyPrice, setPropertyPrice] = useState(initialPropertyPrice);
   const [downPaymentPercent, setDownPaymentPercent] = useState(10);
   const [interestRate, setInterestRate] = useState(4);
@@ -163,17 +166,27 @@ export function MortgageCalculator({
           ? 'Moderate Commitment'
           : 'Higher Commitment';
 
-  const whatsappMessage = [
-    'Hi Satiaya, I would like help checking my home loan eligibility.',
-    '',
-    `Property Price: ${currencyFormatter.format(estimate.propertyPrice)}`,
-    `Estimated Loan Amount: ${currencyFormatter.format(estimate.loanAmount)}`,
-    `Estimated Monthly Instalment: ${currencyFormatter.format(estimate.monthlyRepayment)} / month`,
-    `Estimated DSR: ${formatDsr(estimate.dsr)}`,
-    `Estimated Disposable Income: ${estimate.disposableIncome === null ? '—' : `${currencyFormatter.format(estimate.disposableIncome)} / month`}`,
-    '',
-    'Please advise me on the next step.',
-  ].join('\n');
+  const whatsappMessage = (
+    activeCalculator === 'mortgage'
+      ? [
+          'Hi Satiaya, I would like help checking my home loan estimate.',
+          '',
+          `Property Price: ${currencyFormatter.format(estimate.propertyPrice)}`,
+          `Estimated Loan Amount: ${currencyFormatter.format(estimate.loanAmount)}`,
+          `Estimated Monthly Instalment: ${currencyFormatter.format(estimate.monthlyRepayment)} / month`,
+          '',
+          'Please advise me on the next step.',
+        ]
+      : [
+          'Hi Satiaya, I would like help checking my DSR and home loan eligibility.',
+          '',
+          `Estimated Monthly Instalment: ${currencyFormatter.format(estimate.monthlyRepayment)} / month`,
+          `Estimated DSR: ${formatDsr(estimate.dsr)}`,
+          `Estimated Disposable Income: ${estimate.disposableIncome === null ? '—' : `${currencyFormatter.format(estimate.disposableIncome)} / month`}`,
+          '',
+          'Please advise me on the next step.',
+        ]
+  ).join('\n');
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -195,129 +208,165 @@ export function MortgageCalculator({
               id="home-loan-dsr-heading"
               className="mt-1 font-heading text-2xl font-bold tracking-[-0.02em] text-primary sm:text-3xl"
             >
-              Home Loan &amp; DSR Calculator
+              Home Loan &amp; DSR Calculators
             </h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-              Estimate your monthly home-loan instalment, debt service ratio and
-              disposable income in one place.
+              Choose a calculator to estimate your monthly instalment or check
+              your debt service ratio.
             </p>
           </div>
+        </div>
+
+        <div
+          className="mt-6 grid grid-cols-2 gap-2 rounded-2xl bg-muted p-1.5"
+          aria-label="Choose a calculator"
+        >
+          <button
+            type="button"
+            aria-pressed={activeCalculator === 'mortgage'}
+            onClick={() => setActiveCalculator('mortgage')}
+            className={cn(
+              'min-h-12 rounded-xl px-3 font-heading text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 sm:text-base',
+              activeCalculator === 'mortgage'
+                ? 'bg-primary text-white shadow-sm'
+                : 'text-primary hover:bg-white/70',
+            )}
+          >
+            Mortgage Calculator
+          </button>
+          <button
+            type="button"
+            aria-pressed={activeCalculator === 'dsr'}
+            onClick={() => setActiveCalculator('dsr')}
+            className={cn(
+              'min-h-12 rounded-xl px-3 font-heading text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 sm:text-base',
+              activeCalculator === 'dsr'
+                ? 'bg-primary text-white shadow-sm'
+                : 'text-primary hover:bg-white/70',
+            )}
+          >
+            DSR Calculator
+          </button>
         </div>
       </div>
 
       <div>
         <div className="space-y-6 bg-background/70 p-5 sm:p-7 lg:p-9">
-          <CalculatorSection
-            number="01"
-            title="Property & loan details"
-            icon={Landmark}
-          >
-            <div className="grid gap-5 sm:grid-cols-2">
-              <NumberField
-                id="loan-property-price"
-                label="Property price"
-                prefix="RM"
-                min={0}
-                max={100_000_000}
-                step={1000}
-                value={propertyPrice}
-                onChange={(value) => setPropertyPrice(Number(value))}
-              />
-              <NumberField
-                id="loan-down-payment"
-                label="Down payment"
-                suffix="%"
-                min={0}
-                max={100}
-                step={1}
-                value={downPaymentPercent}
-                onChange={(value) => setDownPaymentPercent(Number(value))}
-                hint={`${currencyFormatter.format(estimate.downPayment)} upfront`}
-              />
-              <CalculatedField
-                label="Estimated loan amount"
-                value={currencyFormatter.format(estimate.loanAmount)}
-              />
-              <NumberField
-                id="loan-interest-rate"
-                label="Interest rate"
-                suffix="% p.a."
-                min={0}
-                max={20}
-                step={0.05}
-                value={interestRate}
-                onChange={(value) => setInterestRate(Number(value))}
-                hint="Use the rate quoted by your bank"
-              />
-              <NumberField
-                id="loan-tenure"
-                label="Loan tenure"
-                suffix="years"
-                min={1}
-                max={35}
-                step={1}
-                value={tenureYears}
-                onChange={(value) => setTenureYears(Number(value) || 1)}
-              />
-              <CalculatedField
-                label="Estimated monthly instalment"
-                value={`${currencyFormatter.format(estimate.monthlyRepayment)} / month`}
-                emphasized
-              />
-            </div>
-          </CalculatorSection>
+          {activeCalculator === 'mortgage' ? (
+            <CalculatorSection
+              number="01"
+              title="Property & loan details"
+              icon={Landmark}
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
+                <NumberField
+                  id="loan-property-price"
+                  label="Property price"
+                  prefix="RM"
+                  min={0}
+                  max={100_000_000}
+                  step={1000}
+                  value={propertyPrice}
+                  onChange={(value) => setPropertyPrice(Number(value))}
+                />
+                <NumberField
+                  id="loan-down-payment"
+                  label="Down payment"
+                  suffix="%"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={downPaymentPercent}
+                  onChange={(value) => setDownPaymentPercent(Number(value))}
+                  hint={`${currencyFormatter.format(estimate.downPayment)} upfront`}
+                />
+                <CalculatedField
+                  label="Estimated loan amount"
+                  value={currencyFormatter.format(estimate.loanAmount)}
+                />
+                <NumberField
+                  id="loan-interest-rate"
+                  label="Interest rate"
+                  suffix="% p.a."
+                  min={0}
+                  max={20}
+                  step={0.05}
+                  value={interestRate}
+                  onChange={(value) => setInterestRate(Number(value))}
+                  hint="Use the rate quoted by your bank"
+                />
+                <NumberField
+                  id="loan-tenure"
+                  label="Loan tenure"
+                  suffix="years"
+                  min={1}
+                  max={35}
+                  step={1}
+                  value={tenureYears}
+                  onChange={(value) => setTenureYears(Number(value) || 1)}
+                />
+                <CalculatedField
+                  label="Estimated monthly instalment"
+                  value={`${currencyFormatter.format(estimate.monthlyRepayment)} / month`}
+                  emphasized
+                />
+              </div>
+            </CalculatorSection>
+          ) : (
+            <>
+              <CalculatorSection
+                number="01"
+                title="Monthly income"
+                icon={WalletCards}
+                tone="tinted"
+              >
+                <MoneyFieldGrid
+                  fields={incomeFields}
+                  values={income}
+                  onChange={(key, value) =>
+                    setIncome((current) => ({ ...current, [key]: value }))
+                  }
+                />
+              </CalculatorSection>
 
-          <CalculatorSection
-            number="02"
-            title="Monthly income"
-            icon={WalletCards}
-            tone="tinted"
-          >
-            <MoneyFieldGrid
-              fields={incomeFields}
-              values={income}
-              onChange={(key, value) =>
-                setIncome((current) => ({ ...current, [key]: value }))
-              }
-            />
-          </CalculatorSection>
+              <CalculatorSection
+                number="02"
+                title="Monthly deductions"
+                icon={ReceiptText}
+              >
+                <MoneyFieldGrid
+                  fields={deductionFields}
+                  values={deductions}
+                  onChange={(key, value) =>
+                    setDeductions((current) => ({ ...current, [key]: value }))
+                  }
+                />
+                <CalculatedTotal
+                  label="Estimated net monthly income"
+                  value={estimate.netIncome}
+                />
+              </CalculatorSection>
 
-          <CalculatorSection
-            number="03"
-            title="Monthly deductions"
-            icon={ReceiptText}
-          >
-            <MoneyFieldGrid
-              fields={deductionFields}
-              values={deductions}
-              onChange={(key, value) =>
-                setDeductions((current) => ({ ...current, [key]: value }))
-              }
-            />
-            <CalculatedTotal
-              label="Estimated net monthly income"
-              value={estimate.netIncome}
-            />
-          </CalculatorSection>
-
-          <CalculatorSection
-            number="04"
-            title="Existing monthly commitments"
-            icon={BadgeDollarSign}
-            tone="tinted"
-          >
-            <MoneyFieldGrid
-              fields={commitmentFields}
-              values={commitments}
-              onChange={(key, value) =>
-                setCommitments((current) => ({ ...current, [key]: value }))
-              }
-            />
-            <CalculatedTotal
-              label="New property monthly instalment"
-              value={estimate.monthlyRepayment}
-            />
-          </CalculatorSection>
+              <CalculatorSection
+                number="03"
+                title="Existing monthly commitments"
+                icon={BadgeDollarSign}
+                tone="tinted"
+              >
+                <MoneyFieldGrid
+                  fields={commitmentFields}
+                  values={commitments}
+                  onChange={(key, value) =>
+                    setCommitments((current) => ({ ...current, [key]: value }))
+                  }
+                />
+                <CalculatedTotal
+                  label="New property monthly instalment"
+                  value={estimate.monthlyRepayment}
+                />
+              </CalculatorSection>
+            </>
+          )}
         </div>
 
         <aside className="relative overflow-hidden bg-primary p-6 text-white sm:p-8 lg:p-10">
@@ -327,65 +376,89 @@ export function MortgageCalculator({
           />
           <div className="relative mx-auto max-w-4xl">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary-foreground/65">
-              Your estimate
+              {activeCalculator === 'mortgage'
+                ? 'Mortgage estimate'
+                : 'DSR estimate'}
             </p>
             <p
               aria-live="polite"
               className="mt-3 font-heading text-4xl font-bold tracking-[-0.035em] text-white sm:text-5xl"
             >
-              {formatDsr(estimate.dsr)}
+              {activeCalculator === 'mortgage'
+                ? currencyFormatter.format(estimate.monthlyRepayment)
+                : formatDsr(estimate.dsr)}
             </p>
             <p className="mt-2 text-sm font-semibold text-accent-light">
-              {dsrStatus}
+              {activeCalculator === 'mortgage'
+                ? 'Estimated monthly instalment'
+                : dsrStatus}
             </p>
 
-            <div className="mt-7 h-2 overflow-hidden rounded-full bg-white/15">
-              <span
-                className="block h-full rounded-full bg-accent-light transition-[width] duration-300 motion-reduce:transition-none"
-                style={{
-                  width: `${Math.min(Math.max(estimate.dsr ?? 0, 0), 100)}%`,
-                }}
-              />
-            </div>
+            {activeCalculator === 'dsr' ? (
+              <div className="mt-7 h-2 overflow-hidden rounded-full bg-white/15">
+                <span
+                  className="block h-full rounded-full bg-accent-light transition-[width] duration-300 motion-reduce:transition-none"
+                  style={{
+                    width: `${Math.min(Math.max(estimate.dsr ?? 0, 0), 100)}%`,
+                  }}
+                />
+              </div>
+            ) : null}
 
             <dl className="mt-8 divide-y divide-white/15 border-y border-white/15">
-              <ResultRow
-                label="Property price"
-                value={estimate.propertyPrice}
-              />
-              <ResultRow label="Down payment" value={estimate.downPayment} />
-              <ResultRow
-                label="Estimated loan amount"
-                value={estimate.loanAmount}
-              />
-              <ResultRow
-                label="Estimated monthly instalment"
-                value={estimate.monthlyRepayment}
-                suffix=" / month"
-              />
-              <ResultRow
-                label="Estimated net monthly income"
-                value={estimate.netIncome}
-              />
-              <ResultRow
-                label="Existing monthly commitments"
-                value={estimate.existingCommitments}
-              />
-              <ResultRow
-                label="Total monthly commitments"
-                value={estimate.totalCommitments}
-              />
-              <div className="flex items-center justify-between gap-4 py-4 text-sm">
-                <dt className="text-primary-foreground/65">Estimated DSR</dt>
-                <dd className="font-heading font-bold tabular-nums text-white">
-                  {formatDsr(estimate.dsr)}
-                </dd>
-              </div>
-              <ResultRow
-                label="Estimated disposable income"
-                value={estimate.disposableIncome}
-                suffix=" / month"
-              />
+              {activeCalculator === 'mortgage' ? (
+                <>
+                  <ResultRow
+                    label="Property price"
+                    value={estimate.propertyPrice}
+                  />
+                  <ResultRow
+                    label="Down payment"
+                    value={estimate.downPayment}
+                  />
+                  <ResultRow
+                    label="Estimated loan amount"
+                    value={estimate.loanAmount}
+                  />
+                  <ResultRow
+                    label="Estimated monthly instalment"
+                    value={estimate.monthlyRepayment}
+                    suffix=" / month"
+                  />
+                </>
+              ) : (
+                <>
+                  <ResultRow
+                    label="Estimated net monthly income"
+                    value={estimate.netIncome}
+                  />
+                  <ResultRow
+                    label="Existing monthly commitments"
+                    value={estimate.existingCommitments}
+                  />
+                  <ResultRow
+                    label="New property monthly instalment"
+                    value={estimate.monthlyRepayment}
+                  />
+                  <ResultRow
+                    label="Total monthly commitments"
+                    value={estimate.totalCommitments}
+                  />
+                  <div className="flex items-center justify-between gap-4 py-4 text-sm">
+                    <dt className="text-primary-foreground/65">
+                      Estimated DSR
+                    </dt>
+                    <dd className="font-heading font-bold tabular-nums text-white">
+                      {formatDsr(estimate.dsr)}
+                    </dd>
+                  </div>
+                  <ResultRow
+                    label="Estimated disposable income"
+                    value={estimate.disposableIncome}
+                    suffix=" / month"
+                  />
+                </>
+              )}
             </dl>
 
             <p className="mt-6 text-xs leading-5 text-primary-foreground/65">
