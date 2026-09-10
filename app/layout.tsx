@@ -19,11 +19,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.domain),
   applicationName: 'Satiaya Property',
   title: {
-    default: `${siteConfig.agent.name} | Real Estate Negotiator`,
+    default:
+      'Satiaya Selvan | Property Agent Malaysia | Buy, Sell & Rent Property',
     template: `%s | ${siteConfig.agent.name}`,
   },
   description:
-    'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
+    'Professional property services for buying, selling, renting and refinancing homes across Kuala Lumpur, Selangor, Klang Valley, Negeri Sembilan and Port Dickson.',
   robots: {
     index: true,
     follow: true,
@@ -36,9 +37,12 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: `${siteConfig.agent.name} | Move forward with the right property`,
+    title:
+      'Satiaya Selvan | Property Agent Malaysia | Buy, Sell & Rent Property',
     description:
-      'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
+      'Professional property services for buying, selling, renting and refinancing homes across Kuala Lumpur, Selangor, Klang Valley, Negeri Sembilan and Port Dickson.',
+    url: '/',
+    siteName: 'Satiaya Property',
     type: 'website',
     locale: 'en_MY',
     images: [
@@ -52,9 +56,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteConfig.agent.name} | Move forward with the right property`,
+    title:
+      'Satiaya Selvan | Property Agent Malaysia | Buy, Sell & Rent Property',
     description:
-      'Personal property guidance for buying, selling and renting across Kuala Lumpur and Selangor.',
+      'Professional property services for buying, selling, renting and refinancing homes across Kuala Lumpur, Selangor, Klang Valley, Negeri Sembilan and Port Dickson.',
     images: ['/og.png'],
   },
 };

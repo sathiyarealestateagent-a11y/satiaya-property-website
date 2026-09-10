@@ -21,6 +21,7 @@ import { cache } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { getSiteContent } from '@/db/content';
 import { cn } from '@/lib/utils';
+import { siteConfig } from '@/src/config/site';
 
 import { MortgageCalculator } from './mortgage-calculator';
 import { PropertyMedia, PropertyShare } from './property-media';
@@ -49,6 +50,26 @@ function whatsappUrl(number: string, message: string) {
   return `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
 }
 
+function absoluteUrl(url: string) {
+  return new URL(url, `${siteConfig.domain}/`).toString();
+}
+
+function residenceSchemaType(propertyType: string) {
+  const normalized = propertyType.toLowerCase();
+  if (normalized.includes('condo') || normalized.includes('apartment')) {
+    return 'Apartment';
+  }
+  if (
+    normalized.includes('house') ||
+    normalized.includes('terrace') ||
+    normalized.includes('bungalow') ||
+    normalized.includes('semi')
+  ) {
+    return 'SingleFamilyResidence';
+  }
+  return 'Residence';
+}
+
 export async function generateMetadata({
   params,
 }: PropertyPageProps): Promise<Metadata> {
@@ -62,30 +83,36 @@ export async function generateMetadata({
   }
 
   const { property } = data;
-  const description = `${property.propertyType} for ${property.type} in ${property.location}. ${property.bedrooms} bedrooms, ${property.bathrooms} bathrooms and ${property.size.toLocaleString('en-MY')} sq ft.`;
+  const description = `${property.propertyType}, ${property.bedrooms} bedrooms, ${property.bathrooms} bathrooms, located in ${property.location}. View property details and contact Satiaya Selvan for viewing.`;
+  const title = `${property.title} | ${property.location} | Satiaya Property`;
+  const image = absoluteUrl(property.images[0] || property.image || '/og.png');
 
   return {
-    title: `${property.title} | Satiaya Property`,
+    title: { absolute: title },
     description,
+    robots: { index: true, follow: true },
     alternates: {
       canonical: `/properties/${property.id}`,
     },
     openGraph: {
-      title: property.title,
+      title,
       description,
       url: `/properties/${property.id}`,
+      type: 'website',
+      locale: 'en_MY',
+      siteName: 'Satiaya Property',
       images: [
         {
-          url: property.images[0] ?? property.image,
+          url: image,
           alt: property.title,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: property.title,
+      title,
       description,
-      images: [property.images[0] ?? property.image],
+      images: [image],
     },
   };
 }
@@ -113,6 +140,53 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   const similarProperties = content.properties
     .filter((item) => item.id !== property.id && item.type === property.type)
     .slice(0, 3);
+  const propertyUrl = `${siteConfig.domain}/properties/${property.id}`;
+  const propertyImages = images.map(absoluteUrl);
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Offer',
+    '@id': `${propertyUrl}#offer`,
+    url: propertyUrl,
+    price: property.price,
+    priceCurrency: 'MYR',
+    availability: 'https://schema.org/InStock',
+    seller: {
+      '@type': 'RealEstateAgent',
+      '@id': `${siteConfig.domain}/#real-estate-agent`,
+      name: content.agent.name,
+      telephone: content.contact.phone,
+      email: content.contact.email,
+    },
+    itemOffered: {
+      '@type': residenceSchemaType(property.propertyType),
+      name: property.title,
+      description:
+        property.description ||
+        `${property.propertyType} in ${property.location} with ${property.bedrooms} bedrooms and ${property.bathrooms} bathrooms.`,
+      image: propertyImages,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: property.address || property.location,
+        addressCountry: 'MY',
+      },
+      ...(property.latitude !== null && property.longitude !== null
+        ? {
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: property.latitude,
+              longitude: property.longitude,
+            },
+          }
+        : {}),
+      floorSize: {
+        '@type': 'QuantitativeValue',
+        value: property.size,
+        unitCode: 'FTK',
+      },
+      numberOfBedrooms: property.bedrooms,
+      numberOfBathroomsTotal: property.bathrooms,
+    },
+  };
 
   const facts = [
     { label: 'Bedrooms', value: property.bedrooms, icon: BedDouble },
@@ -132,6 +206,12 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+        }}
+      />
       <header className="sticky top-0 z-50 border-b border-border/80 bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8">
           <Link

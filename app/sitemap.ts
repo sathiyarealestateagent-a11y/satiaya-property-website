@@ -5,13 +5,17 @@ import { siteConfig } from '@/src/config/site';
 
 export const dynamic = 'force-dynamic';
 
+function absoluteUrl(url: string, baseUrl: string) {
+  return new URL(url, `${baseUrl}/`).toString();
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const content = await getSiteContent();
   const baseUrl = siteConfig.domain;
 
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/`,
       changeFrequency: 'weekly',
       priority: 1,
     },
@@ -20,9 +24,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.8,
       images: property.images.length
-        ? property.images
+        ? property.images.map((image) => absoluteUrl(image, baseUrl))
         : property.image
-          ? [property.image]
+          ? [absoluteUrl(property.image, baseUrl)]
           : undefined,
     })),
     {

@@ -4,7 +4,7 @@
  * imagery and key marketing copy used throughout the website.
  */
 export const siteConfig = {
-  domain: 'https://www.satiayaproperty.com.my',
+  domain: 'https://satiayaproperty.com.my',
   navigation: [
     { label: 'Properties', href: '#properties' },
     { label: 'Sell / Rent', href: '#owners' },
