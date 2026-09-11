@@ -5,6 +5,9 @@
  */
 export const siteConfig = {
   domain: 'https://satiayaproperty.com.my',
+  analytics: {
+    googleMeasurementId: 'G-PRRQSRMEHZ',
+  },
   navigation: [
     { label: 'Properties', href: '#properties' },
     { label: 'Sell / Rent', href: '#owners' },

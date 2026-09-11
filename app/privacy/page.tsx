@@ -27,6 +27,12 @@ export default function PrivacyPage() {
           ],
         },
         {
+          title: 'Website analytics',
+          paragraphs: [
+            'This website uses Google Analytics to understand visits and interactions, such as page views and how visitors reach and use the site. Google may use cookies or similar identifiers to process this information. Learn more at https://policies.google.com/technologies/partner-sites.',
+          ],
+        },
+        {
           title: 'Sharing and retention',
           paragraphs: [
             'Personal information is not sold. It may be shared with relevant property owners, agencies, professional advisers or service providers only when reasonably necessary to handle your enquiry or comply with Malaysian law.',

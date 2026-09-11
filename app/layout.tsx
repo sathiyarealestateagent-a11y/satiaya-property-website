@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Manrope } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { siteConfig } from '@/src/config/site';
 
@@ -72,6 +73,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${manrope.variable} antialiased`}>
         {children}
       </body>
+      <GoogleAnalytics gaId={siteConfig.analytics.googleMeasurementId} />
     </html>
   );
 }
