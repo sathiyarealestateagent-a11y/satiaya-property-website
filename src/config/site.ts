@@ -51,6 +51,13 @@ export const siteConfig = {
       title: 'Rumah Selangorku',
       introduction:
         'Explore published Rumah Selangorku projects, review the available property information and contact Satiaya for guidance.',
+      panelEyebrow: 'Selangor housing',
+      panelTitle: 'Project information, made easier to review.',
+      panelItems: [
+        'Available projects',
+        'Eligibility guidance',
+        'Direct enquiry with Satiaya',
+      ],
       projectsTitle: 'Available projects',
       projectsDescription:
         'Only Rumah Selangorku projects identified in the current property database are shown here.',
@@ -72,7 +79,7 @@ export const siteConfig = {
       active: showRumahSelangorkuPopup,
       delayMs: 2500,
       dismissalHours: 24,
-      image: '',
+      image: '/selangorku-logo.png',
       imageAlt: 'Rumah Selangorku affordable homes in Selangor',
       title: 'Rumah Selangorku',
       headline: 'Affordable Homes in Selangor',

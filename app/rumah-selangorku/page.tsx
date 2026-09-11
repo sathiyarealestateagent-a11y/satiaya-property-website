@@ -69,8 +69,8 @@ export default async function RumahSelangorkuPage() {
   }));
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-50 border-b border-border/80 bg-white/95 backdrop-blur-xl">
+    <main className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <header className="sticky top-0 z-50 border-b border-[#E7E0D5] bg-white/95 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
           <Link
             href="/"
@@ -108,14 +108,33 @@ export default async function RumahSelangorkuPage() {
               <Link
                 key={`${item.label}-${item.href}`}
                 href={item.href}
+                aria-label={
+                  item.href === siteConfig.rumahSelangorku.route
+                    ? 'Rumah Selangorku'
+                    : undefined
+                }
                 aria-current={
                   item.href === siteConfig.rumahSelangorku.route
                     ? 'page'
                     : undefined
                 }
-                className="text-sm font-semibold text-primary transition-colors hover:text-secondary aria-[current=page]:text-secondary"
+                className={
+                  item.href === siteConfig.rumahSelangorku.route
+                    ? 'inline-flex h-10 items-center rounded-lg bg-[#FFF4E5] px-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B40000]'
+                    : 'text-sm font-semibold text-[#363636] transition-colors hover:text-[#B40000]'
+                }
               >
-                {item.label}
+                {item.href === siteConfig.rumahSelangorku.route ? (
+                  <Image
+                    src="/selangorku-logo.png"
+                    alt=""
+                    width={112}
+                    height={22}
+                    className="h-[22px] w-auto"
+                  />
+                ) : (
+                  item.label
+                )}
               </Link>
             ))}
           </nav>
@@ -127,33 +146,48 @@ export default async function RumahSelangorkuPage() {
               rel="noreferrer"
               className={cn(
                 buttonVariants({ size: 'lg' }),
-                'hidden h-11 bg-secondary text-white hover:bg-primary sm:inline-flex',
+                'hidden h-11 border-[#B40000] bg-[#B40000] text-white hover:border-[#8E0000] hover:bg-[#8E0000] sm:inline-flex',
               )}
             >
               Enquire
               <ArrowRight aria-hidden="true" />
             </a>
             <details className="group relative xl:hidden">
-              <summary className="grid size-11 cursor-pointer list-none place-items-center rounded-xl border border-border bg-white text-primary transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary [&::-webkit-details-marker]:hidden">
+              <summary className="grid size-11 cursor-pointer list-none place-items-center rounded-xl border border-[#E7E0D5] bg-white text-[#B40000] transition-colors hover:bg-[#FFF4E5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B40000] [&::-webkit-details-marker]:hidden">
                 <Menu className="size-5" aria-hidden="true" />
                 <span className="sr-only">Open navigation menu</span>
               </summary>
               <nav
                 aria-label="Mobile navigation"
-                className="absolute right-0 top-14 z-[var(--z-dropdown)] grid min-w-64 gap-1 rounded-2xl border border-border bg-white p-3 shadow-[0_18px_50px_rgba(23,63,74,.16)]"
+                className="absolute right-0 top-14 z-[var(--z-dropdown)] grid min-w-64 gap-1 rounded-2xl border border-[#E7E0D5] bg-white p-3 shadow-[0_18px_50px_rgba(74,26,18,.16)]"
               >
                 {navigation.map((item) => (
                   <Link
                     key={`${item.label}-${item.href}`}
                     href={item.href}
+                    aria-label={
+                      item.href === siteConfig.rumahSelangorku.route
+                        ? 'Rumah Selangorku'
+                        : undefined
+                    }
                     aria-current={
                       item.href === siteConfig.rumahSelangorku.route
                         ? 'page'
                         : undefined
                     }
-                    className="rounded-xl px-4 py-3 text-sm font-semibold text-primary transition-colors hover:bg-muted hover:text-secondary aria-[current=page]:bg-muted aria-[current=page]:text-secondary"
+                    className="flex min-h-12 items-center rounded-xl px-4 py-3 text-sm font-semibold text-[#363636] transition-colors hover:bg-[#FFF4E5] hover:text-[#B40000] aria-[current=page]:bg-[#FFF4E5]"
                   >
-                    {item.label}
+                    {item.href === siteConfig.rumahSelangorku.route ? (
+                      <Image
+                        src="/selangorku-logo.png"
+                        alt=""
+                        width={126}
+                        height={25}
+                        className="h-6 w-auto"
+                      />
+                    ) : (
+                      item.label
+                    )}
                   </Link>
                 ))}
               </nav>
@@ -162,36 +196,44 @@ export default async function RumahSelangorkuPage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-primary px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+      <section className="relative overflow-hidden bg-[#F4F1EC] px-5 py-8 text-[#2A2825] sm:px-8 sm:py-12 lg:px-10 lg:py-16">
         <div
+          className="absolute inset-x-0 bottom-0 h-2 bg-[#B40000]"
           aria-hidden="true"
-          className="absolute -right-32 -top-48 size-[34rem] rounded-full border border-[#77D9D4]/15"
         />
-        <div
-          aria-hidden="true"
-          className="absolute -right-10 -top-16 size-80 rounded-full border border-[#2DB8B5]/25"
-        />
-        <div className="relative mx-auto max-w-7xl">
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-sm text-white/60"
-          >
-            <Link href="/" className="transition-colors hover:text-white">
-              Home
-            </Link>
-            <span aria-hidden="true">/</span>
-            <span aria-current="page" className="text-white/90">
-              Rumah Selangorku
-            </span>
-          </nav>
-          <div className="mt-12 max-w-4xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#77D9D4]">
+        <div className="relative mx-auto grid max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#E2D8C8] bg-white shadow-[0_24px_70px_rgba(92,40,24,.12)] lg:grid-cols-[1.16fr_0.84fr]">
+          <div className="min-w-0 px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+            <nav
+              aria-label="Breadcrumb"
+              className="flex items-center gap-2 text-sm text-[#746D65]"
+            >
+              <Link href="/" className="transition-colors hover:text-[#B40000]">
+                Home
+              </Link>
+              <span aria-hidden="true">/</span>
+              <span
+                aria-current="page"
+                className="font-semibold text-[#403B35]"
+              >
+                Rumah Selangorku
+              </span>
+            </nav>
+
+            <Image
+              src="/selangorku-logo.png"
+              alt="Selangorku"
+              width={228}
+              height={45}
+              priority
+              className="mt-10 h-auto w-[190px] sm:w-[228px]"
+            />
+            <p className="mt-8 text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
               {pageConfig.eyebrow}
             </p>
-            <h1 className="mt-4 font-heading text-5xl font-bold leading-[1.02] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-3 max-w-3xl font-heading text-4xl font-bold leading-[1.02] tracking-[-0.05em] text-[#27231F] sm:text-6xl lg:text-7xl">
               {pageConfig.title}
             </h1>
-            <p className="mt-6 max-w-2xl border-l border-[#2DB8B5] pl-5 text-base leading-8 text-white/72 sm:text-lg">
+            <p className="mt-6 max-w-2xl border-l-2 border-[#E4B900] pl-5 text-base leading-8 text-[#625B54] sm:text-lg">
               {pageConfig.introduction}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -199,7 +241,7 @@ export default async function RumahSelangorkuPage() {
                 href="#available-projects"
                 className={cn(
                   buttonVariants({ size: 'lg' }),
-                  'h-12 bg-secondary px-6 text-white hover:bg-[#2DB8B5] hover:text-primary',
+                  'h-12 border-[#E4B900] bg-[#F4CA18] px-6 text-[#2A2415] shadow-[0_8px_22px_rgba(180,116,0,.18)] hover:border-[#B40000] hover:bg-[#B40000] hover:text-white',
                 )}
               >
                 View available projects
@@ -211,7 +253,7 @@ export default async function RumahSelangorkuPage() {
                 rel="noreferrer"
                 className={cn(
                   buttonVariants({ variant: 'outline', size: 'lg' }),
-                  'h-12 border-white/25 bg-white/5 px-6 text-white hover:bg-white hover:text-primary',
+                  'h-12 border-[#CFC4B5] bg-white px-6 text-[#5D1A13] hover:border-[#B40000] hover:bg-[#FFF4E5] hover:text-[#B40000]',
                 )}
               >
                 <MessageCircle aria-hidden="true" />
@@ -219,6 +261,40 @@ export default async function RumahSelangorkuPage() {
               </a>
             </div>
           </div>
+
+          <aside className="relative flex min-h-[26rem] min-w-0 flex-col justify-between overflow-hidden bg-[#B40000] px-7 py-10 text-white sm:px-10 sm:py-12 lg:min-h-full lg:px-12 lg:py-16">
+            <div
+              className="absolute -right-24 -top-24 size-72 rounded-full border border-white/15"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute -bottom-20 -left-20 size-64 rounded-full border border-[#F4CA18]/35"
+              aria-hidden="true"
+            />
+            <div className="relative">
+              <span
+                className="block h-1 w-16 bg-[#F4CA18]"
+                aria-hidden="true"
+              />
+              <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-[#F8D94E]">
+                {pageConfig.panelEyebrow}
+              </p>
+              <h2 className="mt-4 max-w-md font-heading text-4xl font-bold leading-[1.08] tracking-[-0.035em] sm:text-5xl">
+                {pageConfig.panelTitle}
+              </h2>
+            </div>
+            <ul className="relative mt-10 grid gap-4 border-t border-white/20 pt-7 text-sm font-semibold text-white/90">
+              {pageConfig.panelItems.map((item) => (
+                <li key={item} className="flex items-center gap-3">
+                  <CheckCircle2
+                    className="size-5 text-[#F4CA18]"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </aside>
         </div>
       </section>
 
@@ -228,10 +304,10 @@ export default async function RumahSelangorkuPage() {
       >
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
               Current information
             </p>
-            <h2 className="mt-3 font-heading text-4xl font-bold tracking-[-0.04em] text-primary sm:text-5xl">
+            <h2 className="mt-3 font-heading text-4xl font-bold tracking-[-0.04em] text-[#27231F] sm:text-5xl">
               {pageConfig.projectsTitle}
             </h2>
             <p className="mt-4 leading-7 text-muted-foreground">
@@ -246,7 +322,7 @@ export default async function RumahSelangorkuPage() {
                 return (
                   <article
                     key={project.id}
-                    className="group overflow-hidden rounded-[1.5rem] border border-border bg-white shadow-[0_12px_36px_rgba(23,63,74,.07)]"
+                    className="group overflow-hidden rounded-[1.5rem] border border-[#E7DED1] bg-white shadow-[0_12px_36px_rgba(92,40,24,.07)]"
                   >
                     <Link
                       href={`/properties/${project.id}`}
@@ -272,15 +348,15 @@ export default async function RumahSelangorkuPage() {
                     <div className="p-6">
                       <p className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin
-                          className="size-4 text-secondary"
+                          className="size-4 text-[#B40000]"
                           aria-hidden="true"
                         />
                         {project.location}
                       </p>
-                      <h3 className="mt-3 font-heading text-2xl font-bold leading-tight tracking-[-0.025em] text-primary">
+                      <h3 className="mt-3 font-heading text-2xl font-bold leading-tight tracking-[-0.025em] text-[#27231F]">
                         <Link
                           href={`/properties/${project.id}`}
-                          className="transition-colors hover:text-secondary"
+                          className="transition-colors hover:text-[#B40000]"
                         >
                           {project.title}
                         </Link>
@@ -289,48 +365,48 @@ export default async function RumahSelangorkuPage() {
                         <div>
                           <dt className="flex items-center gap-2 text-muted-foreground">
                             <Building2
-                              className="size-4 text-secondary"
+                              className="size-4 text-[#B40000]"
                               aria-hidden="true"
                             />
                             Property type
                           </dt>
-                          <dd className="mt-1 font-semibold text-primary">
+                          <dd className="mt-1 font-semibold text-[#27231F]">
                             {project.propertyType}
                           </dd>
                         </div>
                         <div>
                           <dt className="flex items-center gap-2 text-muted-foreground">
                             <Maximize2
-                              className="size-4 text-secondary"
+                              className="size-4 text-[#B40000]"
                               aria-hidden="true"
                             />
                             Built-up size
                           </dt>
-                          <dd className="mt-1 font-semibold text-primary">
+                          <dd className="mt-1 font-semibold text-[#27231F]">
                             {project.size.toLocaleString('en-MY')} sq ft
                           </dd>
                         </div>
                         <div>
                           <dt className="flex items-center gap-2 text-muted-foreground">
                             <WalletCards
-                              className="size-4 text-secondary"
+                              className="size-4 text-[#B40000]"
                               aria-hidden="true"
                             />
                             Price
                           </dt>
-                          <dd className="mt-1 font-semibold text-primary">
+                          <dd className="mt-1 font-semibold text-[#27231F]">
                             {formatPrice(project)}
                           </dd>
                         </div>
                         <div>
                           <dt className="flex items-center gap-2 text-muted-foreground">
                             <Clock3
-                              className="size-4 text-secondary"
+                              className="size-4 text-[#B40000]"
                               aria-hidden="true"
                             />
                             Project status
                           </dt>
-                          <dd className="mt-1 font-semibold text-primary">
+                          <dd className="mt-1 font-semibold text-[#27231F]">
                             Not provided
                           </dd>
                         </div>
@@ -339,7 +415,7 @@ export default async function RumahSelangorkuPage() {
                         href={`/properties/${project.id}`}
                         className={cn(
                           buttonVariants({ variant: 'outline', size: 'lg' }),
-                          'mt-6 w-full border-primary/20 text-primary hover:bg-muted',
+                          'mt-6 w-full border-[#B40000]/25 text-[#B40000] hover:border-[#B40000] hover:bg-[#FFF4E5]',
                         )}
                       >
                         View project details
@@ -351,11 +427,11 @@ export default async function RumahSelangorkuPage() {
               })}
             </div>
           ) : (
-            <div className="mt-10 rounded-[1.75rem] border border-dashed border-[#8EAFB2] bg-background px-6 py-12 text-center sm:px-10 sm:py-16">
-              <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-muted text-secondary">
+            <div className="mt-10 rounded-[1.75rem] border border-dashed border-[#D3A59B] bg-[#FFF9F3] px-6 py-12 text-center sm:px-10 sm:py-16">
+              <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#FCE7C1] text-[#B40000]">
                 <House className="size-6" aria-hidden="true" />
               </span>
-              <h3 className="mt-5 font-heading text-2xl font-bold text-primary">
+              <h3 className="mt-5 font-heading text-2xl font-bold text-[#27231F]">
                 {pageConfig.emptyTitle}
               </h3>
               <p className="mx-auto mt-3 max-w-xl leading-7 text-muted-foreground">
@@ -367,7 +443,7 @@ export default async function RumahSelangorkuPage() {
                 rel="noreferrer"
                 className={cn(
                   buttonVariants({ size: 'lg' }),
-                  'mt-7 bg-secondary text-white hover:bg-primary',
+                  'mt-7 border-[#B40000] bg-[#B40000] text-white hover:border-[#8E0000] hover:bg-[#8E0000]',
                 )}
               >
                 <MessageCircle aria-hidden="true" />
@@ -378,23 +454,23 @@ export default async function RumahSelangorkuPage() {
         </div>
       </section>
 
-      <section className="border-y border-border bg-background px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
+      <section className="border-y border-[#E7DED1] bg-[#F4F1EC] px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
               Before you apply
             </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.035em] text-primary sm:text-4xl">
+            <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.035em] text-[#27231F] sm:text-4xl">
               {pageConfig.eligibilityTitle}
             </h2>
           </div>
-          <div className="rounded-[1.5rem] border border-border bg-white p-6 sm:p-8">
+          <div className="rounded-[1.5rem] border border-[#E7DED1] bg-white p-6 shadow-[0_12px_36px_rgba(92,40,24,.06)] sm:p-8">
             <div className="flex items-start gap-4">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-muted text-secondary">
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#FCE7C1] text-[#B40000]">
                 <CheckCircle2 className="size-5" aria-hidden="true" />
               </span>
               <div>
-                <h3 className="font-heading text-lg font-bold text-primary">
+                <h3 className="font-heading text-lg font-bold text-[#27231F]">
                   Verified information only
                 </h3>
                 <p className="mt-2 leading-7 text-muted-foreground">
@@ -407,9 +483,9 @@ export default async function RumahSelangorkuPage() {
       </section>
 
       <section className="bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-primary px-6 py-10 text-white shadow-[0_22px_70px_rgba(23,63,74,.18)] sm:px-10 sm:py-12 lg:flex lg:items-center lg:justify-between lg:gap-10">
+        <div className="mx-auto max-w-7xl rounded-[2rem] bg-[#B40000] px-6 py-10 text-white shadow-[0_22px_70px_rgba(92,40,24,.18)] sm:px-10 sm:py-12 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#77D9D4]">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#F8D94E]">
               Direct guidance
             </p>
             <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.035em] sm:text-4xl">
@@ -424,7 +500,7 @@ export default async function RumahSelangorkuPage() {
               href="/#contact"
               className={cn(
                 buttonVariants({ variant: 'outline', size: 'lg' }),
-                'h-12 border-white/25 bg-white text-primary hover:bg-muted',
+                'h-12 border-white/25 bg-white text-[#6F0900] hover:border-[#F4CA18] hover:bg-[#FFF4E5]',
               )}
             >
               {pageConfig.contactButton}
@@ -436,7 +512,7 @@ export default async function RumahSelangorkuPage() {
               rel="noreferrer"
               className={cn(
                 buttonVariants({ size: 'lg' }),
-                'h-12 bg-secondary text-white hover:bg-[#2DB8B5] hover:text-primary',
+                'h-12 border-[#E4B900] bg-[#F4CA18] text-[#2A2415] hover:border-white hover:bg-white hover:text-[#6F0900]',
               )}
             >
               <MessageCircle aria-hidden="true" />
@@ -446,12 +522,12 @@ export default async function RumahSelangorkuPage() {
         </div>
       </section>
 
-      <footer className="bg-primary px-5 pb-8 pt-12 text-white sm:px-8 lg:px-10">
+      <footer className="bg-[#292321] px-5 pb-8 pt-12 text-white sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-8 border-b border-white/10 pb-10 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link href="/" className="inline-flex items-center gap-3">
-                <span className="grid size-11 place-items-center rounded-xl bg-secondary font-heading text-sm font-bold text-white">
+                <span className="grid size-11 place-items-center rounded-xl bg-[#B40000] font-heading text-sm font-bold text-white">
                   {content.logo.mark}
                 </span>
                 <span>

@@ -129,6 +129,8 @@ Inputs use white or `#F5F8F9`, blue-grey borders, main-text labels and supportin
 
 Public promotional dialogs reuse the white-card, deep-teal and turquoise system. Global overlay levels are owned by the `--z-*` tokens in `app/globals.css`; dialogs use restrained fade/scale motion, safe-area-aware bounds and no decorative effects outside the established palette.
 
+The Rumah Selangorku route is a documented contextual brand exception. Its supplied Selangorku mark, official-reference red (`#B40000`) and restrained yellow (`#F4CA18`) may appear only in the `/rumah-selangorku` page, its navigation mark and its promotional dialog. The rest of the website keeps Satiaya's teal system. Warm white and charcoal surfaces prevent the contextual palette from becoming visually noisy, and no unverified government or project claims are added.
+
 ### Visual content editor
 
 The dashboard opens with a three-pane visual editor: searchable page layers, an exact same-origin website preview, and a focused inspector. A compact white toolbar owns viewport switching, undo/redo, preview and publishing. Editable elements receive turquoise selection outlines only inside editor mode; these affordances never appear on the public website. Detailed section forms remain available as the canonical fallback for every field and advanced listing control.

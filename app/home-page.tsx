@@ -511,9 +511,26 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <a
                 key={href}
                 href={href}
-                className="nav-link text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-secondary"
+                aria-label={
+                  href === '/rumah-selangorku' ? 'Rumah Selangorku' : undefined
+                }
+                className={
+                  href === '/rumah-selangorku'
+                    ? 'inline-flex h-10 items-center rounded-lg px-2 transition-colors duration-150 ease-in-out hover:bg-[#FFF4E5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B40000]'
+                    : 'nav-link text-sm font-semibold text-primary transition-colors duration-150 ease-in-out hover:text-secondary'
+                }
               >
-                {label}
+                {href === '/rumah-selangorku' ? (
+                  <Image
+                    src="/selangorku-logo.png"
+                    alt=""
+                    width={112}
+                    height={22}
+                    className="h-[22px] w-auto"
+                  />
+                ) : (
+                  label
+                )}
               </a>
             ))}
           </nav>
@@ -569,9 +586,24 @@ export default function HomePage({ content }: { content: SiteContent }) {
                   key={href}
                   href={href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 font-semibold text-primary transition-colors duration-150 ease-in-out hover:bg-[#EAF2F3] hover:text-[#2DB8B5]"
+                  aria-label={
+                    href === '/rumah-selangorku'
+                      ? 'Rumah Selangorku'
+                      : undefined
+                  }
+                  className="flex min-h-12 items-center rounded-xl px-4 py-3 font-semibold text-primary transition-colors duration-150 ease-in-out hover:bg-[#EAF2F3] hover:text-[#2DB8B5]"
                 >
-                  {label}
+                  {href === '/rumah-selangorku' ? (
+                    <Image
+                      src="/selangorku-logo.png"
+                      alt=""
+                      width={126}
+                      height={25}
+                      className="h-6 w-auto"
+                    />
+                  ) : (
+                    label
+                  )}
                 </a>
               ))}
             </div>
