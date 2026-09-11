@@ -3,6 +3,8 @@
  * Update this one file to change the agent identity, contact details,
  * imagery and key marketing copy used throughout the website.
  */
+export const showRumahSelangorkuPopup = true;
+
 export const siteConfig = {
   domain: 'https://satiayaproperty.com.my',
   analytics: {
@@ -10,6 +12,7 @@ export const siteConfig = {
   },
   navigation: [
     { label: 'Properties', href: '#properties' },
+    { label: 'Rumah Selangorku', href: '/rumah-selangorku' },
     { label: 'Sell / Rent', href: '#owners' },
     { label: 'Services', href: '#services' },
     { label: 'About', href: '#about' },
@@ -39,6 +42,46 @@ export const siteConfig = {
     number: '60122560706', // Digits only, including Malaysia country code.
     defaultMessage:
       'Hi Satiaya, I found your website and would like to enquire about a property.',
+  },
+  rumahSelangorku: {
+    route: '/rumah-selangorku',
+    navigationLabel: 'Rumah Selangorku',
+    page: {
+      eyebrow: 'Affordable homes in Selangor',
+      title: 'Rumah Selangorku',
+      introduction:
+        'Explore published Rumah Selangorku projects, review the available property information and contact Satiaya for guidance.',
+      projectsTitle: 'Available projects',
+      projectsDescription:
+        'Only Rumah Selangorku projects identified in the current property database are shown here.',
+      emptyTitle: 'No projects published yet',
+      emptyDescription:
+        'Rumah Selangorku project information will appear here after verified details are added.',
+      eligibilityTitle: 'Eligibility and basic requirements',
+      eligibilityDescription:
+        'Official eligibility requirements will be shown here when verified project information is provided.',
+      contactTitle: 'Interested in Rumah Selangorku?',
+      contactDescription:
+        'Contact Satiaya for current project information, eligibility guidance and viewing enquiries.',
+      contactButton: 'Contact Satiaya',
+      whatsappButton: 'Enquire on WhatsApp',
+      enquiryMessage:
+        'Hi Satiaya, I would like to enquire about Rumah Selangorku projects and eligibility.',
+    },
+    popup: {
+      active: showRumahSelangorkuPopup,
+      delayMs: 2500,
+      dismissalHours: 24,
+      image: '',
+      imageAlt: 'Rumah Selangorku affordable homes in Selangor',
+      title: 'Rumah Selangorku',
+      headline: 'Affordable Homes in Selangor',
+      description:
+        'Discover Rumah Selangorku projects, eligibility information and available units.',
+      primaryButton: 'View Rumah Selangorku',
+      primaryLink: '/rumah-selangorku',
+      secondaryButton: 'Enquire Now',
+    },
   },
   hero: {
     eyebrow: 'Kuala Lumpur & Selangor',

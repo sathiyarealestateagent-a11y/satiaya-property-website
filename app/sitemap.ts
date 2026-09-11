@@ -19,6 +19,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 1,
     },
+    {
+      url: `${baseUrl}${siteConfig.rumahSelangorku.route}`,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
     ...content.properties.map((property) => ({
       url: `${baseUrl}/properties/${property.id}`,
       changeFrequency: 'weekly' as const,

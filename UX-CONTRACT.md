@@ -56,6 +56,14 @@
 - WhatsApp, phone and email are explicit enquiry actions on the detail page; catalogue navigation never opens WhatsApp directly.
 - An unknown or removed property ID presents a recoverable not-found state with a route back to the current listings.
 
+## Public promotion behavior
+
+- The homepage may show the configured Rumah Selangorku promotion after a short delay when the feature flag is enabled.
+- Dismissal is remembered locally for 24 hours. If browser storage is unavailable, dismissal still works for the current page load.
+- The modal traps focus, closes with Escape, restores previous focus, prevents background interaction and respects reduced-motion preferences.
+- Visual-editor previews never show the promotion.
+- The dedicated Rumah Selangorku route only displays projects whose existing stored content identifies them as Rumah Selangorku. Missing eligibility or project-status details are stated as unavailable rather than inferred.
+
 ## Flow ledger
 
 | Operation               | Trigger                   | Pending                        | Success destination | Success feedback           | Failure recovery             | Focus outcome               |

@@ -127,6 +127,8 @@ Public navigation sits on white with deep-teal text and restrained turquoise hov
 
 Inputs use white or `#F5F8F9`, blue-grey borders, main-text labels and supporting-teal focus treatment. Validation remains textual and field-associated. Existing native selects, authenticated flows, uploads and save feedback retain their current behavior and layout.
 
+Public promotional dialogs reuse the white-card, deep-teal and turquoise system. Global overlay levels are owned by the `--z-*` tokens in `app/globals.css`; dialogs use restrained fade/scale motion, safe-area-aware bounds and no decorative effects outside the established palette.
+
 ### Visual content editor
 
 The dashboard opens with a three-pane visual editor: searchable page layers, an exact same-origin website preview, and a focused inspector. A compact white toolbar owns viewport switching, undo/redo, preview and publishing. Editable elements receive turquoise selection outlines only inside editor mode; these affordances never appear on the public website. Detailed section forms remain available as the canonical fallback for every field and advanced listing control.

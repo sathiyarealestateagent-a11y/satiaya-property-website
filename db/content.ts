@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 import { createClient } from '@/lib/supabase/server';
+import { siteConfig } from '@/src/config/site';
 import { defaultContent } from '@/src/content/default-content';
 import {
   propertySchema,
@@ -12,6 +13,25 @@ import {
 
 const CONTENT_ID = 'main';
 const REMOVED_INTEREST_OPTIONS = new Set(['Renting a property']);
+
+function withRumahSelangorkuNavigation(
+  navigation: SiteContent['navigation'],
+): SiteContent['navigation'] {
+  const item = {
+    label: siteConfig.rumahSelangorku.navigationLabel,
+    href: siteConfig.rumahSelangorku.route,
+  };
+  if (navigation.some((entry) => entry.href === item.href)) return navigation;
+
+  const nextNavigation = [...navigation];
+  const propertiesIndex = nextNavigation.findIndex(
+    (entry) => entry.href === '#properties',
+  );
+  const insertionIndex =
+    propertiesIndex >= 0 ? propertiesIndex + 1 : nextNavigation.length;
+  nextNavigation.splice(insertionIndex, 0, item);
+  return nextNavigation.slice(0, 10);
+}
 
 type PropertyRow = {
   id: number;
@@ -113,6 +133,7 @@ export async function getSiteContent(): Promise<SiteContent> {
 
     return siteContentSchema.parse({
       ...settings.data,
+      navigation: withRumahSelangorkuNavigation(settings.data.navigation),
       contactSection: {
         ...settings.data.contactSection,
         interestOptions: settings.data.contactSection.interestOptions.filter(
