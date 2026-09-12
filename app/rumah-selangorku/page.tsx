@@ -454,34 +454,6 @@ export default async function RumahSelangorkuPage() {
         </div>
       </section>
 
-      <section className="border-y border-[#E7DED1] bg-[#F4F1EC] px-5 py-16 sm:px-8 sm:py-20 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
-              Before you apply
-            </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.035em] text-[#27231F] sm:text-4xl">
-              {pageConfig.eligibilityTitle}
-            </h2>
-          </div>
-          <div className="rounded-[1.5rem] border border-[#E7DED1] bg-white p-6 shadow-[0_12px_36px_rgba(92,40,24,.06)] sm:p-8">
-            <div className="flex items-start gap-4">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#FCE7C1] text-[#B40000]">
-                <CheckCircle2 className="size-5" aria-hidden="true" />
-              </span>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-[#27231F]">
-                  Verified information only
-                </h3>
-                <p className="mt-2 leading-7 text-muted-foreground">
-                  {pageConfig.eligibilityDescription}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
         <div className="mx-auto max-w-7xl rounded-[2rem] bg-[#B40000] px-6 py-10 text-white shadow-[0_22px_70px_rgba(92,40,24,.18)] sm:px-10 sm:py-12 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div className="max-w-2xl">
