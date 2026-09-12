@@ -272,14 +272,7 @@ export default async function RumahSelangorkuPage() {
               aria-hidden="true"
             />
             <div className="relative">
-              <span
-                className="block h-1 w-16 bg-[#F4CA18]"
-                aria-hidden="true"
-              />
-              <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-[#F8D94E]">
-                {pageConfig.panelEyebrow}
-              </p>
-              <h2 className="mt-4 max-w-md font-heading text-4xl font-bold leading-[1.08] tracking-[-0.035em] sm:text-5xl">
+              <h2 className="max-w-md font-heading text-4xl font-bold leading-[1.08] tracking-[-0.035em] sm:text-5xl">
                 {pageConfig.panelTitle}
               </h2>
             </div>
