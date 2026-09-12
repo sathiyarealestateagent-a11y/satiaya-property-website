@@ -167,6 +167,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const siteConfig = previewContent;
   const properties = previewContent.properties;
   const hiddenSections = new Set(siteConfig.pageLayout.hidden);
+  hiddenSections.add('services');
   const sectionOrder = (section: PageSectionId) =>
     siteConfig.pageLayout.order.indexOf(section);
   const hiddenElementStyles = siteConfig.pageLayout.hiddenElements
@@ -1008,12 +1009,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="owners"
         data-editor-node="owners.section"
         style={{ order: sectionOrder('owners') }}
-        className={`${hiddenSections.has('owners') ? 'hidden' : ''} scroll-mt-20 bg-primary px-5 py-20 text-white sm:px-8 lg:px-10 lg:py-28`}
+        className={`${hiddenSections.has('owners') ? 'hidden' : ''} scroll-mt-20 bg-primary px-5 py-12 text-white sm:px-8 sm:py-14 lg:px-10 lg:py-16`}
       >
-        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr]">
+        <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-12">
           <div
             data-editor-node="owners.image"
-            className="relative mx-auto w-full max-w-xl"
+            className="relative mx-auto w-full max-w-lg"
           >
             <div
               data-editor-path="ownerSection.image"
@@ -1024,12 +1025,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 alt={siteConfig.ownerSection.imageAlt}
                 width={1000}
                 height={920}
-                className="h-[460px] w-full object-cover"
+                className="h-[320px] w-full object-cover sm:h-[350px]"
               />
             </div>
           </div>
 
-          <div>
+          <div className="max-w-xl">
             <p
               data-editor-path="ownerSection.kicker"
               className="section-kicker !text-brand-cyan-light"
@@ -1038,17 +1039,17 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </p>
             <h2
               data-editor-path="ownerSection.title"
-              className="mt-4 max-w-xl font-heading text-[2.35rem] font-semibold leading-[1.06] tracking-[-0.045em] text-balance sm:text-5xl"
+              className="mt-3 font-heading text-[2rem] font-semibold leading-[1.08] tracking-[-0.04em] text-balance sm:text-4xl"
             >
               {siteConfig.ownerSection.title}
             </h2>
             <p
               data-editor-path="ownerSection.description"
-              className="mt-6 max-w-xl text-base leading-8 text-white/70"
+              className="mt-4 text-sm leading-7 text-white/70 sm:text-base"
             >
               {siteConfig.ownerSection.description}
             </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {siteConfig.ownerSection.checklist.map((item, index) => (
                 <div
                   key={item}
@@ -1060,7 +1061,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 </div>
               ))}
             </div>
-            <div className="mt-9 flex flex-wrap gap-4">
+            <div className="mt-7 flex flex-wrap gap-3">
               <a
                 href={whatsappLink(siteConfig.ownerSection.primaryMessage)}
                 target="_blank"
@@ -1070,7 +1071,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
                 data-editor-path="ownerSection.primaryCta"
                 className={buttonVariants({
                   className:
-                    'h-12 rounded-2xl bg-[#16807F] px-6 text-white hover:bg-[#173F4A]',
+                    'h-11 rounded-xl bg-[#16807F] px-5 text-white hover:bg-[#173F4A]',
                 })}
               >
                 {siteConfig.ownerSection.primaryCta}
@@ -1078,7 +1079,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
               </a>
               <a
                 href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
-                className="premium-action inline-flex h-12 items-center gap-2 rounded-2xl border border-white/25 px-6 text-sm font-semibold hover:border-[#77D9D4]/70 hover:bg-white/10"
+                className="premium-action inline-flex h-11 items-center gap-2 rounded-xl border border-white/25 px-5 text-sm font-semibold hover:border-[#77D9D4]/70 hover:bg-white/10"
               >
                 <Phone className="size-4" /> Call {siteConfig.agent.firstName}
               </a>
