@@ -454,52 +454,12 @@ export default async function RumahSelangorkuPage() {
         </div>
       </section>
 
-      <section className="bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-[#B40000] px-6 py-10 text-white shadow-[0_22px_70px_rgba(92,40,24,.18)] sm:px-10 sm:py-12 lg:flex lg:items-center lg:justify-between lg:gap-10">
-          <div className="max-w-2xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#F8D94E]">
-              Direct guidance
-            </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold tracking-[-0.035em] sm:text-4xl">
-              {pageConfig.contactTitle}
-            </h2>
-            <p className="mt-4 leading-7 text-white/65">
-              {pageConfig.contactDescription}
-            </p>
-          </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:mt-0 lg:shrink-0">
-            <Link
-              href="/#contact"
-              className={cn(
-                buttonVariants({ variant: 'outline', size: 'lg' }),
-                'h-12 border-white/25 bg-white text-[#6F0900] hover:border-[#F4CA18] hover:bg-[#FFF4E5]',
-              )}
-            >
-              {pageConfig.contactButton}
-              <ArrowRight aria-hidden="true" />
-            </Link>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                buttonVariants({ size: 'lg' }),
-                'h-12 border-[#E4B900] bg-[#F4CA18] text-[#2A2415] hover:border-white hover:bg-white hover:text-[#6F0900]',
-              )}
-            >
-              <MessageCircle aria-hidden="true" />
-              {pageConfig.whatsappButton}
-            </a>
-          </div>
-        </div>
-      </section>
-
       <footer className="bg-[#292321] px-5 pb-8 pt-12 text-white sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-8 border-b border-white/10 pb-10 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <Link href="/" className="inline-flex items-center gap-3">
-                <span className="grid size-11 place-items-center rounded-xl bg-[#B40000] font-heading text-sm font-bold text-white">
+                <span className="grid size-11 place-items-center rounded-full bg-[#2DB8B5] font-heading text-sm font-bold text-[#173F4A]">
                   {content.logo.mark}
                 </span>
                 <span>
