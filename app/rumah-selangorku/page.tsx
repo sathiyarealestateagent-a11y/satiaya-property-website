@@ -262,7 +262,7 @@ export default async function RumahSelangorkuPage() {
             </div>
           </div>
 
-          <aside className="relative flex min-h-[26rem] min-w-0 flex-col justify-between overflow-hidden bg-[#B40000] px-7 py-10 text-white sm:px-10 sm:py-12 lg:min-h-full lg:px-12 lg:py-16">
+          <aside className="relative flex min-h-[26rem] min-w-0 flex-col overflow-hidden bg-[#B40000] px-7 py-10 text-white sm:px-10 sm:py-12 lg:min-h-full lg:px-12 lg:py-16">
             <div
               className="absolute -right-24 -top-24 size-72 rounded-full border border-white/15"
               aria-hidden="true"
@@ -276,7 +276,7 @@ export default async function RumahSelangorkuPage() {
                 {pageConfig.panelTitle}
               </h2>
             </div>
-            <ul className="relative mt-10 grid gap-4 border-t border-white/20 pt-7 text-sm font-semibold text-white/90">
+            <ul className="relative mt-7 grid gap-3 border-t border-white/20 pt-6 text-xs font-semibold text-white/90 sm:text-sm">
               {pageConfig.panelItems.map((item) => (
                 <li key={item} className="flex items-center gap-3">
                   <CheckCircle2
