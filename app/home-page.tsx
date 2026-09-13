@@ -616,7 +616,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         data-editor-node="hero.section"
         style={{ order: sectionOrder('hero') }}
-        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[800px] pt-[72px] sm:min-h-[720px]`}
+        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px] sm:min-h-[660px] lg:min-h-[640px]`}
       >
         <div
           data-editor-node="hero.background"
@@ -649,12 +649,12 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#173F4A]/65 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[728px] max-w-7xl items-center px-5 pb-48 pt-8 sm:min-h-[648px] sm:px-8 sm:pb-40 sm:pt-12 lg:px-10 lg:pb-32">
+        <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-44 pt-6 sm:min-h-[588px] sm:px-8 sm:pb-36 sm:pt-8 lg:min-h-[568px] lg:px-10 lg:pb-28">
           <div
             data-editor-node="hero.content"
-            className="hero-intro relative max-w-[50rem] text-white"
+            className="hero-intro relative max-w-[44rem] text-white"
           >
-            <div className="mb-6 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
+            <div className="mb-4 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
               <span
                 data-editor-node="hero.eyebrowIcon"
                 className="grid size-8 place-items-center rounded-full border border-[#77D9D4]/55 bg-[#2DB8B5]/12 backdrop-blur-md"
@@ -673,11 +673,11 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <h1
               data-editor-path="hero.title"
-              className="max-w-[46rem] font-heading text-[clamp(2.7rem,5.4vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.045em] text-balance"
+              className="max-w-[42rem] font-heading text-[clamp(2.5rem,5vw,4.35rem)] font-semibold leading-[1.04] tracking-[-0.045em] text-balance"
             >
               {siteConfig.hero.title}
             </h1>
-            <div className="mt-6 flex max-w-2xl items-stretch gap-4 sm:gap-5">
+            <div className="mt-4 flex max-w-[38rem] items-stretch gap-4 sm:gap-5">
               <span
                 data-editor-node="hero.descriptionLine"
                 className="w-px shrink-0 bg-gradient-to-b from-[#77D9D4] to-[#77D9D4]/20"
@@ -691,7 +691,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <div
               data-editor-node="hero.actions"
-              className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4"
+              className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4"
             >
               <a
                 href="#properties"
