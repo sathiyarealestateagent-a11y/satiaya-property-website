@@ -229,7 +229,7 @@ export default async function RumahSelangorkuPage() {
             <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
               {pageConfig.eyebrow}
             </p>
-            <h1 className="mt-3 max-w-3xl font-heading text-4xl font-bold leading-[1.02] tracking-[-0.05em] text-[#27231F] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-3 max-w-3xl font-heading text-4xl font-bold leading-[1.04] tracking-[-0.04em] text-[#27231F] sm:text-6xl lg:text-7xl">
               {pageConfig.title}
             </h1>
             <p className="mt-5 max-w-2xl border-l-2 border-[#E4B900] pl-5 text-base leading-8 text-[#625B54] sm:text-lg">
@@ -272,7 +272,7 @@ export default async function RumahSelangorkuPage() {
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
               Current information
             </p>
-            <h2 className="mt-3 font-heading text-4xl font-bold tracking-[-0.04em] text-[#27231F] sm:text-5xl">
+            <h2 className="mt-3 font-heading text-4xl font-bold tracking-[-0.03em] text-[#27231F] sm:text-5xl">
               {pageConfig.projectsTitle}
             </h2>
             <p className="mt-4 leading-7 text-muted-foreground">
@@ -318,7 +318,7 @@ export default async function RumahSelangorkuPage() {
                         />
                         {project.location}
                       </p>
-                      <h3 className="mt-3 font-heading text-2xl font-bold leading-tight tracking-[-0.025em] text-[#27231F]">
+                      <h3 className="mt-3 font-heading text-2xl font-bold leading-[1.2] tracking-[-0.018em] text-[#27231F]">
                         <Link
                           href={`/properties/${project.id}`}
                           className="transition-colors hover:text-[#B40000]"

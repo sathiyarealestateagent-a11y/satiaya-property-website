@@ -211,7 +211,7 @@ html[data-theme='corporate'] [data-slot='button']:active,
     @apply bg-background font-sans text-foreground;
     font-size: 1rem;
     line-height: 1.65;
-    letter-spacing: -0.005em;
+    letter-spacing: 0;
     font-feature-settings:
       'kern' 1,
       'liga' 1;
@@ -224,11 +224,12 @@ html[data-theme='corporate'] [data-slot='button']:active,
   h4,
   h5,
   h6 {
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
   p {
+    letter-spacing: 0.002em;
     text-wrap: pretty;
   }
 
@@ -237,7 +238,7 @@ html[data-theme='corporate'] [data-slot='button']:active,
   input,
   select,
   textarea {
-    letter-spacing: -0.005em;
+    letter-spacing: 0.005em;
   }
 
   *::-webkit-scrollbar {
@@ -303,7 +304,7 @@ html[data-theme='corporate'] [data-slot='button']:active,
   }
 
   .section-title {
-    @apply font-heading text-[2.35rem] font-semibold leading-[1.08] tracking-[-0.045em] text-brand-midnight sm:text-5xl lg:text-[3.35rem];
+    @apply font-heading text-[2.35rem] font-semibold leading-[1.08] tracking-[-0.035em] text-brand-midnight sm:text-5xl lg:text-[3.35rem];
   }
 
   .form-label {

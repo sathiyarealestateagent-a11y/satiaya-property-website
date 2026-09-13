@@ -95,7 +95,7 @@ Deep teal `#173F4A` owns headings, dark sections, navigation emphasis and the fo
 
 ## Typography
 
-Manrope is the heading face and Inter is the interface/body face. Manrope gives the property experience a precise, architectural voice while Inter keeps forms and detailed information neutral. Display headings use semibold weight, approximately `-0.035em` to `-0.055em` tracking and a compact `1.02–1.10` line height. Body copy uses subtly tightened tracking and a `1.65` baseline line height; navigation and controls remain compact and highly legible. Regular controls and body copy remain at least 14–16px, with 11–13px reserved for metadata and compact uppercase kickers. Numeric property values remain tabular where a component needs alignment.
+Manrope is the heading face and Inter is the interface/body face. Manrope gives the property experience a precise, architectural voice while Inter keeps forms and detailed information neutral. Display headings use semibold weight, approximately `-0.02em` to `-0.045em` tracking and a compact `1.04–1.14` line height. Body copy uses neutral-to-slightly-open tracking (`0` to `0.002em`) and a `1.65` baseline line height; navigation and controls use a subtle `0.005em` opening for clear, premium legibility. Regular controls and body copy remain at least 14–16px, with 11–13px reserved for metadata and compact uppercase kickers. Numeric property values remain tabular where a component needs alignment.
 
 ## Layout
 

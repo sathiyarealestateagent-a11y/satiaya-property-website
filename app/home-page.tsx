@@ -673,7 +673,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </div>
             <h1
               data-editor-path="hero.title"
-              className="max-w-[46rem] font-heading text-[clamp(2.7rem,5.4vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.055em] text-balance"
+              className="max-w-[46rem] font-heading text-[clamp(2.7rem,5.4vw,4.75rem)] font-semibold leading-[1.04] tracking-[-0.045em] text-balance"
             >
               {siteConfig.hero.title}
             </h1>
@@ -1039,7 +1039,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </p>
             <h2
               data-editor-path="ownerSection.title"
-              className="mt-3 font-heading text-[2rem] font-semibold leading-[1.08] tracking-[-0.04em] text-balance sm:text-4xl"
+              className="mt-3 font-heading text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] text-balance sm:text-4xl"
             >
               {siteConfig.ownerSection.title}
             </h2>
@@ -1280,7 +1280,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
             </p>
             <h2
               data-editor-path="contactSection.title"
-              className="mt-4 font-heading text-4xl font-bold leading-[1.12] tracking-[-0.028em]"
+              className="mt-4 font-heading text-4xl font-bold leading-[1.14] tracking-[-0.02em]"
             >
               {siteConfig.contactSection.title}
             </h2>
