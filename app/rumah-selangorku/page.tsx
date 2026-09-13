@@ -3,7 +3,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Building2,
-  CheckCircle2,
   Clock3,
   House,
   MapPin,
@@ -196,13 +195,13 @@ export default async function RumahSelangorkuPage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-[#F4F1EC] px-5 py-8 text-[#2A2825] sm:px-8 sm:py-12 lg:px-10 lg:py-16">
+      <section className="relative overflow-hidden bg-[#F4F1EC] px-5 py-6 text-[#2A2825] sm:px-8 sm:py-8 lg:px-10 lg:py-10">
         <div
           className="absolute inset-x-0 bottom-0 h-2 bg-[#B40000]"
           aria-hidden="true"
         />
-        <div className="relative mx-auto grid max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#E2D8C8] bg-white shadow-[0_24px_70px_rgba(92,40,24,.12)] lg:grid-cols-[1.16fr_0.84fr]">
-          <div className="min-w-0 px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[1.75rem] border border-[#E2D8C8] bg-white shadow-[0_24px_70px_rgba(92,40,24,.12)]">
+          <div className="min-w-0 px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12">
             <nav
               aria-label="Breadcrumb"
               className="flex items-center gap-2 text-sm text-[#746D65]"
@@ -225,18 +224,18 @@ export default async function RumahSelangorkuPage() {
               width={228}
               height={45}
               priority
-              className="mt-10 h-auto w-[190px] sm:w-[228px]"
+              className="mt-7 h-auto w-[190px] sm:w-[228px]"
             />
-            <p className="mt-8 text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.18em] text-[#B40000]">
               {pageConfig.eyebrow}
             </p>
             <h1 className="mt-3 max-w-3xl font-heading text-4xl font-bold leading-[1.02] tracking-[-0.05em] text-[#27231F] sm:text-6xl lg:text-7xl">
               {pageConfig.title}
             </h1>
-            <p className="mt-6 max-w-2xl border-l-2 border-[#E4B900] pl-5 text-base leading-8 text-[#625B54] sm:text-lg">
+            <p className="mt-5 max-w-2xl border-l-2 border-[#E4B900] pl-5 text-base leading-8 text-[#625B54] sm:text-lg">
               {pageConfig.introduction}
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#available-projects"
                 className={cn(
@@ -261,39 +260,12 @@ export default async function RumahSelangorkuPage() {
               </a>
             </div>
           </div>
-
-          <aside className="relative flex min-h-[26rem] min-w-0 flex-col overflow-hidden bg-[#B40000] px-7 py-10 text-white sm:px-10 sm:py-12 lg:min-h-full lg:px-12 lg:py-16">
-            <div
-              className="absolute -right-24 -top-24 size-72 rounded-full border border-white/15"
-              aria-hidden="true"
-            />
-            <div
-              className="absolute -bottom-20 -left-20 size-64 rounded-full border border-[#F4CA18]/35"
-              aria-hidden="true"
-            />
-            <div className="relative">
-              <h2 className="max-w-md font-heading text-4xl font-bold leading-[1.08] tracking-[-0.035em] sm:text-5xl">
-                {pageConfig.panelTitle}
-              </h2>
-            </div>
-            <ul className="relative mt-7 grid gap-3 border-t border-white/20 pt-6 text-xs font-semibold text-white/90 sm:text-sm">
-              {pageConfig.panelItems.map((item) => (
-                <li key={item} className="flex items-center gap-3">
-                  <CheckCircle2
-                    className="size-5 text-[#F4CA18]"
-                    aria-hidden="true"
-                  />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </aside>
         </div>
       </section>
 
       <section
         id="available-projects"
-        className="scroll-mt-24 bg-white px-5 py-16 sm:px-8 sm:py-20 lg:px-10 lg:py-24"
+        className="bg-white px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14"
       >
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
