@@ -616,7 +616,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         data-editor-node="hero.section"
         style={{ order: sectionOrder('hero') }}
-        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px] sm:min-h-[660px] lg:min-h-[640px]`}
+        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px] sm:min-h-[620px] lg:min-h-[560px]`}
       >
         <div
           data-editor-node="hero.background"
@@ -649,10 +649,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#173F4A]/65 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-44 pt-6 sm:min-h-[588px] sm:px-8 sm:pb-36 sm:pt-8 lg:min-h-[568px] lg:px-10 lg:pb-28">
+        <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-44 pt-6 sm:min-h-[548px] sm:px-8 sm:pb-32 sm:pt-8 lg:min-h-[488px] lg:px-10 lg:pb-24">
           <div
             data-editor-node="hero.content"
-            className="hero-intro relative max-w-[44rem] text-white"
+            className="hero-intro relative max-w-[44rem] text-white lg:-translate-y-3"
           >
             <div className="mb-4 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.12em] text-white/85">
               <span
