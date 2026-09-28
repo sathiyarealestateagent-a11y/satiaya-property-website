@@ -244,6 +244,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
   const navItems = previewContent.navigation
     .filter((item) => {
       const target = item.href.startsWith('#') ? item.href.slice(1) : '';
+      if (target === 'owners') return false;
       return !isPageSectionId(target) || !hiddenSections.has(target);
     })
     .map((item) => [item.label, item.href] as const);
@@ -858,7 +859,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="properties"
         data-editor-node="properties.section"
         style={{ order: sectionOrder('properties') }}
-        className={`${hiddenSections.has('properties') ? 'hidden' : ''} bg-white px-5 pb-24 pt-44 sm:px-8 lg:px-10 lg:pt-40`}
+        className={`${hiddenSections.has('properties') ? 'hidden' : ''} bg-white px-5 pb-16 pt-44 sm:px-8 lg:px-10 lg:pt-40`}
       >
         <div className="mx-auto max-w-7xl">
           <div
@@ -1089,93 +1090,10 @@ export default function HomePage({ content }: { content: SiteContent }) {
       </section>
 
       <section
-        id="owners"
-        data-editor-node="owners.section"
-        style={{ order: sectionOrder('owners') }}
-        className={`${hiddenSections.has('owners') ? 'hidden' : ''} bg-primary px-5 py-12 text-white sm:px-8 sm:py-14 lg:px-10 lg:py-16`}
-      >
-        <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-12">
-          <div
-            data-editor-node="owners.image"
-            className="relative mx-auto w-full max-w-lg"
-          >
-            <div
-              data-editor-path="ownerSection.image"
-              className="overflow-hidden rounded-2xl border border-white/10 shadow-[0_24px_70px_rgba(5,24,29,.24)]"
-            >
-              <Image
-                src={siteConfig.ownerSection.image}
-                alt={siteConfig.ownerSection.imageAlt}
-                width={1000}
-                height={920}
-                className="h-[320px] w-full object-cover sm:h-[350px]"
-              />
-            </div>
-          </div>
-
-          <div className="max-w-xl">
-            <p
-              data-editor-path="ownerSection.kicker"
-              className="section-kicker !text-brand-cyan-light"
-            >
-              {siteConfig.ownerSection.kicker}
-            </p>
-            <h2
-              data-editor-path="ownerSection.title"
-              className="mt-3 font-heading text-[2rem] font-semibold leading-[1.1] tracking-[-0.03em] text-balance sm:text-4xl"
-            >
-              {siteConfig.ownerSection.title}
-            </h2>
-            <p
-              data-editor-path="ownerSection.description"
-              className="mt-4 text-sm leading-7 text-white/70 sm:text-base"
-            >
-              {siteConfig.ownerSection.description}
-            </p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {siteConfig.ownerSection.checklist.map((item, index) => (
-                <div
-                  key={item}
-                  data-editor-path={`ownerSection.checklist.${index}`}
-                  className="flex items-center gap-3 text-sm font-semibold text-white/90"
-                >
-                  <CheckCircle2 className="size-5 shrink-0 text-[#77D9D4]" />
-                  {item}
-                </div>
-              ))}
-            </div>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href={whatsappLink(siteConfig.ownerSection.primaryMessage)}
-                target="_blank"
-                rel="noreferrer"
-                data-slot="button"
-                data-variant="default"
-                data-editor-path="ownerSection.primaryCta"
-                className={buttonVariants({
-                  className:
-                    'h-11 rounded-xl bg-[#16807F] px-5 text-white hover:bg-[#173F4A]',
-                })}
-              >
-                {siteConfig.ownerSection.primaryCta}
-                <ArrowRight />
-              </a>
-              <a
-                href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`}
-                className="premium-action inline-flex h-11 items-center gap-2 rounded-xl border border-white/25 px-5 text-sm font-semibold hover:border-[#77D9D4]/70 hover:bg-white/10"
-              >
-                <Phone className="size-4" /> Call {siteConfig.agent.firstName}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section
         id="services"
         data-editor-node="services.section"
         style={{ order: sectionOrder('services') }}
-        className={`${hiddenSections.has('services') ? 'hidden' : ''} bg-background px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
+        className={`${hiddenSections.has('services') ? 'hidden' : ''} bg-background px-5 py-14 sm:px-8 lg:px-10 lg:py-20`}
       >
         <div className="mx-auto max-w-7xl">
           <div
@@ -1244,7 +1162,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="about"
         data-editor-node="about.section"
         style={{ order: sectionOrder('about') }}
-        className={`${hiddenSections.has('about') ? 'hidden' : ''} bg-white px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
+        className={`${hiddenSections.has('about') ? 'hidden' : ''} bg-white px-5 py-14 sm:px-8 lg:px-10 lg:py-20`}
       >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
           <div
@@ -1348,7 +1266,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="contact"
         data-editor-node="contact.section"
         style={{ order: sectionOrder('contact') }}
-        className={`${hiddenSections.has('contact') ? 'hidden' : ''} bg-muted px-5 py-20 sm:px-8 lg:px-10 lg:py-28`}
+        className={`${hiddenSections.has('contact') ? 'hidden' : ''} bg-muted px-5 py-14 sm:px-8 lg:px-10 lg:py-20`}
       >
         <div
           data-editor-node="contact.card"
