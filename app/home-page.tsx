@@ -657,7 +657,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="top"
         data-editor-node="hero.section"
         style={{ order: sectionOrder('hero') }}
-        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[720px] pt-[72px] sm:min-h-[620px] lg:min-h-[560px]`}
+        className={`${hiddenSections.has('hero') ? 'hidden' : ''} relative min-h-[650px] pt-[72px] sm:min-h-[600px] lg:min-h-[560px]`}
       >
         <div
           data-editor-node="hero.background"
@@ -690,7 +690,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#173F4A]/65 to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[648px] max-w-7xl items-center px-5 pb-44 pt-6 sm:min-h-[548px] sm:px-8 sm:pb-32 sm:pt-8 lg:min-h-[488px] lg:px-10 lg:pb-24">
+        <div className="relative mx-auto flex min-h-[578px] max-w-7xl items-center px-5 pb-36 pt-2 sm:min-h-[528px] sm:px-8 sm:pb-28 sm:pt-6 lg:min-h-[488px] lg:px-10 lg:pb-24 lg:pt-8">
           <div
             data-editor-node="hero.content"
             className="hero-intro relative max-w-[44rem] text-white lg:-translate-y-3"
