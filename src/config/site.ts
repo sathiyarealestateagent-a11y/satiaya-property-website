@@ -3,7 +3,7 @@
  * Update this one file to change the agent identity, contact details,
  * imagery and key marketing copy used throughout the website.
  */
-export const showRumahSelangorkuPopup = true;
+export const showRumahSelangorkuPopup = false;
 
 export const siteConfig = {
   domain: 'https://satiayaproperty.com.my',

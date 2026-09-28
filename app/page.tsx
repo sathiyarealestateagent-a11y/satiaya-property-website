@@ -4,7 +4,6 @@ import { getSiteContent } from '@/db/content';
 import { siteConfig } from '@/src/config/site';
 
 import HomePage from './home-page';
-import RumahSelangorkuPopup from './rumah-selangorku/promo-popup';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,8 +46,6 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const content = await getSiteContent();
-  const rumahSelangorkuMessage = siteConfig.rumahSelangorku.page.enquiryMessage;
-  const rumahSelangorkuWhatsappHref = `https://wa.me/${content.whatsapp.number}?text=${encodeURIComponent(rumahSelangorkuMessage)}`;
   const sameAs = [
     content.social.instagram,
     content.social.facebook,
@@ -98,10 +95,6 @@ export default async function Page() {
       <div id="site-content">
         <HomePage content={content} />
       </div>
-      <RumahSelangorkuPopup
-        settings={siteConfig.rumahSelangorku.popup}
-        whatsappHref={rumahSelangorkuWhatsappHref}
-      />
     </>
   );
 }
