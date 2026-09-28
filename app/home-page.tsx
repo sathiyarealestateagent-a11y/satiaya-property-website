@@ -1048,35 +1048,38 @@ export default function HomePage({ content }: { content: SiteContent }) {
       <section
         id="buying-process"
         style={{ order: sectionOrder('contact') }}
-        className="bg-background px-5 py-12 sm:px-8 sm:py-14 lg:px-10 lg:py-16"
+        className="bg-background px-5 py-8 sm:px-8 sm:py-10 lg:px-10"
         aria-labelledby="buying-process-title"
       >
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
-            <h2 id="buying-process-title" className="section-title">
+            <h2
+              id="buying-process-title"
+              className="font-heading text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl"
+            >
               Property Purchasing Process
             </h2>
           </div>
 
-          <ol className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ol className="mt-6 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
             {purchaseSteps.map((step, index) => (
               <li
                 key={step.title}
-                className="premium-card group relative min-h-36 overflow-hidden rounded-2xl bg-white p-5"
+                className="premium-card group relative overflow-hidden rounded-xl bg-white p-4"
               >
                 <span
                   aria-hidden="true"
-                  className="absolute right-4 top-4 font-heading text-5xl font-bold leading-none tracking-[-0.08em] text-secondary/[.08] transition-colors group-hover:text-secondary/[.14]"
+                  className="absolute right-3 top-3 font-heading text-4xl font-bold leading-none tracking-[-0.08em] text-secondary/[.08] transition-colors group-hover:text-secondary/[.14]"
                 >
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="relative grid size-8 place-items-center rounded-full bg-primary text-xs font-bold text-white">
+                <span className="relative grid size-7 place-items-center rounded-full bg-primary text-[11px] font-bold text-white">
                   {index + 1}
                 </span>
-                <h3 className="relative mt-4 font-heading text-lg font-bold tracking-[-0.02em] text-primary">
+                <h3 className="relative mt-3 font-heading text-base font-bold tracking-[-0.02em] text-primary">
                   {step.title}
                 </h3>
-                <p className="relative mt-1.5 max-w-sm text-sm leading-6 text-muted-foreground">
+                <p className="relative mt-1 max-w-sm text-xs leading-5 text-muted-foreground sm:text-[13px]">
                   {step.description}
                 </p>
               </li>
