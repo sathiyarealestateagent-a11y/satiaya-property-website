@@ -40,6 +40,46 @@ import {
 
 const serviceIcons = [Home, KeyRound, HousePlus, Compass];
 
+const purchaseSteps = [
+  {
+    title: 'Check Eligibility',
+    description: 'Check your home loan eligibility and required documents.',
+  },
+  {
+    title: 'Viewing Property',
+    description: 'View your preferred property and get complete information.',
+  },
+  {
+    title: 'Agree (Letter of Offer)',
+    description: 'Make an official offer and agree on the terms of sale.',
+  },
+  {
+    title: 'Submit Loan',
+    description: 'Submit your loan application to the bank.',
+  },
+  {
+    title: 'Loan Approval',
+    description: 'The bank evaluates and approves your loan application.',
+  },
+  {
+    title: 'Lawyer Draft SPA',
+    description:
+      'Lawyer prepares the draft Sale and Purchase Agreement (SPA).',
+  },
+  {
+    title: 'Sign SPA & Balance Deposit',
+    description: 'Sign the SPA and pay the balance deposit.',
+  },
+  {
+    title: 'Transfer of Ownership',
+    description: 'Documentation process to transfer the ownership.',
+  },
+  {
+    title: 'Get Your Keys',
+    description: 'Congratulations! Get the keys to your dream home.',
+  },
+];
+
 const editableIcons = {
   home: Home,
   key: KeyRound,
@@ -1002,6 +1042,46 @@ export default function HomePage({ content }: { content: SiteContent }) {
               <ArrowRight />
             </a>
           </div>
+        </div>
+      </section>
+
+      <section
+        id="buying-process"
+        style={{ order: sectionOrder('contact') }}
+        className="bg-background px-5 py-12 sm:px-8 sm:py-14 lg:px-10 lg:py-16"
+        aria-labelledby="buying-process-title"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 id="buying-process-title" className="section-title">
+              Property Purchasing Process
+            </h2>
+          </div>
+
+          <ol className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {purchaseSteps.map((step, index) => (
+              <li
+                key={step.title}
+                className="premium-card group relative min-h-36 overflow-hidden rounded-2xl bg-white p-5"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute right-4 top-4 font-heading text-5xl font-bold leading-none tracking-[-0.08em] text-secondary/[.08] transition-colors group-hover:text-secondary/[.14]"
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="relative grid size-8 place-items-center rounded-full bg-primary text-xs font-bold text-white">
+                  {index + 1}
+                </span>
+                <h3 className="relative mt-4 font-heading text-lg font-bold tracking-[-0.02em] text-primary">
+                  {step.title}
+                </h3>
+                <p className="relative mt-1.5 max-w-sm text-sm leading-6 text-muted-foreground">
+                  {step.description}
+                </p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
