@@ -859,7 +859,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="properties"
         data-editor-node="properties.section"
         style={{ order: sectionOrder('properties') }}
-        className={`${hiddenSections.has('properties') ? 'hidden' : ''} bg-white px-5 pb-16 pt-44 sm:px-8 lg:px-10 lg:pt-40`}
+        className={`${hiddenSections.has('properties') ? 'hidden' : ''} bg-white px-5 pb-10 pt-28 sm:px-8 sm:pt-32 lg:px-10 lg:pb-12 lg:pt-28`}
       >
         <div className="mx-auto max-w-7xl">
           <div
@@ -1049,7 +1049,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
       <section
         id="buying-process"
         style={{ order: sectionOrder('contact') }}
-        className="bg-background px-5 py-8 sm:px-8 sm:py-10 lg:px-10"
+        className="bg-background px-5 py-6 sm:px-8 sm:py-8 lg:px-10"
         aria-labelledby="buying-process-title"
       >
         <div className="mx-auto max-w-6xl">
@@ -1093,7 +1093,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="services"
         data-editor-node="services.section"
         style={{ order: sectionOrder('services') }}
-        className={`${hiddenSections.has('services') ? 'hidden' : ''} bg-background px-5 py-14 sm:px-8 lg:px-10 lg:py-20`}
+        className={`${hiddenSections.has('services') ? 'hidden' : ''} bg-background px-5 py-8 sm:px-8 lg:px-10 lg:py-10`}
       >
         <div className="mx-auto max-w-7xl">
           <div
@@ -1162,9 +1162,9 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="about"
         data-editor-node="about.section"
         style={{ order: sectionOrder('about') }}
-        className={`${hiddenSections.has('about') ? 'hidden' : ''} bg-white px-5 py-14 sm:px-8 lg:px-10 lg:py-20`}
+        className={`${hiddenSections.has('about') ? 'hidden' : ''} bg-white px-5 py-8 sm:px-8 lg:px-10 lg:py-10`}
       >
-        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[.9fr_1.1fr] lg:gap-20">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12">
           <div
             data-editor-node="about.image"
             className="relative mx-auto max-w-md lg:mx-0"
@@ -1266,7 +1266,7 @@ export default function HomePage({ content }: { content: SiteContent }) {
         id="contact"
         data-editor-node="contact.section"
         style={{ order: sectionOrder('contact') }}
-        className={`${hiddenSections.has('contact') ? 'hidden' : ''} bg-muted px-5 py-14 sm:px-8 lg:px-10 lg:py-20`}
+        className={`${hiddenSections.has('contact') ? 'hidden' : ''} bg-muted px-5 py-6 sm:px-8 sm:py-8 lg:px-10`}
       >
         <div
           data-editor-node="contact.card"
